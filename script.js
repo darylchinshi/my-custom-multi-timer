@@ -1,19 +1,78 @@
-// Helper function to format time (e.g., 01 for 1 second)
+// Helper function to format time into Years, Months, Days, Hours, Minutes, Seconds
 function formatTime(milliseconds) {
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const days = Math.floor(totalSeconds / (3600 * 24));
-    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = Math.floor(totalSeconds % 60);
+    if (milliseconds < 0) { // Handle negative time (e.g., if target date is in the past for countdowns)
+        milliseconds = Math.abs(milliseconds); // Use absolute value for display if showing elapsed time
+        // Or you could return "Time passed!" or similar for countdowns that are over
+    }
 
+    let totalSeconds = Math.floor(milliseconds / 1000);
+    let years = 0;
+    let months = 0;
+    let days = 0;
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+
+    // For accurate year/month calculation, especially for long periods
+    // We'll use a reference date and add the milliseconds to it
+    const referenceDate = new Date(); // Start from current time
+    const futureDate = new Date(referenceDate.getTime() + milliseconds);
+
+    years = futureDate.getFullYear() - referenceDate.getFullYear();
+    months = futureDate.getMonth() - referenceDate.getMonth();
+    days = futureDate.getDate() - referenceDate.getDate();
+
+    // Adjust months and years if days are negative
+    if (days < 0) {
+        months--;
+        // Calculate days in the previous month relative to referenceDate's month
+        const daysInLastMonth = new Date(referenceDate.getFullYear(), referenceDate.getMonth(), 0).getDate();
+        days += daysInLastMonth;
+    }
+
+    // Adjust years if months are negative
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    // Now calculate remaining hours, minutes, seconds from milliseconds
+    const remainingMillisecondsForHMS = milliseconds % (1000 * 60 * 60 * 24); // Milliseconds less than a day
+    hours = Math.floor((remainingMillisecondsForHMS % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    minutes = Math.floor((remainingMillisecondsForHMS % (1000 * 60 * 60)) / (1000 * 60));
+    seconds = Math.floor((remainingMillisecondsForHMS % (1000 * 60)) / 1000);
+
+
+    const parts = [];
+    if (years > 0) parts.push(`${years}y`);
+    if (months > 0) parts.push(`${months}mth`);
+    if (days > 0) parts.push(`${days}d`);
+    // Only show hours, minutes, seconds if less than a day remaining, or always for precision
+    // For long countdowns, you might only show Y/M/D, and H/M/S when closer
+    // For consistent display, we'll always show H/M/S if they exist
+    // Use padding for H, M, S for better alignment when they are small numbers
     const pad = (num) => String(num).padStart(2, '0');
 
-    if (days > 0) {
-        return `${days}d ${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
-    } else if (hours > 0) {
-        return `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    // Always append hours, minutes, seconds for consistency unless it's a very long period without them
+    if (years === 0 && months === 0 && days === 0) { // If only HMS remain, format like current
+         parts.push(`${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`);
     } else {
-        return `${pad(minutes)}m ${pad(seconds)}s`;
+        // If there are Y/M/D, append HMS only if they are not zero or if it's very close to zero
+        if (hours > 0 || minutes > 0 || seconds > 0 || (years === 0 && months === 0 && days === 0)) {
+            parts.push(`${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`);
+        }
+    }
+
+
+    // Refine the output for better readability based on scale
+    if (years > 0) {
+        return `${years}y ${months}mth ${days}d ${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    } else if (months > 0) {
+        return `${months}mth ${days}d ${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    } else if (days > 0) {
+        return `${days}d ${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    } else {
+        return `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
     }
 }
 
