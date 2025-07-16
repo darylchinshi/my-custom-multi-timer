@@ -1,0 +1,97 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to the top, not center vertically */
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 20px; /* Add some margin around the container */
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 700px;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+.timer-section {
+    background-color: #ecf0f1;
+    margin-bottom: 25px;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dde1e5;
+}
+
+h2 {
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+.timer-display {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #e74c3c; /* Red for emphasis */
+    margin-bottom: 15px;
+}
+
+.pomodoro-controls button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.pomodoro-controls button:hover {
+    background-color: #2980b9;
+}
+
+.pomodoro-controls button#pausePomodoro {
+    background-color: #f39c12;
+}
+
+.pomodoro-controls button#pausePomodoro:hover {
+    background-color: #e67e22;
+}
+
+.pomodoro-controls button#resetPomodoro {
+    background-color: #7f8c8d;
+}
+
+.pomodoro-controls button#resetPomodoro:hover {
+    background-color: #6d7d7d;
+}
+
+/* Styles for when the Pomodoro is in break mode */
+.pomodoro-break-active {
+    background-color: #2ecc71; /* Green for breaks */
+    color: white;
+}
+.pomodoro-break-active .timer-display {
+    color: white;
+}
+.pomodoro-break-active h2 {
+    color: white;
+}
+.pomodoro-break-active button {
+    background-color: #27ae60; /* Darker green buttons */
+}
+.pomodoro-break-active button:hover {
+    background-color: #219d57;
+}
