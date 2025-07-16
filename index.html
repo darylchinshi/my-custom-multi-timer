@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Custom Multi-Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>My Custom Multi-Timer</h1>
+
+        <div class="timer-section">
+            <h2>Life Countdown (75 Years Old)</h2>
+            <div id="countdown-75" class="timer-display">Loading...</div>
+        </div>
+
+        <div class="timer-section">
+            <h2>End of 2025 Countdown</h2>
+            <div id="countdown-2025" class="timer-display">Loading...</div>
+        </div>
+
+        <div class="timer-section">
+            <h2>Time Since Feb 1, 2025</h2>
+            <div id="countup-feb-2025" class="timer-display">Loading...</div>
+        </div>
+
+        <div class="timer-section">
+            <h2>Recurrent Pomodoro Timer</h2>
+            <div id="pomodoro-display" class="timer-display">25:00</div>
+            <div class="pomodoro-controls">
+                <button id="startPomodoro">Start</button>
+                <button id="pausePomodoro">Pause</button>
+                <button id="resetPomodoro">Reset</button>
+                <button id="skipBreak" style="display: none;">Skip Break</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
