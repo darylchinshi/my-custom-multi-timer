@@ -1,60 +1,121 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align to the top, not center vertically */
+    flex-direction: column; /* Stack header, controls, then dashboard */
+    justify-content: flex-start;
+    align-items: center;
     min-height: 100vh;
     background-color: #f0f2f5;
     color: #333;
-    margin: 20px; /* Add some margin around the container */
+    margin: 0; /* Remove default body margin */
+    padding: 20px; /* Add overall padding */
 }
 
-.container {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
+.header-section {
     width: 100%;
-    max-width: 700px;
+    max-width: 1000px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 h1 {
     color: #2c3e50;
-    margin-bottom: 30px;
+    margin-bottom: 0; /* Adjust margin if needed */
 }
 
-.timer-section {
+.dashboard-controls {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #e2e6ea;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-controls label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.dashboard-controls select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+.container {
+    display: flex; /* Default to flex for single column (wrapped) */
+    flex-wrap: wrap; /* Allow items to wrap */
+    gap: 20px; /* Space between cards */
+    width: 100%;
+    max-width: 1000px; /* Max width for the entire dashboard */
+    justify-content: center; /* Center cards horizontally */
+}
+
+/* Layout specific styles */
+.container.layout-two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+}
+
+.container.layout-three-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Three equal columns */
+}
+
+/* Ensure cards fill grid space */
+.container.layout-two-columns .dashboard-card,
+.container.layout-three-columns .dashboard-card {
+    width: auto; /* Let grid handle width */
+}
+
+.dashboard-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1 1 300px; /* Allow cards to grow, shrink, and have a base width */
+    min-width: 280px; /* Ensure cards don't get too small */
+}
+
+.dashboard-card h2 {
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+}
+
+.sub-timer-section {
     background-color: #ecf0f1;
-    margin-bottom: 25px;
-    padding: 20px;
+    margin-bottom: 15px;
+    padding: 15px;
     border-radius: 8px;
     border: 1px solid #dde1e5;
 }
-
-h2 {
-    color: #34495e;
+.sub-timer-section h3 {
     margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1.4em;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #555;
 }
 
 .timer-display {
-    font-size: 2.5em;
+    font-size: 2.2em; /* Slightly smaller to fit better */
     font-weight: bold;
-    color: #e74c3c; /* Red for emphasis */
-    margin-bottom: 15px;
+    color: #e74c3c;
+    margin-bottom: 10px;
 }
 
 .pomodoro-controls button {
     background-color: #3498db;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 18px;
     margin: 5px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 0.9em;
     transition: background-color 0.3s ease;
 }
 
@@ -62,36 +123,227 @@ h2 {
     background-color: #2980b9;
 }
 
-.pomodoro-controls button#pausePomodoro {
-    background-color: #f39c12;
-}
+.pomodoro-controls button#pausePomodoro { background-color: #f39c12; }
+.pomodoro-controls button#pausePomodoro:hover { background-color: #e67e22; }
+.pomodoro-controls button#resetPomodoro { background-color: #7f8c8d; }
+.pomodoro-controls button#resetPomodoro:hover { background-color: #6d7d7d; }
 
-.pomodoro-controls button#pausePomodoro:hover {
-    background-color: #e67e22;
-}
-
-.pomodoro-controls button#resetPomodoro {
-    background-color: #7f8c8d;
-}
-
-.pomodoro-controls button#resetPomodoro:hover {
-    background-color: #6d7d7d;
-}
-
-/* Styles for when the Pomodoro is in break mode */
 .pomodoro-break-active {
-    background-color: #2ecc71; /* Green for breaks */
+    background-color: #2ecc71;
     color: white;
 }
-.pomodoro-break-active .timer-display {
-    color: white;
-}
-.pomodoro-break-active h2 {
+.pomodoro-break-active .timer-display,
+.pomodoro-break-active h3 {
     color: white;
 }
 .pomodoro-break-active button {
-    background-color: #27ae60; /* Darker green buttons */
+    background-color: #27ae60;
 }
 .pomodoro-break-active button:hover {
     background-color: #219d57;
+}
+
+/* Common input and button styles for new sections */
+.dashboard-card input[type="text"],
+.dashboard-card input[type="url"],
+.dashboard-card input[type="number"],
+.dashboard-card textarea {
+    width: calc(100% - 20px); /* Account for padding */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.dashboard-card textarea {
+    min-height: 100px;
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.dashboard-card button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-card button:hover {
+    background-color: #218838;
+}
+
+/* To-Do List Specific */
+#todo-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+#todo-list li {
+    background-color: #ecf0f1;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+#todo-list li.completed {
+    text-decoration: line-through;
+    color: #7f8c8d;
+    background-color: #dfe6e9;
+}
+#todo-list .todo-actions button {
+    background-color: #e74c3c;
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 0.8em;
+}
+#todo-list .todo-actions button:hover {
+    background-color: #c0392b;
+}
+#todo-list .todo-actions .complete-btn {
+    background-color: #3498db;
+}
+#todo-list .todo-actions .complete-btn:hover {
+    background-color: #2980b9;
+}
+
+
+/* Habit Tracker Specific */
+#habit-list-container {
+    text-align: left;
+}
+.habit-item {
+    background-color: #ecf0f1;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+.habit-item button {
+    background-color: #3498db;
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 0.8em;
+}
+.habit-item button:hover {
+    background-color: #2980b9;
+}
+.habit-item.completed-today {
+    background-color: #d4edda; /* Light green */
+    border-color: #28a745;
+    color: #28a745;
+}
+.habit-item.completed-today .mark-habit-btn {
+    background-color: #28a745;
+}
+
+
+/* Quick Link Launcher Specific */
+.link-input-group {
+    display: flex;
+    flex-wrap: wrap; /* Allow inputs to wrap on smaller screens */
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.link-input-group input {
+    flex: 1 1 calc(50% - 10px); /* Allow inputs to take half width, adjust for gap */
+    min-width: 120px; /* Min width for inputs */
+    margin-bottom: 0; /* Remove extra margin */
+}
+.link-input-group button {
+    flex: 1 1 100px; /* Allow button to flex, min width 100px */
+    margin-top: 0; /* Adjust margin */
+}
+#link-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+#link-list li {
+    background-color: #ecf0f1;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+#link-list li a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    word-break: break-all; /* Break long URLs */
+}
+#link-list li a:hover {
+    text-decoration: underline;
+}
+#link-list li button {
+    background-color: #e74c3c;
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 0.8em;
+}
+#link-list li button:hover {
+    background-color: #c0392b;
+}
+
+/* Goal Progress Visualiser Specific */
+.goal-input-group {
+    margin-bottom: 15px;
+}
+.progress-bar-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    height: 30px;
+    margin: 15px 0;
+    overflow: hidden; /* Hide anything outside */
+    position: relative;
+}
+.progress-bar-fill {
+    height: 100%;
+    width: 0%; /* Will be set by JS */
+    background-color: #28a745;
+    border-radius: 15px;
+    transition: width 0.5s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.progress-bar-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 30px; /* Center text vertically */
+    color: #333; /* Darker text for contrast */
+    font-weight: bold;
+    z-index: 1; /* Ensure text is above fill */
+}
+.goal-controls button {
+    background-color: #3498db;
+    padding: 8px 15px;
+    font-size: 1.2em;
+    margin: 0 5px;
+}
+.goal-controls button:hover {
+    background-color: #2980b9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container.layout-two-columns,
+    .container.layout-three-columns {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+    }
 }
