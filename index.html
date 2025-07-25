@@ -7,34 +7,98 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>omnes vulnerant, ultimam necat</h1>
+    <div class="header-section">
+        <h1 id="main-dashboard-title">omnes vulnerant, ultimam necat</h1>
+    </div>
 
-        <div class="timer-section">
-            <h2>Life Countdown (75 Years Old)</h2>
-            <div id="countdown-75" class="timer-display">Loading...</div>
-        </div>
+    <div class="dashboard-controls">
+        <label for="layout-selector">Choose Layout:</label>
+        <select id="layout-selector">
+            <option value="default">Default (Rows)</option>
+            <option value="two-columns">Two Columns</option>
+            <option value="three-columns">Three Columns</option>
+        </select>
+    </div>
 
-        <div class="timer-section">
-            <h2>End of 2025 Countdown</h2>
-            <div id="countdown-2025" class="timer-display">Loading...</div>
-        </div>
-
-        <div class="timer-section">
-            <h2>Time Since Feb 1, 2025</h2>
-            <div id="countup-feb-2025" class="timer-display">Loading...</div>
-        </div>
-
-        <div class="timer-section">
-            <h2>Recurrent Pomodoro Timer</h2>
-            <div id="pomodoro-display" class="timer-display">25:00</div>
-            <div class="pomodoro-controls">
-                <button id="startPomodoro">Start</button>
-                <button id="pausePomodoro">Pause</button>
-                <button id="resetPomodoro">Reset</button>
-                <button id="skipBreak" style="display: none;">Skip Break</button>
+    <div class="container" id="dashboard-container">
+        <div class="timer-section dashboard-card" id="card-timers">
+            <h2>Timers</h2>
+            <div class="sub-timer-section">
+                <h3>Life Countdown (75 Years Old)</h3>
+                <div id="countdown-75" class="timer-display">Loading...</div>
+            </div>
+            <div class="sub-timer-section">
+                <h3>End of 2025 Countdown</h3>
+                <div id="countdown-2025" class="timer-display">Loading...</div>
+            </div>
+            <div class="sub-timer-section">
+                <h3>Time Since Feb 1, 2025</h3>
+                <div id="countup-feb-2025" class="timer-display">Loading...</div>
+            </div>
+            <div class="sub-timer-section">
+                <h3>Recurrent Pomodoro Timer</h3>
+                <div id="pomodoro-display" class="timer-display">25:00</div>
+                <div class="pomodoro-controls">
+                    <button id="startPomodoro">Start</button>
+                    <button id="pausePomodoro">Pause</button>
+                    <button id="resetPomodoro">Reset</button>
+                    <button id="skipBreak" style="display: none;">Skip Break</button>
+                </div>
             </div>
         </div>
+
+        <div class="todo-section dashboard-card" id="card-todo">
+            <h2>To-Do List</h2>
+            <input type="text" id="new-todo-input" placeholder="Add a new task...">
+            <button id="add-todo-btn">Add Task</button>
+            <ul id="todo-list"></ul>
+        </div>
+
+        <div class="notes-section dashboard-card" id="card-notes">
+            <h2>Quick Notes</h2>
+            <textarea id="notes-textarea" placeholder="Jot down your thoughts here..."></textarea>
+        </div>
+
+        <div class="habit-section dashboard-card" id="card-habits">
+            <h2>Habit Tracker <span id="current-date-display"></span></h2>
+            <input type="text" id="new-habit-input" placeholder="Add a new habit...">
+            <button id="add-habit-btn">Add Habit</button>
+            <div id="habit-list-container">
+                </div>
+        </div>
+
+        <div class="links-section dashboard-card" id="card-links">
+            <h2>Quick Links</h2>
+            <div class="link-input-group">
+                <input type="text" id="new-link-name" placeholder="Link Name">
+                <input type="url" id="new-link-url" placeholder="https://example.com">
+                <button id="add-link-btn">Add Link</button>
+            </div>
+            <ul id="link-list"></ul>
+        </div>
+
+        <div class="goal-section dashboard-card" id="card-goals">
+            <h2>Goal Progress</h2>
+            <div class="goal-input-group">
+                <input type="text" id="goal-name-input" placeholder="Goal Name (e.g., Read 50 books)">
+                <input type="number" id="goal-target-input" placeholder="Target Value (e.g., 50)">
+                <button id="set-goal-btn">Set Goal</button>
+            </div>
+            <div id="current-goal-display" style="display: none;">
+                <h3><span id="goal-title"></span></h3>
+                <p>Current: <span id="goal-current-value">0</span> / <span id="goal-target-value">0</span></p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="goal-progress-fill"></div>
+                    <span class="progress-bar-text" id="goal-progress-text">0%</span>
+                </div>
+                <div class="goal-controls">
+                    <button id="increase-progress-btn">+</button>
+                    <button id="decrease-progress-btn">-</button>
+                </div>
+            </div>
+            <p id="no-goal-message">No goal set yet. Use the fields above to set one!</p>
+        </div>
+
     </div>
 
     <script src="script.js"></script>
