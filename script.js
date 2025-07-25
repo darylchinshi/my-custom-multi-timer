@@ -42,29 +42,9 @@ function formatTime(milliseconds) {
     }
 }
 
-// --- Timer Sections (Existing Functionality with Font Size Tweaks) ---
+// --- Timer Sections ---
 
-// Function to apply saved font sizes
-function applyTimerFontSizes() {
-    const fontSizeInputs = document.querySelectorAll('.font-size-input');
-    fontSizeInputs.forEach(input => {
-        const targetId = input.dataset.target;
-        const targetElement = document.getElementById(targetId);
-        const savedSize = localStorage.getItem(`timerFontSize_${targetId}`);
-        if (savedSize) {
-            targetElement.style.fontSize = `${savedSize}px`;
-            input.value = savedSize;
-        } else {
-            targetElement.style.fontSize = `${input.value}px`; // Apply default if no saved
-        }
-
-        input.addEventListener('input', (event) => {
-            const newSize = event.target.value;
-            targetElement.style.fontSize = `${newSize}px`;
-            localStorage.setItem(`timerFontSize_${targetId}`, newSize);
-        });
-    });
-}
+// Removed applyTimerFontSizes function as customisation is removed
 
 function update75thBirthdayCountdown() {
     // IMPORTANT: Replace '1990-01-01' with your actual birth date (YYYY-MM-DD).
@@ -115,7 +95,7 @@ const startPomodoroBtn = document.getElementById('startPomodoro');
 const pausePomodoroBtn = document.getElementById('pausePomodoro');
 const resetPomodoroBtn = document.getElementById('resetPomodoro');
 const skipBreakBtn = document.getElementById('skipBreak');
-const pomodoroSection = document.querySelector('#card-timers .sub-timer-section:last-of-type');
+const pomodoroSection = document.querySelector('#card-timers .sub-timer-section:first-of-type'); // Select first sub-timer
 
 let pomodoroInterval;
 let timeRemaining;
@@ -224,89 +204,13 @@ pausePomodoroBtn.addEventListener('click', pausePomodoro);
 resetPomodoroBtn.addEventListener('click', resetPomodoro);
 skipBreakBtn.addEventListener('click', skipBreak);
 
-// Run initial updates and apply font sizes
-applyTimerFontSizes();
+// Run initial updates for timers
 update75thBirthdayCountdown();
 update2025Countdown();
 updateCountUpFeb2025();
 
-// --- Customisable Dashboard Layout ---
-const dashboardContainer = document.getElementById('dashboard-container');
-const layoutSelector = document.getElementById('layout-selector');
-const customLayoutControls = document.getElementById('custom-layout-controls');
-const cardOrderInput = document.getElementById('card-order-input');
-const applyOrderBtn = document.getElementById('apply-order-btn');
-const dashboardCards = document.querySelectorAll('.dashboard-card'); // Get all cards
-
-// Mapping card IDs to their elements
-const cardElements = {};
-dashboardCards.forEach(card => {
-    cardElements[card.dataset.cardId] = card;
-});
-const defaultOrder = Object.keys(cardElements); // ['timers', 'todo', 'notes', etc.]
-
-function applyLayout(layoutClass, customOrder = defaultOrder) {
-    dashboardContainer.classList.remove('layout-two-columns', 'layout-three-columns', 'layout-custom');
-
-    // Reset order for all cards first
-    dashboardCards.forEach(card => {
-        card.style.order = ''; // Remove custom order
-        card.style.width = ''; // Reset width for non-custom layouts
-        card.style.flex = ''; // Reset flex for non-custom layouts
-    });
-
-    if (layoutClass === 'default') {
-        // Cards will flow naturally (flex-wrap default)
-        customLayoutControls.style.display = 'none';
-    } else if (layoutClass === 'two-columns') {
-        dashboardContainer.classList.add('layout-two-columns');
-        customLayoutControls.style.display = 'none';
-    } else if (layoutClass === 'three-columns') {
-        dashboardContainer.classList.add('layout-three-columns');
-        customLayoutControls.style.display = 'none';
-    } else if (layoutClass === 'custom') {
-        dashboardContainer.classList.add('layout-custom');
-        customLayoutControls.style.display = 'flex'; // Show custom controls
-
-        // Apply custom order
-        customOrder.forEach((cardId, index) => {
-            const card = cardElements[cardId];
-            if (card) {
-                card.style.order = index;
-            }
-        });
-    }
-    localStorage.setItem('dashboardLayout', layoutClass);
-    localStorage.setItem('dashboardCustomOrder', JSON.stringify(customOrder));
-}
-
-// Load saved layout and order on page load
-const savedLayout = localStorage.getItem('dashboardLayout') || 'default';
-const savedCustomOrder = JSON.parse(localStorage.getItem('dashboardCustomOrder')) || defaultOrder;
-
-layoutSelector.value = savedLayout;
-cardOrderInput.value = savedCustomOrder.join(',');
-applyLayout(savedLayout, savedCustomOrder);
-
-layoutSelector.addEventListener('change', (event) => {
-    const selectedLayout = event.target.value;
-    if (selectedLayout === 'custom') {
-        applyLayout(selectedLayout, savedCustomOrder); // Use existing saved order
-    } else {
-        applyLayout(selectedLayout, defaultOrder); // Reset order for non-custom layouts
-    }
-});
-
-applyOrderBtn.addEventListener('click', () => {
-    const newOrderString = cardOrderInput.value.trim();
-    const newOrderArray = newOrderString.split(',').map(id => id.trim()).filter(id => id && cardElements[id]); // Filter out invalid IDs
-    if (newOrderArray.length > 0) {
-        applyLayout('custom', newOrderArray);
-        layoutSelector.value = 'custom'; // Set dropdown to custom
-    } else {
-        alert('Please enter a comma-separated list of valid card IDs (e.g., timers,todo,notes).');
-    }
-});
+// --- Removed Dashboard Layout Customization (Fixed Layout Now) ---
+// Removed all variables and functions related to layoutSelector, customLayoutControls, cardOrderInput, applyOrderBtn, etc.
 
 
 // --- Simple To-Do List (Persistent) ---
@@ -518,7 +422,7 @@ const noGoalsMessage = document.getElementById('no-goals-message');
 let goals = JSON.parse(localStorage.getItem('goals')) || [];
 
 function renderGoals() {
-    goalsListContainer.innerHTML = ''; // Clear current list
+    goalsListContainer.innerHTML = '';
     if (goals.length === 0) {
         noGoalsMessage.style.display = 'block';
         return;
@@ -530,7 +434,7 @@ function renderGoals() {
         goalItem.className = 'goal-item';
         const percentage = goal.target > 0 ? (goal.current / goal.target) * 100 : 0;
         const progressText = goal.current >= goal.target && goal.target > 0 ? `Goal Achieved!` : `${Math.floor(percentage)}%`;
-        const progressFillColor = goal.current >= goal.target && goal.target > 0 ? '#28a745' : '#28a745'; // Green for completion
+        const progressFillColor = goal.current >= goal.target && goal.target > 0 ? '#28a745' : '#28a745';
 
         goalItem.innerHTML = `
             <h3>${goal.name}</h3>
@@ -568,7 +472,7 @@ function renderGoals() {
 
 function saveGoals() {
     localStorage.setItem('goals', JSON.stringify(goals));
-    renderGoals(); // Re-render to update display
+    renderGoals();
 }
 
 addGoalBtn.addEventListener('click', () => {
@@ -590,4 +494,4 @@ addGoalBtn.addEventListener('click', () => {
     }
 });
 
-renderGoals(); // Initial render of goals
+renderGoals();
