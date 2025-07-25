@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>omnes vulnerant, ultimam necat</title>
-    <link rel="stylesheet" href="style.css">
+    <title>My Personal Productivity Hub</title> <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="header-section">
-        <h1 id="main-dashboard-title">omnes vulnerant, ultimam necat</h1>
+        <h1 id="main-dashboard-title">My Personal Productivity Hub</h1>
     </div>
 
     <div class="dashboard-controls">
@@ -17,27 +16,45 @@
             <option value="default">Default (Rows)</option>
             <option value="two-columns">Two Columns</option>
             <option value="three-columns">Three Columns</option>
-        </select>
+            <option value="custom">Custom Order</option> </select>
+
+        <div id="custom-layout-controls" style="display: none; margin-top: 10px;">
+            <label for="card-order-input">Card Order (e.g., timers,todo,notes,...):</label>
+            <input type="text" id="card-order-input" placeholder="timers,todo,notes,habits,links,goals" style="width: 250px;">
+            <button id="apply-order-btn">Apply Order</button>
+        </div>
     </div>
 
     <div class="container" id="dashboard-container">
-        <div class="timer-section dashboard-card" id="card-timers">
+        <div class="timer-section dashboard-card" id="card-timers" data-card-id="timers">
             <h2>Timers</h2>
             <div class="sub-timer-section">
                 <h3>Life Countdown (75 Years Old)</h3>
                 <div id="countdown-75" class="timer-display">Loading...</div>
+                <div class="timer-controls">
+                    <label>Size: <input type="number" class="font-size-input" data-target="countdown-75" min="16" max="100" value="35">px</label>
+                </div>
             </div>
             <div class="sub-timer-section">
                 <h3>End of 2025 Countdown</h3>
                 <div id="countdown-2025" class="timer-display">Loading...</div>
+                <div class="timer-controls">
+                    <label>Size: <input type="number" class="font-size-input" data-target="countdown-2025" min="16" max="100" value="35">px</label>
+                </div>
             </div>
             <div class="sub-timer-section">
                 <h3>Time Since Feb 1, 2025</h3>
                 <div id="countup-feb-2025" class="timer-display">Loading...</div>
+                <div class="timer-controls">
+                    <label>Size: <input type="number" class="font-size-input" data-target="countup-feb-2025" min="16" max="100" value="35">px</label>
+                </div>
             </div>
             <div class="sub-timer-section">
                 <h3>Recurrent Pomodoro Timer</h3>
                 <div id="pomodoro-display" class="timer-display">25:00</div>
+                <div class="timer-controls">
+                    <label>Size: <input type="number" class="font-size-input" data-target="pomodoro-display" min="16" max="100" value="35">px</label>
+                </div>
                 <div class="pomodoro-controls">
                     <button id="startPomodoro">Start</button>
                     <button id="pausePomodoro">Pause</button>
@@ -47,19 +64,19 @@
             </div>
         </div>
 
-        <div class="todo-section dashboard-card" id="card-todo">
+        <div class="todo-section dashboard-card" id="card-todo" data-card-id="todo">
             <h2>To-Do List</h2>
             <input type="text" id="new-todo-input" placeholder="Add a new task...">
             <button id="add-todo-btn">Add Task</button>
             <ul id="todo-list"></ul>
         </div>
 
-        <div class="notes-section dashboard-card" id="card-notes">
+        <div class="notes-section dashboard-card" id="card-notes" data-card-id="notes">
             <h2>Quick Notes</h2>
             <textarea id="notes-textarea" placeholder="Jot down your thoughts here..."></textarea>
         </div>
 
-        <div class="habit-section dashboard-card" id="card-habits">
+        <div class="habit-section dashboard-card" id="card-habits" data-card-id="habits">
             <h2>Habit Tracker <span id="current-date-display"></span></h2>
             <input type="text" id="new-habit-input" placeholder="Add a new habit...">
             <button id="add-habit-btn">Add Habit</button>
@@ -67,7 +84,7 @@
                 </div>
         </div>
 
-        <div class="links-section dashboard-card" id="card-links">
+        <div class="links-section dashboard-card" id="card-links" data-card-id="links">
             <h2>Quick Links</h2>
             <div class="link-input-group">
                 <input type="text" id="new-link-name" placeholder="Link Name">
@@ -77,26 +94,16 @@
             <ul id="link-list"></ul>
         </div>
 
-        <div class="goal-section dashboard-card" id="card-goals">
+        <div class="goal-section dashboard-card" id="card-goals" data-card-id="goals">
             <h2>Goal Progress</h2>
             <div class="goal-input-group">
-                <input type="text" id="goal-name-input" placeholder="Goal Name (e.g., Read 50 books)">
-                <input type="number" id="goal-target-input" placeholder="Target Value (e.g., 50)">
-                <button id="set-goal-btn">Set Goal</button>
+                <input type="text" id="add-goal-name" placeholder="New Goal Name (e.g., Read 50 books)">
+                <input type="number" id="add-goal-target" placeholder="Target Value (e.g., 50)">
+                <button id="add-goal-btn">Add Goal</button>
             </div>
-            <div id="current-goal-display" style="display: none;">
-                <h3><span id="goal-title"></span></h3>
-                <p>Current: <span id="goal-current-value">0</span> / <span id="goal-target-value">0</span></p>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" id="goal-progress-fill"></div>
-                    <span class="progress-bar-text" id="goal-progress-text">0%</span>
-                </div>
-                <div class="goal-controls">
-                    <button id="increase-progress-btn">+</button>
-                    <button id="decrease-progress-btn">-</button>
-                </div>
+            <div id="goals-list-container">
+                <p id="no-goals-message" style="text-align: center; color: #7f8c8d;">No goals set yet. Use the fields above to add one!</p>
             </div>
-            <p id="no-goal-message">No goal set yet. Use the fields above to set one!</p>
         </div>
 
     </div>
