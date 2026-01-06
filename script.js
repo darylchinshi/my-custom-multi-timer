@@ -1,5 +1,7 @@
+
+script.js
 // ============================================
-// TIMER INITIALIZATION - Wait for DOM Ready
+// TIMER INITIALIZATION WITH RETRY LOGIC
 // ============================================
 function initializeTimers() {
     // --- Global Helper Functions ---
@@ -108,12 +110,13 @@ function initializeTimers() {
         }
     }
 
-    // --- Initial Updates & Intervals ---
+    // --- Initial Updates ---
     update75thBirthdayCountdown();
     updateCountUpFeb2025();
     updateCountUpJan122026();
     updateCountdownDec312026();
 
+    // --- Live Intervals ---
     setInterval(update75thBirthdayCountdown, 1000);
     setInterval(updateCountUpFeb2025, 1000);
     setInterval(updateCountUpJan122026, 1000);
@@ -544,19 +547,9 @@ function initializeGoals() {
 }
 
 // ============================================
-// MASTER INITIALIZATION
+// MASTER INITIALIZATION WITH RETRY
 // ============================================
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        initializeTimers();
-        initializePomodoro();
-        initializeTodos();
-        initializeNotes();
-        initializeHabits();
-        initializeLinks();
-        initializeGoals();
-    });
-} else {
+function masterInit() {
     initializeTimers();
     initializePomodoro();
     initializeTodos();
@@ -564,3 +557,15 @@ if (document.readyState === 'loading') {
     initializeHabits();
     initializeLinks();
     initializeGoals();
+}
+
+// Try immediately
+masterInit();
+
+// Also try on DOMContentLoaded as backup
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', masterInit);
+}
+
+// Also try after 100ms as fallback (for very slow DOM ready)
+setTimeout(masterInit, 100);
