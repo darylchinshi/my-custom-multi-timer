@@ -63,16 +63,27 @@ function update75thBirthdayCountdown() {
     }
 }
 
-function update2025Countdown() {
-    const endOf2025 = new Date('2025-12-31T23:59:59').getTime();
+function updateCountUpJan122026() {
+    const startDate = new Date('2026-01-12T00:00:00').getTime();
     const now = new Date().getTime();
-    const timeRemaining = endOf2025 - now;
-    const displayElement = document.getElementById('countdown-2025');
+    const elapsedTime = now - startDate;
+    const displayElement = document.getElementById('countup-jan12-2026');
+    if (elapsedTime > 0) {
+        displayElement.textContent = formatTime(elapsedTime);
+    } else {
+        displayElement.textContent = "Not yet Jan 12, 2026.";
+    }
+}
 
+function updateCountdownDec312026() {
+    const endDate = new Date('2026-12-31T23:59:59').getTime();
+    const now = new Date().getTime();
+    const timeRemaining = endDate - now;
+    const displayElement = document.getElementById('countdown-dec31-2026');
     if (timeRemaining > 0) {
         displayElement.textContent = formatTime(timeRemaining);
     } else {
-        displayElement.textContent = "2025 has ended!";
+        displayElement.textContent = "2026 has ended!";
     }
 }
 
