@@ -14,6 +14,8 @@
     <div class="container" id="dashboard-container">
         <div class="timers-section dashboard-card" id="card-timers">
             <h2>Timers</h2>
+            
+            <!-- Pomodoro -->
             <div class="sub-timer-section">
                 <h3>Recurrent Pomodoro Timer</h3>
                 <div id="pomodoro-display" class="timer-display pomodoro-size">25:00</div>
@@ -24,19 +26,29 @@
                     <button id="skipBreak" style="display: none;">Skip Break</button>
                 </div>
             </div>
+            
+            <!-- Time Since Feb 1, 2025 -->
             <div class="sub-timer-section">
                 <h3>Time Since Feb 1, 2025</h3>
                 <div id="countup-feb-2025" class="timer-display default-timer-size">Loading...</div>
+            </div>
+            
+            <!-- NEW: Time Since Jan 12, 2026 -->
             <div class="sub-timer-section">
-    <h3>Time Since Jan 12, 2026</h3>
-    <div id="countup-jan12-2026" class="timer-display default-timer-size">Loading...</div>
+                <h3>Time Since Jan 12, 2026</h3>
+                <div id="countup-jan12-2026" class="timer-display default-timer-size">Loading...</div>
+            </div>
+            
+            <!-- Life Countdown (75 Years Old) -->
             <div class="sub-timer-section">
                 <h3>Life Countdown (75 Years Old)</h3>
                 <div id="countdown-75" class="timer-display default-timer-size">Loading...</div>
-                <div class="sub-timer-section">
-    <h3>Countdown to Dec 31, 2026</h3>
-    <div id="countdown-dec31-2026" class="timer-display default-timer-size">Loading...</div>
-</div>
+            </div>
+            
+            <!-- NEW: Countdown to Dec 31, 2026 -->
+            <div class="sub-timer-section">
+                <h3>Countdown to Dec 31, 2026</h3>
+                <div id="countdown-dec31-2026" class="timer-display default-timer-size">Loading...</div>
             </div>
         </div>
 
@@ -62,27 +74,4 @@
             <textarea id="notes-textarea" placeholder="Jot down your thoughts here..."></textarea>
         </div>
 
-        <div class="habit-section dashboard-card" id="card-habits">
-            <h2>Habit Tracker <span id="current-date-display"></span></h2>
-            <input type="text" id="new-habit-input" placeholder="Add a new habit...">
-            <button id="add-habit-btn">Add Habit</button>
-            <div id="habit-list-container">
-                </div>
-        </div>
-
-        <div class="goal-section dashboard-card" id="card-goals">
-            <h2>Goal Progress</h2>
-            <div class="goal-input-group">
-                <input type="text" id="add-goal-name" placeholder="New Goal Name (e.g., Read 50 books)">
-                <input type="number" id="add-goal-target" placeholder="Target Value (e.g., 50)">
-                <button id="add-goal-btn">Add Goal</button>
-            </div>
-            <div id="goals-list-container">
-                <p id="no-goals-message" style="text-align: center; color: #7f8c8d;">No goals set yet. Use the fields above to add one!</p>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+        <div class="habit-section
