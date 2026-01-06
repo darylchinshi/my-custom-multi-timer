@@ -44,10 +44,7 @@ function formatTime(milliseconds) {
 
 // --- Timer Sections ---
 
-// Removed applyTimerFontSizes function as customisation is removed
-
 function update75thBirthdayCountdown() {
-    // IMPORTANT: Replace '1990-01-01' with your actual birth date (YYYY-MM-DD).
     const birthDate = new Date('1981-08-04');
     const targetAge = 75;
     const targetDate = new Date(birthDate.getFullYear() + targetAge, birthDate.getMonth(), birthDate.getDate());
@@ -106,7 +103,7 @@ const startPomodoroBtn = document.getElementById('startPomodoro');
 const pausePomodoroBtn = document.getElementById('pausePomodoro');
 const resetPomodoroBtn = document.getElementById('resetPomodoro');
 const skipBreakBtn = document.getElementById('skipBreak');
-const pomodoroSection = document.querySelector('#card-timers .sub-timer-section:first-of-type'); // Select first sub-timer
+const pomodoroSection = document.querySelector('#card-timers .sub-timer-section:first-of-type');
 
 let pomodoroInterval;
 let timeRemaining;
@@ -217,12 +214,15 @@ skipBreakBtn.addEventListener('click', skipBreak);
 
 // Run initial updates for timers
 update75thBirthdayCountdown();
-update2025Countdown();
 updateCountUpFeb2025();
+updateCountUpJan122026();
+updateCountdownDec312026();
 
-// --- Removed Dashboard Layout Customization (Fixed Layout Now) ---
-// Removed all variables and functions related to layoutSelector, customLayoutControls, cardOrderInput, applyOrderBtn, etc.
-
+// Set intervals for live updates
+setInterval(update75thBirthdayCountdown, 1000);
+setInterval(updateCountUpFeb2025, 1000);
+setInterval(updateCountUpJan122026, 1000);
+setInterval(updateCountdownDec312026, 1000);
 
 // --- Simple To-Do List (Persistent) ---
 const newTodoInput = document.getElementById('new-todo-input');
@@ -279,7 +279,6 @@ addTodoBtn.addEventListener('click', () => {
 
 renderTodos();
 
-
 // --- Quick Notes / Scratchpad (Persistent) ---
 const notesTextarea = document.getElementById('notes-textarea');
 
@@ -288,7 +287,6 @@ notesTextarea.value = localStorage.getItem('quickNotes') || '';
 notesTextarea.addEventListener('input', () => {
     localStorage.setItem('quickNotes', notesTextarea.value);
 });
-
 
 // --- Habit Tracker (Daily Check-off) ---
 const newHabitInput = document.getElementById('new-habit-input');
@@ -366,7 +364,6 @@ addHabitBtn.addEventListener('click', () => {
 
 renderHabits();
 
-
 // --- Quick Link Launcher ---
 const newLinkNameInput = document.getElementById('new-link-name');
 const newLinkUrlInput = document.getElementById('new-link-url');
@@ -421,7 +418,6 @@ addLinkBtn.addEventListener('click', () => {
 });
 
 renderLinks();
-
 
 // --- Goal Progress Visualiser (Multiple Goals) ---
 const addGoalNameInput = document.getElementById('add-goal-name');
