@@ -43,6 +43,16 @@ h1 {
 #card-notes { grid-column: 4 / span 1; grid-row: 1; }
 #card-habits { grid-column: 1 / span 2; grid-row: 2; } /* Spans 2 columns */
 #card-goals { grid-column: 3 / span 2; grid-row: 2; } /* Spans 2 columns */
+#card-training { grid-column: 1 / span 4; grid-row: 3; } /* Full-width row */
+
+.training-tracker-frame {
+    width: 100%;
+    height: 850px;
+    border: none;
+    border-radius: 8px;
+    display: block;
+    background-color: #101410;
+}
 
 
 .dashboard-card {
@@ -381,7 +391,7 @@ h1 {
     .container {
         grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
     }
-    #card-timers, #card-todo, #card-links, #card-notes, #card-habits, #card-goals {
+    #card-timers, #card-todo, #card-links, #card-notes, #card-habits, #card-goals, #card-training {
         grid-column: span 1 !important; /* Reset span for smaller screens */
         grid-row: auto !important; /* Reset row for smaller screens */
     }
