@@ -14,9 +14,25 @@
 <body>
 <div id="root"></div>
 
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+
+<script>
+  // Visible failure instead of a silent dark box
+  setTimeout(function () {
+    var root = document.getElementById("root");
+    if (root && root.children.length === 0) {
+      var msg = "Tracker failed to start. ";
+      if (typeof React === "undefined" || typeof Babel === "undefined") {
+        msg += "The script libraries (cdnjs.cloudflare.com) did not load — check your network or firewall.";
+      } else {
+        msg += "Open the browser console (F12) for the error.";
+      }
+      root.innerHTML = '<div style="color:#E07A5F;font-family:sans-serif;padding:24px;font-size:14px;line-height:1.6">' + msg + "</div>";
+    }
+  }, 6000);
+</script>
 
 <script type="text/babel" data-presets="react">
 const { useState, useEffect, useMemo } = React;
