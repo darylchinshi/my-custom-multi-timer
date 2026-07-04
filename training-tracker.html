@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Court Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #101410; }
+  * { box-sizing: border-box; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useMemo } = React;
+
+/* ------------------------------------------------------------------ */
+/*  DESIGN TOKENS — "Court Board"                                      */
+/*  bg ink-green #101410 | card #1B241B | line #2E3A2E                 */
+/*  chalk #EDEBE3 | muted #93A08F | optic (tennis ball) #D9E64A        */
+/*  display: Oswald condensed | body: Inter                            */
+/* ------------------------------------------------------------------ */
+
+const T = {
+  bg: "#101410",
+  card: "#1B241B",
+  cardAlt: "#232E23",
+  line: "#2E3A2E",
+  chalk: "#EDEBE3",
+  muted: "#93A08F",
+  optic: "#D9E64A",
+  opticDim: "#B8C43E",
+  danger: "#E07A5F",
+};
+
+const FONT_LINK =
+  "@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Inter:wght@400;500;600&display=swap');";
+
+/* ------------------------------------------------------------------ */
+/*  SEED DATA — V20 Section 14.6 programme                             */
+/* ------------------------------------------------------------------ */
+
+const yt = (q) =>
+  "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+
+const PROGRAMME = {
+  pull: {
+    name: "Pull",
+    exercises: [
+      { n: "Pull-ups (or negatives)", d: "4×5-8, 5s lowering", c: "Grip slightly wider than shoulders. Full dead hang at the bottom, chin clears the bar at the top. If using negatives: step or jump to the top position, then lower under control for the full 5 seconds — the slow lowering is the training stimulus, not the getting up.", v: yt("pull up form 5 second negative") },
+      { n: "Dead hang, left arm first", d: "Left 45s / right 30s × 3", c: "Full grip on the bar, shoulders pulled down and back rather than shrugged up around the ears. Left arm hangs first and does the full duration; right assists only lightly if grip starts failing near the end.", v: yt("single arm dead hang technique") },
+      { n: "Single-arm DB row 10 kg", d: "Left 3×12-15, right 2×12-15", c: "Hinge at the hips with a flat back, brace the core, free hand on a bench or knee for support. Pull the elbow past the ribs, squeeze the shoulder blade at the top, then lower under control rather than letting the weight drop.", v: yt("single arm dumbbell row form") },
+      { n: "Superset: bicep curl 7.5 kg + band pull-apart", d: "3×12 + 15 reps", c: "Curl: elbows pinned to the sides, no swinging the torso for momentum. Band pull-apart: arms straight out in front at chest height, pull the band apart until it touches the chest, squeeze the shoulder blades together at the end range.", v: yt("dumbbell curl band pull apart superset") },
+      { n: "Dead hangs", d: "3 × max hold", c: "Same setup as the earlier dead hang — full grip, shoulders down, relaxed breathing. Hold each set to near-failure grip fatigue rather than a fixed time.", v: yt("dead hang benefits technique") },
+      { n: "Zone 2 bike finisher", d: "30 min, HR 120-130", c: "Steady, unbroken effort — you should be able to hold a conversation throughout. Check HR periodically and ease off if it drifts above 130.", v: yt("zone 2 cycling explained") },
+    ],
+  },
+  push: {
+    name: "Push",
+    exercises: [
+      { n: "DB shoulder press 10 kg", d: "Left 3×12, right 2×12", c: "Start with the dumbbell at shoulder height, press straight overhead without arching the lower back to compensate. Left side first while fresh, then right.", v: yt("single arm dumbbell shoulder press form") },
+      { n: "DB chest press 10 kg", d: "3×15", c: "Lie flat, elbows at roughly 45° from the torso rather than flared to 90°. Press up and slightly inward, control the lowering phase rather than letting the weights drop to the chest.", v: yt("dumbbell chest press form") },
+      { n: "Incline DB press 7.5 kg", d: "3×12", c: "Bench set to 30-45°. Press up and slightly back rather than straight up, keep elbows from flaring too wide at the bottom of the rep.", v: yt("incline dumbbell press form") },
+      { n: "Lateral raise 5 kg", d: "3×15", c: "Slight bend in the elbows held constant throughout. Raise to shoulder height only — leading with the elbows, not the hands, keeps the load on the shoulder rather than the traps.", v: yt("lateral raise form") },
+      { n: "Superset: OH tricep ext 7.5 kg + band pushdown", d: "3×12 + 3×15", c: "Overhead extension: elbows pointed forward and stationary, lower the weight behind the head, extend fully without flaring the elbows out. Band pushdown: elbows pinned to the sides, extend down and slightly back.", v: yt("overhead tricep extension band pushdown") },
+      { n: "Eccentric wrist extensor 3.5 kg", d: "3×15 each arm", c: "Wrist bent up to start, then lower the weight slowly over 3-4 seconds against gravity. The slow lowering against resistance is the entire point of this one — don't rush it.", v: yt("eccentric wrist extensor exercise") },
+      { n: "Zone 2 bike finisher", d: "30 min, HR 120-130", c: "Steady, unbroken effort — conversational pace. Ease off if HR drifts above 130.", v: yt("zone 2 cycling explained") },
+    ],
+  },
+  legs: {
+    name: "Legs / Core",
+    exercises: [
+      { n: "Goblet squat 10 kg", d: "3×15", c: "Hold the weight at chest height, feet roughly shoulder-width. Sit the hips back and down, chest stays up, knees track over the toes rather than caving in.", v: yt("goblet squat form") },
+      { n: "Romanian deadlift 10 kg each hand", d: "3×12", c: "Soft knees, hinge at the hips pushing them back rather than squatting down. Weights stay close to the legs throughout. Feel the stretch in the hamstrings, stop the descent before the lower back rounds.", v: yt("dumbbell romanian deadlift form") },
+      { n: "Bulgarian split squat 7.5 kg each hand", d: "Left 3×10-12, right 2×10-12", c: "Rear foot elevated behind you on a bench, front leg does essentially all the work. Lower straight down rather than forward, drive back up through the front heel.", v: yt("bulgarian split squat form") },
+      { n: "Glute bridge 10 kg", d: "3×15", c: "Feet flat, weight resting across the hips. Drive through the heels, squeeze the glutes hard at the top, avoid over-arching the lower back to get there.", v: yt("weighted glute bridge form") },
+      { n: "Core superset: dead bug + plank", d: "3×8 each side + 3×35s", c: "Dead bug: lying on your back, opposite arm and leg extend together while the lower back stays pressed flat to the floor the whole time. Plank: straight line from head to heels, core braced, don't let the hips sag or pike up.", v: yt("dead bug plank core superset") },
+      { n: "Zone 2 bike finisher", d: "30 min, HR 120-130", c: "Steady, unbroken effort — conversational pace. Ease off if HR drifts above 130.", v: yt("zone 2 cycling explained") },
+    ],
+  },
+  hiit44: {
+    name: "HIIT — Norwegian 4×4",
+    exercises: [
+      { n: "Norwegian 4×4", d: "4 min at HR 157-165, 3 min recovery, 4 rounds", c: "10 min easy warm-up first. Each hard interval builds to 90-95% max HR (157-165) by the end of the 4 minutes, not from the start — go out controlled. Active recovery for 3 minutes between rounds, don't stop moving entirely. 5-10 min cool-down after round 4.", v: yt("norwegian 4x4 interval training") },
+    ],
+  },
+  hiit1020: {
+    name: "HIIT — 10-20-30",
+    exercises: [
+      { n: "10-20-30 intervals", d: "30s easy / 20s moderate / 10s hard, repeat", c: "One block = 30s easy pace, 20s moderate, 10s all-out sprint effort. Repeat the block 5 times without stopping, rest 2 minutes, then run 2-3 sets total. The 10-second effort should feel genuinely maximal.", v: yt("10 20 30 interval training protocol") },
+    ],
+  },
+  deload: {
+    name: "HIIT — Deload (week 8)",
+    exercises: [
+      { n: "Deload intervals", d: "6 × 1 min at 90% HRmax / 2 min easy", c: "Lower-intensity week by design. 6 rounds of 1 minute moderately hard (not max effort) with 2 minutes easy recovery between rounds. The purpose is active recovery going into the next 8-week block, not a new personal best.", v: yt("hiit deload week") },
+    ],
+  },
+  tennis: {
+    name: "Tennis",
+    exercises: [
+      { n: "Tennis 10+ warm-up protocol", d: "Before every match", c: "Dynamic movement first: light jog, lateral shuffles, leg swings, roughly 3-4 minutes. Then progressive ball work building intensity: mini-tennis, groundstrokes, volleys, overheads, serves — around 10 minutes total before full-pace play.", v: yt("tennis 10 plus warm up ITF") },
+      { n: "Match / session", d: "Counts as a HIIT session. Electrolyte tablets.", c: "Standard cardio and agility load for the week — treat this as the HIIT-equivalent session, not an addition to it. Electrolytes on hand, especially important in humidity.", v: yt("tennis footwork drills") },
+    ],
+  },
+  longz2: {
+    name: "Long Zone 2",
+    exercises: [
+      { n: "Long Zone 2", d: "75-90 min, HR 120-130 (measured)", c: "Sustained, steady effort for the full duration with no surges or intervals. HR should sit in the 120-130 band throughout — if it creeps above that, ease the pace back rather than pushing through.", v: yt("long zone 2 training session") },
+    ],
+  },
+  yoga: {
+    name: "Yoga / Pilates",
+    exercises: [{ n: "Yoga or Pilates session", d: "Weekly slot", c: "Priority areas given the lifting and tennis load: hip mobility and shoulder mobility. A static stretching routine or a full flow sequence both work — whichever you have access to that day.", v: yt("yoga for athletes recovery") }],
+  },
+  rest: { name: "Rest / Accessories only", exercises: [] },
+};
+
+const ACCESSORIES = [
+  "5 min unipedal balance work",
+  "Dead hang EMOM, left bias",
+  "Post-meal Zone 2 walk — lunch",
+  "Post-meal Zone 2 walk — dinner",
+];
+
+/* ------------------------------------------------------------------ */
+/*  DATE HELPERS                                                       */
+/* ------------------------------------------------------------------ */
+
+const dayKey = (d) => {
+  const x = new Date(d);
+  return (
+    x.getFullYear() +
+    "-" +
+    String(x.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(x.getDate()).padStart(2, "0")
+  );
+};
+
+const mondayOf = (d) => {
+  const x = new Date(d);
+  const day = x.getDay(); // 0 Sun
+  const diff = day === 0 ? -6 : 1 - day;
+  x.setDate(x.getDate() + diff);
+  x.setHours(0, 0, 0, 0);
+  return x;
+};
+
+const weekNumber = (today, anchorStr) => {
+  const anchor = mondayOf(new Date(anchorStr + "T00:00:00"));
+  const thisMon = mondayOf(today);
+  const diff = Math.round((thisMon - anchor) / (7 * 24 * 3600 * 1000));
+  return diff + 1; // week 1 = anchor week
+};
+
+/* ------------------------------------------------------------------ */
+/*  DAILY LOGIC                                                        */
+/* ------------------------------------------------------------------ */
+
+function sessionsForDay(dow, weekNum, tennisCount) {
+  // HIIT parity: odd weeks 4x4, even 10-20-30; week 8 of 8-week cycle = deload
+  const cycleWeek = ((((weekNum - 1) % 8) + 8) % 8) + 1;
+  const hiitKey = cycleWeek === 8 ? "deload" : weekNum % 2 === 1 ? "hiit44" : "hiit1020";
+
+  switch (dow) {
+    case 1: return { main: ["pull"], note: null };
+    case 2: return { main: [hiitKey], note: "Dedicated HIIT slot (Wed tennis is the second HIIT of the week)." };
+    case 3: return { main: ["legs", "tennis"], note: "Tennis 8pm. Fast wind-down after: home ~22:00, lights out 22:30." };
+    case 4: return { main: ["yoga"], note: "Weekly yoga/Pilates slot. Swap freely if the week demands." };
+    case 5: return { main: ["push"], note: null };
+    case 6:
+    case 0:
+      if (tennisCount >= 2)
+        return { main: ["longz2"], note: "Tennis cap (2/week) reached. Long Zone 2 or full rest." };
+      return {
+        main: ["tennis", "longz2"],
+        note: "Choose one: tennis morning (counts toward 2/week cap) OR long Zone 2 75-90 min.",
+        choice: true,
+      };
+    default: return { main: ["rest"], note: null };
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  STORAGE                                                            */
+/* ------------------------------------------------------------------ */
+
+const STORE_KEY = "training-tracker-v1";
+
+const DEFAULT_DATA = {
+  settings: { anchorDate: "2026-06-22", anchorConfirmed: false },
+  overrides: {}, // per-session user edits to exercises
+  sessions: {}, // { "2026-07-04": { done: ["tennis"], notes: "..." } }
+  weights: [], // [{ date: "2026-07-04", kg: 87.5 }]
+};
+
+async function loadData() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) return { ...DEFAULT_DATA, ...JSON.parse(raw) };
+  } catch (e) {
+    /* key missing on first run — fine */
+  }
+  return DEFAULT_DATA;
+}
+
+async function saveData(data) {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(data));
+    return true;
+  } catch (e) {
+    console.error("Save failed", e);
+    return false;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  PHOTOS — IndexedDB (localStorage is too small for images)          */
+/* ------------------------------------------------------------------ */
+
+function openPhotoDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open("court-board-photos", 1);
+    req.onupgradeneeded = () => {
+      const store = req.result.createObjectStore("photos", { keyPath: "id", autoIncrement: true });
+      store.createIndex("date", "date");
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function addPhotoToDB(date, dataUrl) {
+  const db = await openPhotoDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("photos", "readwrite");
+    tx.objectStore("photos").add({ date, dataUrl });
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function getPhotosForDate(date) {
+  const db = await openPhotoDB();
+  return new Promise((resolve, reject) => {
+    const req = db.transaction("photos").objectStore("photos").index("date").getAll(date);
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function deletePhotoFromDB(id) {
+  const db = await openPhotoDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("photos", "readwrite");
+    tx.objectStore("photos").delete(id);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+function compressImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 1200;
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          const scale = maxDim / Math.max(width, height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.8));
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/*  SMALL COMPONENTS                                                   */
+/* ------------------------------------------------------------------ */
+
+const Chip = ({ children, active }) => (
+  <span
+    style={{
+      fontFamily: "'Oswald', sans-serif",
+      fontWeight: 500,
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      padding: "4px 10px",
+      borderRadius: 4,
+      border: `1px solid ${active ? T.optic : T.line}`,
+      color: active ? T.optic : T.muted,
+      background: active ? "rgba(217,230,74,0.08)" : "transparent",
+      whiteSpace: "nowrap",
+    }}
+  >
+    {children}
+  </span>
+);
+
+const SectionLabel = ({ children }) => (
+  <div
+    style={{
+      fontFamily: "'Oswald', sans-serif",
+      fontSize: 13,
+      fontWeight: 600,
+      letterSpacing: "0.14em",
+      textTransform: "uppercase",
+      color: T.muted,
+      margin: "22px 0 10px",
+    }}
+  >
+    {children}
+  </div>
+);
+
+const Card = ({ children, style }) => (
+  <div
+    style={{
+      background: T.card,
+      border: `1px solid ${T.line}`,
+      borderRadius: 10,
+      padding: 16,
+      ...style,
+    }}
+  >
+    {children}
+  </div>
+);
+
+const Btn = ({ children, onClick, primary, small, style }) => (
+  <button
+    onClick={onClick}
+    style={{
+      fontFamily: "'Oswald', sans-serif",
+      fontWeight: 600,
+      fontSize: small ? 13 : 15,
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+      padding: small ? "8px 14px" : "12px 20px",
+      borderRadius: 6,
+      cursor: "pointer",
+      border: primary ? "none" : `1px solid ${T.line}`,
+      background: primary ? T.optic : "transparent",
+      color: primary ? "#141810" : T.chalk,
+      ...style,
+    }}
+  >
+    {children}
+  </button>
+);
+
+/* ------------------------------------------------------------------ */
+/*  WEIGHT CHART (inline SVG)                                          */
+/* ------------------------------------------------------------------ */
+
+function WeightChart({ weights }) {
+  if (weights.length < 2)
+    return (
+      <div style={{ color: T.muted, fontSize: 14, padding: "12px 0" }}>
+        Log at least two entries to see the trend.
+      </div>
+    );
+  const sorted = [...weights].sort((a, b) => a.date.localeCompare(b.date));
+  const kgs = sorted.map((w) => w.kg);
+  const min = Math.min(...kgs) - 0.5;
+  const max = Math.max(...kgs) + 0.5;
+  const W = 320, H = 120, pad = 8;
+  const pts = sorted.map((w, i) => {
+    const x = pad + (i / (sorted.length - 1)) * (W - 2 * pad);
+    const y = H - pad - ((w.kg - min) / (max - min)) * (H - 2 * pad);
+    return { x, y, ...w };
+  });
+  const path = pts.map((p, i) => (i === 0 ? `M${p.x},${p.y}` : `L${p.x},${p.y}`)).join(" ");
+  // 82-84 target band
+  const bandTop = H - pad - ((84 - min) / (max - min)) * (H - 2 * pad);
+  const bandBot = H - pad - ((82 - min) / (max - min)) * (H - 2 * pad);
+  const showBand = 84 > min && 82 < max;
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto" }}>
+      {showBand && (
+        <rect
+          x={pad} width={W - 2 * pad}
+          y={Math.max(pad, bandTop)}
+          height={Math.max(0, Math.min(H - pad, bandBot) - Math.max(pad, bandTop))}
+          fill="rgba(217,230,74,0.07)"
+        />
+      )}
+      <path d={path} fill="none" stroke={T.optic} strokeWidth="2" />
+      {pts.map((p, i) => (
+        <circle key={i} cx={p.x} cy={p.y} r="3.5" fill={T.optic} />
+      ))}
+      <text x={pad} y={12} fill={T.muted} fontSize="10">{max.toFixed(1)} kg</text>
+      <text x={pad} y={H - 2} fill={T.muted} fontSize="10">{min.toFixed(1)} kg</text>
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  MAIN APP                                                           */
+/* ------------------------------------------------------------------ */
+
+function TrainingTracker() {
+  const [data, setData] = useState(null);
+  const [tab, setTab] = useState("today");
+  const [notes, setNotes] = useState("");
+  const [weightInput, setWeightInput] = useState("");
+  const [saveState, setSaveState] = useState("");
+  const [planOpen, setPlanOpen] = useState(null);
+  const [viewDateStr, setViewDateStr] = useState(dayKey(new Date()));
+  const [photos, setPhotos] = useState([]);
+  const [editKey, setEditKey] = useState(null);
+  const [editRows, setEditRows] = useState([]);
+
+  const viewDate = new Date(viewDateStr + "T12:00:00");
+  const tKey = viewDateStr;
+  const isToday = viewDateStr === dayKey(new Date());
+  const shiftDay = (n) => {
+    const d = new Date(viewDateStr + "T12:00:00");
+    d.setDate(d.getDate() + n);
+    setViewDateStr(dayKey(d));
+  };
+
+  useEffect(() => {
+    loadData().then(setData);
+  }, []);
+
+  useEffect(() => {
+    if (!data) return;
+    const s = data.sessions[viewDateStr];
+    setNotes(s && s.notes ? s.notes : "");
+    getPhotosForDate(viewDateStr).then(setPhotos).catch(() => setPhotos([]));
+  }, [!!data, viewDateStr]);
+
+  const persist = async (next) => {
+    setData(next);
+    setSaveState("saving");
+    const ok = await saveData(next);
+    setSaveState(ok ? "saved" : "error");
+    setTimeout(() => setSaveState(""), 1500);
+  };
+
+  const PROG = useMemo(() => {
+    const p = JSON.parse(JSON.stringify(PROGRAMME));
+    if (data && data.overrides) {
+      Object.keys(data.overrides).forEach((k) => {
+        if (p[k]) p[k].exercises = data.overrides[k];
+      });
+    }
+    return p;
+  }, [data]);
+
+  const derived = useMemo(() => {
+    if (!data) return null;
+    const weekNum = weekNumber(viewDate, data.settings.anchorDate);
+    const cycleWeek = ((((weekNum - 1) % 8) + 8) % 8) + 1;
+    // tennis count in the viewed week
+    const mon = mondayOf(viewDate);
+    let tennisCount = 0;
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(mon);
+      d.setDate(mon.getDate() + i);
+      const s = data.sessions[dayKey(d)];
+      if (s && s.done && s.done.includes("tennis")) tennisCount++;
+    }
+    const plan = sessionsForDay(viewDate.getDay(), weekNum, tennisCount);
+    return { weekNum, cycleWeek, tennisCount, plan };
+  }, [data, viewDateStr]);
+
+  if (!data || !derived)
+    return (
+      <div style={{ background: T.bg, minHeight: "100vh", color: T.muted, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Inter, sans-serif" }}>
+        Loading…
+      </div>
+    );
+
+  const todayLog = data.sessions[tKey] || { done: [], notes: "" };
+
+  const toggleDone = (key) => {
+    const done = todayLog.done.includes(key)
+      ? todayLog.done.filter((k) => k !== key)
+      : [...todayLog.done, key];
+    persist({
+      ...data,
+      sessions: { ...data.sessions, [tKey]: { ...todayLog, done, notes } },
+    });
+  };
+
+  const saveNotes = () => {
+    persist({
+      ...data,
+      sessions: { ...data.sessions, [tKey]: { ...todayLog, notes } },
+    });
+  };
+
+  const addWeight = () => {
+    const kg = parseFloat(weightInput);
+    if (!kg || kg < 40 || kg > 150) return;
+    const weights = [...data.weights.filter((w) => w.date !== tKey), { date: tKey, kg }];
+    persist({ ...data, weights });
+    setWeightInput("");
+  };
+
+  const setAnchor = (val) => {
+    persist({ ...data, settings: { ...data.settings, anchorDate: val, anchorConfirmed: true } });
+  };
+
+  const handlePhoto = async (e) => {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = "";
+    if (!file) return;
+    try {
+      const dataUrl = await compressImage(file);
+      await addPhotoToDB(viewDateStr, dataUrl);
+      setPhotos(await getPhotosForDate(viewDateStr));
+    } catch (err) {
+      console.error("Photo failed", err);
+    }
+  };
+
+  const removePhoto = async (id) => {
+    await deletePhotoFromDB(id);
+    setPhotos(await getPhotosForDate(viewDateStr));
+  };
+
+  const startEdit = (key) => {
+    setEditKey(key);
+    setEditRows(PROG[key].exercises.map((e) => ({ ...e })));
+    setPlanOpen(key);
+  };
+
+  const saveEdit = () => {
+    persist({ ...data, overrides: { ...(data.overrides || {}), [editKey]: editRows } });
+    setEditKey(null);
+  };
+
+  const resetEdit = (key) => {
+    const overrides = { ...(data.overrides || {}) };
+    delete overrides[key];
+    persist({ ...data, overrides });
+    setEditKey(null);
+  };
+
+  const inp = { width: "100%", background: T.cardAlt, border: `1px solid ${T.line}`, borderRadius: 6, padding: "8px 10px", color: T.chalk, fontSize: 14, outline: "none", marginBottom: 6, boxSizing: "border-box", fontFamily: "'Inter', sans-serif" };
+
+  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const hiitLabel =
+    derived.cycleWeek === 8 ? "Deload week" : derived.weekNum % 2 === 1 ? "4×4 week" : "10-20-30 week";
+
+  const TABS = [
+    ["today", "Today"],
+    ["plan", "Plan"],
+    ["weight", "Weight"],
+    ["history", "Log"],
+    ["settings", "Set-up"],
+  ];
+
+  return (
+    <div style={{ background: T.bg, minHeight: "100vh", color: T.chalk, fontFamily: "'Inter', sans-serif" }}>
+      <style>{FONT_LINK}</style>
+      <div style={{ maxWidth: 480, margin: "0 auto", padding: "20px 16px 90px" }}>
+
+        {/* Scoreboard header */}
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", borderBottom: `2px solid ${T.optic}`, paddingBottom: 10 }}>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600, fontSize: 26, letterSpacing: "0.04em", textTransform: "uppercase" }}>
+            Court Board
+          </div>
+          <div style={{ fontFamily: "'Oswald', sans-serif", color: T.muted, fontSize: 14, letterSpacing: "0.08em" }}>
+            WK {derived.weekNum} · C{derived.cycleWeek}/8
+          </div>
+        </div>
+
+        {saveState && (
+          <div style={{ fontSize: 12, color: saveState === "error" ? T.danger : T.optic, marginTop: 6 }}>
+            {saveState === "saving" ? "Saving…" : saveState === "saved" ? "Saved" : "Save failed — retry"}
+          </div>
+        )}
+
+        {!data.settings.anchorConfirmed && (
+          <Card style={{ marginTop: 14, borderColor: T.optic }}>
+            <div style={{ fontSize: 13, color: T.chalk }}>
+              Week counting is anchored to <b>{data.settings.anchorDate}</b> (unconfirmed).
+              Confirm or change it in Set-up — HIIT parity and deload depend on it.
+            </div>
+          </Card>
+        )}
+
+        {/* ---------------- TODAY ---------------- */}
+        {tab === "today" && (
+          <>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16 }}>
+              <Btn small onClick={() => shiftDay(-1)}>◀</Btn>
+              <input
+                type="date"
+                value={viewDateStr}
+                onChange={(e) => e.target.value && setViewDateStr(e.target.value)}
+                style={{ flex: 1, background: T.cardAlt, border: `1px solid ${T.line}`, borderRadius: 6, padding: "8px 10px", color: T.chalk, fontSize: 14, outline: "none" }}
+              />
+              <Btn small onClick={() => shiftDay(1)}>▶</Btn>
+              {!isToday && (
+                <Btn small primary onClick={() => setViewDateStr(dayKey(new Date()))}>Today</Btn>
+              )}
+            </div>
+            <SectionLabel>
+              {dayNames[viewDate.getDay()]} · {tKey}{isToday ? "" : " — viewing another day"}
+            </SectionLabel>
+
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+              <Chip active>{hiitLabel}</Chip>
+              <Chip active={derived.tennisCount >= 2}>
+                Tennis {derived.tennisCount}/2
+              </Chip>
+            </div>
+
+            {derived.plan.note && (
+              <div style={{ fontSize: 14, color: T.muted, marginBottom: 14, lineHeight: 1.5 }}>
+                {derived.plan.note}
+              </div>
+            )}
+
+            {derived.plan.main.map((key) => {
+              const s = PROG[key];
+              const isDone = todayLog.done.includes(key);
+              return (
+                <Card key={key} style={{ marginBottom: 12, borderColor: isDone ? T.optic : T.line }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: s.exercises.length ? 12 : 0 }}>
+                    <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600, fontSize: 20, textTransform: "uppercase", letterSpacing: "0.04em", color: isDone ? T.optic : T.chalk }}>
+                      {s.name}
+                    </div>
+                    <Btn small primary={!isDone} onClick={() => toggleDone(key)}>
+                      {isDone ? "Done ✓" : "Mark done"}
+                    </Btn>
+                  </div>
+                  {s.exercises.map((e, i) => (
+                    <div key={i} style={{ padding: "8px 0", borderTop: `1px solid ${T.line}` }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 14, fontWeight: 600 }}>{e.n}</div>
+                          <div style={{ fontSize: 13, color: T.muted }}>{e.d}</div>
+                          {e.c && <div style={{ fontSize: 12.5, color: T.muted, marginTop: 5, lineHeight: 1.5 }}>{e.c}</div>}
+                        </div>
+                        <a href={e.v} target="_blank" rel="noreferrer" style={{ color: T.opticDim, fontSize: 12, alignSelf: "flex-start", textDecoration: "none", whiteSpace: "nowrap" }}>
+                          ▶ form
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </Card>
+              );
+            })}
+
+            <SectionLabel>Daily accessories</SectionLabel>
+            <Card>
+              {ACCESSORIES.map((a, i) => {
+                const k = "acc" + i;
+                const isDone = todayLog.done.includes(k);
+                return (
+                  <div
+                    key={k}
+                    onClick={() => toggleDone(k)}
+                    style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 0", borderTop: i ? `1px solid ${T.line}` : "none", cursor: "pointer" }}
+                  >
+                    <div style={{ width: 18, height: 18, borderRadius: 4, border: `1.5px solid ${isDone ? T.optic : T.muted}`, background: isDone ? T.optic : "transparent", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#141810", fontSize: 12, fontWeight: 700 }}>
+                      {isDone ? "✓" : ""}
+                    </div>
+                    <div style={{ fontSize: 14, color: isDone ? T.muted : T.chalk, textDecoration: isDone ? "line-through" : "none" }}>
+                      {a}
+                    </div>
+                  </div>
+                );
+              })}
+            </Card>
+
+            <SectionLabel>Session notes</SectionLabel>
+            <Card>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="How it went, swaps made, anything for Sunday review…"
+                rows={3}
+                style={{ width: "100%", background: "transparent", border: "none", outline: "none", color: T.chalk, fontFamily: "'Inter', sans-serif", fontSize: 14, resize: "vertical" }}
+              />
+              <Btn small onClick={saveNotes} style={{ marginTop: 8 }}>Save notes</Btn>
+            </Card>
+
+            <SectionLabel>Photos</SectionLabel>
+            <Card>
+              <label style={{ display: "inline-block" }}>
+                <span style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600, fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase", padding: "8px 14px", borderRadius: 6, cursor: "pointer", background: T.optic, color: "#141810", display: "inline-block" }}>
+                  Add photo
+                </span>
+                <input type="file" accept="image/*" onChange={handlePhoto} style={{ display: "none" }} />
+              </label>
+              {photos.length === 0 && (
+                <div style={{ color: T.muted, fontSize: 13, marginTop: 10 }}>No photos for this day.</div>
+              )}
+              {photos.length > 0 && (
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginTop: 12 }}>
+                  {photos.map((p) => (
+                    <div key={p.id} style={{ position: "relative" }}>
+                      <img src={p.dataUrl} alt="" style={{ width: "100%", borderRadius: 6, display: "block" }} />
+                      <button
+                        onClick={() => removePhoto(p.id)}
+                        style={{ position: "absolute", top: 4, right: 4, background: "rgba(0,0,0,0.65)", color: T.chalk, border: "none", borderRadius: 4, cursor: "pointer", fontSize: 12, padding: "2px 7px" }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div style={{ fontSize: 11, color: T.muted, marginTop: 10 }}>
+                Photos are compressed and stored in this browser only.
+              </div>
+            </Card>
+          </>
+        )}
+
+        {/* ---------------- PLAN ---------------- */}
+        {tab === "plan" && (
+          <>
+            <SectionLabel>Weekly skeleton</SectionLabel>
+            <Card>
+              {[
+                ["Mon", "Pull"],
+                ["Tue", "HIIT (" + hiitLabel + ")"],
+                ["Wed", "Legs / Core + Tennis 8pm"],
+                ["Thu", "Yoga / Pilates"],
+                ["Fri", "Push"],
+                ["Sat/Sun", "Tennis OR Long Zone 2 (75-90 min)"],
+              ].map(([d, s], i) => (
+                <div key={d} style={{ display: "flex", gap: 14, padding: "8px 0", borderTop: i ? `1px solid ${T.line}` : "none" }}>
+                  <div style={{ fontFamily: "'Oswald', sans-serif", width: 70, color: T.optic, fontWeight: 600, fontSize: 14, textTransform: "uppercase" }}>{d}</div>
+                  <div style={{ fontSize: 14 }}>{s}</div>
+                </div>
+              ))}
+            </Card>
+
+            <SectionLabel>Prescriptions</SectionLabel>
+            <Card>
+              <div style={{ fontSize: 14, lineHeight: 1.7 }}>
+                Zone 2: HR 120-130 (measured). HIIT: HR 157-165 (90-95% of HRmax 174).
+                Power cue: 3s eccentric, explosive concentric, every lift.
+                Left side always leads; left exercises first when fresh.
+                Tennis cap: 2/week until HRV stabilises above 55.
+              </div>
+            </Card>
+
+            <SectionLabel>Session detail</SectionLabel>
+            {["pull", "legs", "push", "hiit44", "hiit1020", "deload", "tennis", "longz2", "yoga"].map((key) => {
+              const s = PROG[key];
+              const open = planOpen === key;
+              const hasOverride = data.overrides && data.overrides[key];
+              return (
+                <Card key={key} style={{ marginBottom: 10 }}>
+                  <div onClick={() => setPlanOpen(open ? null : key)} style={{ display: "flex", justifyContent: "space-between", cursor: "pointer" }}>
+                    <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600, fontSize: 16, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                      {s.name}{hasOverride ? " •" : ""}
+                    </div>
+                    <div style={{ color: T.muted }}>{open ? "−" : "+"}</div>
+                  </div>
+                  {open && editKey !== key && (
+                    <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+                      <Btn small onClick={() => startEdit(key)}>Edit</Btn>
+                      {hasOverride && <Btn small onClick={() => resetEdit(key)}>Reset to default</Btn>}
+                    </div>
+                  )}
+                  {open && editKey === key && (
+                    <div style={{ marginTop: 10 }}>
+                      {editRows.map((row, i) => (
+                        <div key={i} style={{ borderTop: `1px solid ${T.line}`, padding: "10px 0" }}>
+                          <input
+                            value={row.n}
+                            onChange={(ev) => { const r = [...editRows]; r[i] = { ...r[i], n: ev.target.value }; setEditRows(r); }}
+                            placeholder="Exercise name"
+                            style={inp}
+                          />
+                          <input
+                            value={row.d}
+                            onChange={(ev) => { const r = [...editRows]; r[i] = { ...r[i], d: ev.target.value }; setEditRows(r); }}
+                            placeholder="Sets / reps / load"
+                            style={inp}
+                          />
+                          <textarea
+                            value={row.c || ""}
+                            onChange={(ev) => { const r = [...editRows]; r[i] = { ...r[i], c: ev.target.value }; setEditRows(r); }}
+                            placeholder="Form cues / instructions"
+                            rows={2}
+                            style={{ ...inp, resize: "vertical" }}
+                          />
+                          <Btn small onClick={() => setEditRows(editRows.filter((_, j) => j !== i))}>Remove</Btn>
+                        </div>
+                      ))}
+                      <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+                        <Btn small onClick={() => setEditRows([...editRows, { n: "", d: "", c: "", v: yt("exercise form") }])}>+ Add exercise</Btn>
+                        <Btn small primary onClick={saveEdit}>Save</Btn>
+                        <Btn small onClick={() => setEditKey(null)}>Cancel</Btn>
+                      </div>
+                    </div>
+                  )}
+                  {open && editKey !== key &&
+                    s.exercises.map((e, i) => (
+                      <div key={i} style={{ padding: "8px 0", borderTop: `1px solid ${T.line}`, marginTop: i === 0 ? 10 : 0 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 14, fontWeight: 600 }}>{e.n}</div>
+                            <div style={{ fontSize: 13, color: T.muted }}>{e.d}</div>
+                            {e.c && <div style={{ fontSize: 12.5, color: T.muted, marginTop: 5, lineHeight: 1.5 }}>{e.c}</div>}
+                          </div>
+                          <a href={e.v} target="_blank" rel="noreferrer" style={{ color: T.opticDim, fontSize: 12, alignSelf: "flex-start", textDecoration: "none", whiteSpace: "nowrap" }}>▶ form</a>
+                        </div>
+                      </div>
+                    ))}
+                </Card>
+              );
+            })}
+          </>
+        )}
+
+        {/* ---------------- WEIGHT ---------------- */}
+        {tab === "weight" && (
+          <>
+            <SectionLabel>Weekly weigh-in</SectionLabel>
+            <Card>
+              <div style={{ display: "flex", gap: 10 }}>
+                <input
+                  value={weightInput}
+                  onChange={(e) => setWeightInput(e.target.value)}
+                  placeholder="kg"
+                  inputMode="decimal"
+                  style={{ flex: 1, background: T.cardAlt, border: `1px solid ${T.line}`, borderRadius: 6, padding: "10px 12px", color: T.chalk, fontSize: 16, outline: "none" }}
+                />
+                <Btn primary onClick={addWeight}>Log</Btn>
+              </div>
+              <div style={{ fontSize: 12, color: T.muted, marginTop: 8 }}>
+                Target band 82-84 kg (August retest) shown on the chart.
+              </div>
+            </Card>
+
+            <SectionLabel>Trend</SectionLabel>
+            <Card>
+              <WeightChart weights={data.weights} />
+            </Card>
+
+            {data.weights.length > 0 && (
+              <>
+                <SectionLabel>Entries</SectionLabel>
+                <Card>
+                  {[...data.weights]
+                    .sort((a, b) => b.date.localeCompare(a.date))
+                    .map((w, i) => (
+                      <div key={w.date} style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderTop: i ? `1px solid ${T.line}` : "none", fontSize: 14 }}>
+                        <span style={{ color: T.muted }}>{w.date}</span>
+                        <span>{w.kg.toFixed(1)} kg</span>
+                      </div>
+                    ))}
+                </Card>
+              </>
+            )}
+          </>
+        )}
+
+        {/* ---------------- HISTORY ---------------- */}
+        {tab === "history" && (
+          <>
+            <SectionLabel>Session log</SectionLabel>
+            {Object.keys(data.sessions).length === 0 && (
+              <div style={{ color: T.muted, fontSize: 14 }}>Nothing logged yet.</div>
+            )}
+            {Object.entries(data.sessions)
+              .sort((a, b) => b[0].localeCompare(a[0]))
+              .slice(0, 30)
+              .map(([date, s]) => (
+                <Card key={date} style={{ marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600, fontSize: 15 }}>{date}</div>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      {s.done.filter((d) => !d.startsWith("acc")).map((d) => (
+                        <Chip key={d} active>{PROG[d] ? PROG[d].name : d}</Chip>
+                      ))}
+                    </div>
+                  </div>
+                  {s.notes && <div style={{ fontSize: 13, color: T.muted }}>{s.notes}</div>}
+                </Card>
+              ))}
+          </>
+        )}
+
+        {/* ---------------- SETTINGS ---------------- */}
+        {tab === "settings" && (
+          <>
+            <SectionLabel>Week 1 anchor (Monday)</SectionLabel>
+            <Card>
+              <div style={{ fontSize: 13, color: T.muted, marginBottom: 10, lineHeight: 1.5 }}>
+                Drives odd/even HIIT parity (odd = Norwegian 4×4, even = 10-20-30) and the
+                week-8 deload. Set it to the Monday your current cycle started.
+              </div>
+              <input
+                type="date"
+                defaultValue={data.settings.anchorDate}
+                onChange={(e) => e.target.value && setAnchor(e.target.value)}
+                style={{ background: T.cardAlt, border: `1px solid ${T.line}`, borderRadius: 6, padding: "10px 12px", color: T.chalk, fontSize: 15, outline: "none", width: "100%" }}
+              />
+              <div style={{ fontSize: 13, marginTop: 10, color: data.settings.anchorConfirmed ? T.optic : T.danger }}>
+                {data.settings.anchorConfirmed ? "Confirmed" : "Unconfirmed default (22 Jun 2026)"}
+              </div>
+            </Card>
+
+            <SectionLabel>About</SectionLabel>
+            <Card>
+              <div style={{ fontSize: 13, color: T.muted, lineHeight: 1.6 }}>
+                Seeded from Master_Context_Briefing V20 §14.6 (protocol updated 20 Jun 2026).
+                Navigate to any date on the Today tab to view, log, or backfill that day.
+                Edit any session's exercises on the Plan tab (edited sessions show a • mark).
+                Logging here is raw training data only; Sunday reflective review stays in Notion.
+                Data and photos are stored in this browser only — they will not sync
+                between your phone and laptop. Each device keeps its own log.
+              </div>
+            </Card>
+          </>
+        )}
+      </div>
+
+      {/* Bottom tab bar */}
+      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: T.card, borderTop: `1px solid ${T.line}` }}>
+        <div style={{ maxWidth: 480, margin: "0 auto", display: "flex" }}>
+          {TABS.map(([k, label]) => (
+            <button
+              key={k}
+              onClick={() => setTab(k)}
+              style={{
+                flex: 1, padding: "14px 4px", background: "transparent", border: "none", cursor: "pointer",
+                fontFamily: "'Oswald', sans-serif", fontWeight: 600, fontSize: 12, letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: tab === k ? T.optic : T.muted,
+                borderTop: tab === k ? `2px solid ${T.optic}` : "2px solid transparent",
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<TrainingTracker />);
+</script>
+</body>
+</html>
