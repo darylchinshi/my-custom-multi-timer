@@ -66,64 +66,71 @@ const FONT_LINK =
 const yt = (q) =>
   "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
 
+const imgLink = (v) =>
+  "https://www.google.com/search?tbm=isch&q=" + (((v || "").split("search_query=")[1]) || "exercise%20form");
+
 const PROGRAMME = {
+  primer: {
+    name: "Daily Longevity Primer (5 min · every day)",
+    exercises: [
+      { n: "Single-leg stand progression", d: "30s each leg, left first · eyes open → eyes closed", c: "Weak/left side first. Trains the Araújo (BJSM 2022) 10-second single-leg-stance mortality predictor. Once eyes-open holds feel solid, progress to eyes closed for a harder balance challenge.", v: yt("single leg balance progression eyes closed") },
+      { n: "Sit-to-stand / floor transitions", d: "3-4 controlled reps, minimal hand support", c: "Controlled descent to the floor and back up, using as little hand support as you can manage safely. Directly trains the Sitting-Rising Test — each point of SRT score is linked to a 21% improvement in survival (Brito 2014).", v: yt("sitting rising test practice") },
+      { n: "Bodyweight hip hinge + single-leg RDL reach", d: "5 reps each side, no load", c: "Grooves the hinge pattern underpinning your deadlift power and protects the lower back. The single-leg version doubles as a balance and hip-stability drill.", v: yt("single leg RDL reach bodyweight") },
+      { n: "Tandem walk + heel-to-toe + ankle pogo taps", d: "~1 min total", c: "Fall-risk and reactive-balance training. Small, quick ankle/calf taps — this is priming reactive balance, not a calf workout.", v: yt("tandem walk balance drill") },
+    ],
+  },
   pull: {
     name: "Pull",
     exercises: [
-      { n: "Pull-ups (or negatives)", d: "4×5-8, 5s lowering", c: "Grip slightly wider than shoulders. Full dead hang at the bottom, chin clears the bar at the top. If using negatives: step or jump to the top position, then lower under control for the full 5 seconds — the slow lowering is the training stimulus, not the getting up.", v: yt("pull up form 5 second negative") },
-      { n: "Dead hang, left arm first", d: "Left 45s / right 30s × 3", c: "Full grip on the bar, shoulders pulled down and back rather than shrugged up around the ears. Left arm hangs first and does the full duration; right assists only lightly if grip starts failing near the end.", v: yt("single arm dead hang technique") },
-      { n: "Single-arm DB row 10 kg", d: "Left 3×12-15, right 2×12-15", c: "Hinge at the hips with a flat back, brace the core, free hand on a bench or knee for support. Pull the elbow past the ribs, squeeze the shoulder blade at the top, then lower under control rather than letting the weight drop.", v: yt("single arm dumbbell row form") },
-      { n: "Superset: bicep curl 7.5 kg + band pull-apart", d: "3×12 + 15 reps", c: "Curl: elbows pinned to the sides, no swinging the torso for momentum. Band pull-apart: arms straight out in front at chest height, pull the band apart until it touches the chest, squeeze the shoulder blades together at the end range.", v: yt("dumbbell curl band pull apart superset") },
-      { n: "Dead hangs", d: "3 × max hold", c: "Same setup as the earlier dead hang — full grip, shoulders down, relaxed breathing. Hold each set to near-failure grip fatigue rather than a fixed time.", v: yt("dead hang benefits technique") },
-      { n: "Zone 2 bike finisher", d: "30 min, HR 120-130", c: "Steady, unbroken effort — you should be able to hold a conversation throughout. Check HR periodically and ease off if it drifts above 130.", v: yt("zone 2 cycling explained") },
+      { n: "Pull-ups / band-assisted pull-ups", d: "3 sets", c: "Full dead hang at the bottom, chin clears the bar at top. Trains grip strength directly — the PURE-study lever linking grip to longevity. Use a resistance band under the knees for assistance if needed to hit clean reps.", v: yt("band assisted pull up form") },
+      { id: "sa-row", rr: [8, 12], mode: "branch", accom: "Reps maxed at 12 and tagged easy two sessions running. No heavier DB exists yet: progress via 3s eccentric + 2s pause at the top, or a towel-grip row for grip overload. A heavier adjustable DB is the durable fix.", regress: "Two sessions at the bottom of range tagged hard: drop to 2 sets per side, or use the bench 10 kg DB for a technique-reset session.", n: "Single-arm row, 15 kg DB", d: "Left 3 sets, right 2 sets · 8-12 reps · 3s eccentric", c: "Hinge at the hips, flat back, brace the core, free hand supported on the bench. Pull the elbow past the ribs, squeeze the shoulder blade, then lower over a full 3 seconds — left side always goes first while fresh.", v: yt("single arm dumbbell row form") },
+      { n: "Band face-pulls + external rotation", d: "3 sets", c: "Pull the band to face height, elbows high, squeeze the shoulder blades together — this targets the posterior rotator cuff, the shoulder-stability piece tennis constantly loads.", v: yt("band face pull external rotation") },
+      { id: "hammer-curl", rr: [8, 12], mode: "branch", accom: "Reps maxed and tagged easy two sessions running: slow to a 4s eccentric, or switch to offset-grip or Zottman curls before thinking about load.", regress: "Two sessions at the bottom of range tagged hard: drop a set, or use the bench 10 kg DBs for a lighter week.", n: "Hammer / biceps curl, 15 kg DB", d: "Left 3 sets, right 2 sets · 8-12 reps", c: "Elbows pinned to the sides, no swinging the torso for momentum. Left-first 3:2 ratio, same as the row.", v: yt("hammer curl dumbbell form") },
+      { n: "Core Block A — structural (see below)", d: "See Core Block A card", c: "Anti-extension emphasis. Detailed below, phase-adjusted to your current week.", v: yt("mcgill big 3 core exercises") },
+      { n: "Zone 2 bike finisher", d: "~21 min, HR 120-130", c: "Steady, unbroken effort — conversational pace throughout.", v: yt("zone 2 cycling explained") },
     ],
   },
   push: {
     name: "Push",
     exercises: [
-      { n: "DB shoulder press 10 kg", d: "Left 3×12, right 2×12", c: "Start with the dumbbell at shoulder height, press straight overhead without arching the lower back to compensate. Left side first while fresh, then right.", v: yt("single arm dumbbell shoulder press form") },
-      { n: "DB chest press 10 kg", d: "3×15", c: "Lie flat, elbows at roughly 45° from the torso rather than flared to 90°. Press up and slightly inward, control the lowering phase rather than letting the weights drop to the chest.", v: yt("dumbbell chest press form") },
-      { n: "Incline DB press 7.5 kg", d: "3×12", c: "Bench set to 30-45°. Press up and slightly back rather than straight up, keep elbows from flaring too wide at the bottom of the rep.", v: yt("incline dumbbell press form") },
-      { n: "Lateral raise 5 kg", d: "3×15", c: "Slight bend in the elbows held constant throughout. Raise to shoulder height only — leading with the elbows, not the hands, keeps the load on the shoulder rather than the traps.", v: yt("lateral raise form") },
-      { n: "Superset: OH tricep ext 7.5 kg + band pushdown", d: "3×12 + 3×15", c: "Overhead extension: elbows pointed forward and stationary, lower the weight behind the head, extend fully without flaring the elbows out. Band pushdown: elbows pinned to the sides, extend down and slightly back.", v: yt("overhead tricep extension band pushdown") },
-      { n: "Eccentric wrist extensor 3.5 kg", d: "3×15 each arm", c: "Wrist bent up to start, then lower the weight slowly over 3-4 seconds against gravity. The slow lowering against resistance is the entire point of this one — don't rush it.", v: yt("eccentric wrist extensor exercise") },
-      { n: "Zone 2 bike finisher", d: "30 min, HR 120-130", c: "Steady, unbroken effort — conversational pace. Ease off if HR drifts above 130.", v: yt("zone 2 cycling explained") },
+      { id: "floor-press", rr: [6, 10], mode: "branch", accom: "Reps maxed and tagged easy two sessions running: progress via 1.5-rep floor press, 3s eccentric + pause at the bottom, or a feet-elevated push-up superset.", regress: "Two sessions at the bottom of range tagged hard: reduce to 2 sets, or regress to standard push-ups for a session.", n: "Floor press / bench DB press, 15 kg", d: "3 sets · 6-10 reps · 3s eccentric", c: "Elbows at roughly 45° from the torso rather than flared to 90°. Press up and slightly inward, control the full 3-second lowering rather than letting the weight drop.", v: yt("dumbbell floor press form") },
+      { id: "oh-press", rr: [6, 10], mode: "branch", accom: "Reps maxed and tagged easy two sessions running: switch to the bottoms-up KB press (16 kg) for stability overload, or add a 2s pause at the bottom of each rep.", regress: "Two sessions at the bottom of range tagged hard: half-kneeling position with the bench 10 kg DB for a technique reset.", n: "Single-arm overhead press, 15 kg DB or KB", d: "Left 3 sets, right 2 sets · 6-10 reps", c: "Shoulder stability under a single-sided load. Start at shoulder height, press straight overhead without arching the lower back to compensate. Left first while fresh.", v: yt("single arm overhead press kettlebell") },
+      { n: "Band/DB lateral raise + eccentric external rotation", d: "3 sets", c: "Lateral raise to shoulder height, leading with the elbow. The eccentric external rotation is the evidence-backed tennis-shoulder protector — control the slow return every rep, don't let the band snap back.", v: yt("eccentric external rotation shoulder band") },
+      { n: "Push-up variations", d: "2 sets", c: "Standard, incline, or feet-elevated depending on the day's capacity — pick the variation that lets you hit clean reps to near-failure.", v: yt("push up variations progression") },
+      { n: "Core Block B — structural (see below)", d: "See Core Block B card", c: "Anti-rotation / lateral emphasis. Detailed below, phase-adjusted to your current week.", v: yt("side plank progression") },
+      { n: "Zone 2 bike finisher", d: "~21 min, HR 120-130", c: "Steady, unbroken effort — conversational pace throughout.", v: yt("zone 2 cycling explained") },
     ],
   },
   legs: {
-    name: "Legs / Core",
+    name: "Legs · Power + Tennis Core",
     exercises: [
-      { n: "Goblet squat 10 kg", d: "3×15", c: "Hold the weight at chest height, feet roughly shoulder-width. Sit the hips back and down, chest stays up, knees track over the toes rather than caving in.", v: yt("goblet squat form") },
-      { n: "Romanian deadlift 10 kg each hand", d: "3×12", c: "Soft knees, hinge at the hips pushing them back rather than squatting down. Weights stay close to the legs throughout. Feel the stretch in the hamstrings, stop the descent before the lower back rounds.", v: yt("dumbbell romanian deadlift form") },
-      { n: "Bulgarian split squat 7.5 kg each hand", d: "Left 3×10-12, right 2×10-12", c: "Rear foot elevated behind you on a bench, front leg does essentially all the work. Lower straight down rather than forward, drive back up through the front heel.", v: yt("bulgarian split squat form") },
-      { n: "Glute bridge 10 kg", d: "3×15", c: "Feet flat, weight resting across the hips. Drive through the heels, squeeze the glutes hard at the top, avoid over-arching the lower back to get there.", v: yt("weighted glute bridge form") },
-      { n: "Core superset: dead bug + plank", d: "3×8 each side + 3×35s", c: "Dead bug: lying on your back, opposite arm and leg extend together while the lower back stays pressed flat to the floor the whole time. Plank: straight line from head to heels, core braced, don't let the hips sag or pike up.", v: yt("dead bug plank core superset") },
-      { n: "Zone 2 bike finisher", d: "30 min, HR 120-130", c: "Steady, unbroken effort — conversational pace. Ease off if HR drifts above 130.", v: yt("zone 2 cycling explained") },
+      { n: "Lateral bounds / skater hops", d: "3×4 each side · stick landing 2s", c: "Push off the left foot laterally, land softly on the right foot only, hold the landing 2 full seconds on a bent (never locked) knee. The landing is the exercise — this trains the deceleration/braking that prevents most tennis lower-body injuries.", v: yt("lateral bounds skater hops tennis") },
+      { n: "Single-leg pogo hops", d: "2×6 each side · left first", c: "Rapid small bounces using ankle and calf only, minimal knee bend, ground contact as short as possible. If the left ankle feels noticeably weaker, that's your reactive-power deficit to note.", v: yt("single leg pogo hop drill") },
+      { id: "kb-dl-rdl", mode: "streak", standing: "At/near equipment ceiling (research-confirmed): progress via 3s eccentric + 1-2s pause, single-leg RDL (halves load per side), band-loaded RDL, or KB + DB combined. Next purchase: 24 kg+ KB or heavier adjustable DBs.", accom: "apply one of the standing-flag accommodation strategies above.", n: "Double-KB deadlift (2×16kg) or 15 kg DB RDL", d: "3 sets, 3s eccentric, explosive up", c: "Soft knees, hinge at the hips pushing them back, weights stay close to the legs. Lower over 3 seconds, drive up with intent. This is your primary posterior-chain strength builder.", v: yt("double kettlebell deadlift form") },
+      { id: "goblet-squat", mode: "streak", standing: "At/near equipment ceiling (research-confirmed): progress via slow 3s descent + pause at depth, 1.5 reps, or double-KB front squat (32 kg total) as the heavier variant. A heavier bell is the durable fix.", accom: "apply one of the standing-flag accommodation strategies above.", n: "Goblet squat, 15 kg DB or double-KB front squat", d: "3 sets", c: "Weight at chest height, sit the hips back and down, chest stays up, knees track over the toes.", v: yt("double kettlebell front squat form") },
+      { id: "kb-swing", mode: "streak", accom: "add a 5th set of 10, or sharpen hip-snap intent; a 24 kg bell is the true progression.", regress: "Drop to 3×10 and re-groove the hinge pattern.", n: "Kettlebell swing, 16 kg", d: "4×10", c: "Ballistic hip-hinge power, not a squat. Drive the hips forward explosively — this is the single best posterior-chain 'bang for buck' movement and builds the first-step explosiveness tennis needs.", v: yt("kettlebell swing form") },
+      { n: "Half-kneeling Pallof press (band)", d: "Left 3 sets, right 2 sets", c: "Anti-rotation — the tennis-core anchor. Press the band straight out from the chest and resist the pull rotating your torso. This is the prerequisite strength for safe rotational power later in the block.", v: yt("half kneeling pallof press") },
+      { n: "Tennis Functional Core — see below", d: "See Core Tennis card", c: "Rotational/anti-rotation work, phase-adjusted to your current week.", v: yt("rotational core tennis training") },
+      { n: "Zone 2 bike finisher", d: "~17 min, HR 120-130", c: "Shorter finisher today since this is already the highest-load morning session, and evening tennis adds a second stimulus.", v: yt("zone 2 cycling explained") },
     ],
   },
   hiit44: {
     name: "HIIT — Norwegian 4×4",
     exercises: [
-      { n: "Norwegian 4×4", d: "4 min at HR 157-165, 3 min recovery, 4 rounds", c: "10 min easy warm-up first. Each hard interval builds to 90-95% max HR (157-165) by the end of the 4 minutes, not from the start — go out controlled. Active recovery for 3 minutes between rounds, don't stop moving entirely. 5-10 min cool-down after round 4.", v: yt("norwegian 4x4 interval training") },
-    ],
-  },
-  hiit1020: {
-    name: "HIIT — 10-20-30",
-    exercises: [
-      { n: "10-20-30 intervals", d: "30s easy / 20s moderate / 10s hard, repeat", c: "One block = 30s easy pace, 20s moderate, 10s all-out sprint effort. Repeat the block 5 times without stopping, rest 2 minutes, then run 2-3 sets total. The 10-second effort should feel genuinely maximal.", v: yt("10 20 30 interval training protocol") },
+      { n: "Norwegian 4×4", d: "4 min at HR 157-165, 3 min recovery, 4 rounds", c: "10 min easy warm-up first. Each hard interval builds to 90-95% max HR (157-165) by the end of the 4 minutes, not from the start. 3 min active recovery on the bike at ~120bpm — HR must drop below 130 before the next interval; if it doesn't, you went out too hard. 5-10 min cool-down after round 4, allow HR to drop below 110 gradually rather than stopping abruptly. This is your single highest-leverage longevity action — protect it.", v: yt("norwegian 4x4 interval training") },
     ],
   },
   deload: {
     name: "HIIT — Deload (week 8)",
     exercises: [
-      { n: "Deload intervals", d: "6 × 1 min at 90% HRmax / 2 min easy", c: "Lower-intensity week by design. 6 rounds of 1 minute moderately hard (not max effort) with 2 minutes easy recovery between rounds. The purpose is active recovery going into the next 8-week block, not a new personal best.", v: yt("hiit deload week") },
+      { n: "Deload intervals", d: "6 × 1 min at 90% HRmax / 2 min easy", c: "Lower-intensity week by design. 6 rounds of 1 minute moderately hard (not max effort) with 2 minutes easy recovery between rounds. The purpose is active recovery going into the next block, not a new personal best.", v: yt("hiit deload week") },
     ],
   },
   tennis: {
     name: "Tennis",
     exercises: [
       { n: "Tennis 10+ warm-up protocol", d: "Before every match", c: "Dynamic movement first: light jog, lateral shuffles, leg swings, roughly 3-4 minutes. Then progressive ball work building intensity: mini-tennis, groundstrokes, volleys, overheads, serves — around 10 minutes total before full-pace play.", v: yt("tennis 10 plus warm up ITF") },
-      { n: "Match / session", d: "Counts as a HIIT session. Electrolyte tablets.", c: "Standard cardio and agility load for the week — treat this as the HIIT-equivalent session, not an addition to it. Electrolytes on hand, especially important in humidity.", v: yt("tennis footwork drills") },
+      { n: "Match / session", d: "Counts toward the week's HIIT load. Electrolyte tablets.", c: "Wednesday evening tennis is a high-intensity exposure alongside Tuesday and Friday's Norwegian 4x4. Weekend tennis is Saturday only (cap 2/week); a tennis Saturday replaces that week's long Zone 2 — accepted trade-off. Electrolytes on hand, especially in humidity.", v: yt("tennis footwork drills") },
     ],
   },
   longz2: {
@@ -132,16 +139,29 @@ const PROGRAMME = {
       { n: "Long Zone 2", d: "75-90 min, HR 120-130 (measured)", c: "Sustained, steady effort for the full duration with no surges or intervals. HR should sit in the 120-130 band throughout — if it creeps above that, ease the pace back rather than pushing through.", v: yt("long zone 2 training session") },
     ],
   },
-  yoga: {
-    name: "Yoga / Pilates",
-    exercises: [{ n: "Yoga or Pilates session", d: "Weekly slot", c: "Priority areas given the lifting and tennis load: hip mobility and shoulder mobility. A static stretching routine or a full flow sequence both work — whichever you have access to that day.", v: yt("yoga for athletes recovery") }],
-  },
   rest: { name: "Rest / Accessories only", exercises: [] },
 };
 
+/* ------------------------------------------------------------------ */
+/*  CORE PROTOCOL — 12-week phased progression                         */
+/*  Structural (Big 3) → Monday/Friday. Functional/Tennis → Wednesday. */
+/* ------------------------------------------------------------------ */
+
+const CORE_STRUCTURAL = {
+  1: { label: "Phase 1 (wks 1-4) · Endurance & motor control", text: "McGill Big 3 — modified curl-up, side plank (knees), bird dog (toe-tap). 5-3-1 descending pyramid, 8-10s holds. Dead bug retained as a warm-up regression." },
+  2: { label: "Phase 2 (wks 5-8) · Add anti-rotation load", text: "Big 3 with longer holds. Side plank progresses to feet-staggered. Add stir-the-pot or RKC plank for anti-rotation under instability." },
+  3: { label: "Phase 3 (wks 9-12) · Rotational power", text: "Big 3 at maintenance volume — endurance base is built, this is upkeep. Side plank now weighted to keep progressing." },
+};
+
+const CORE_TENNIS = {
+  1: { label: "Phase 1 (wks 1-4) · Endurance & motor control", text: "Half-kneeling Pallof press (band), 3×8, left 3 / right 2. Bird-dog focus carried over from the Big 3 work." },
+  2: { label: "Phase 2 (wks 5-8) · Add anti-rotation load", text: "Standing Pallof press, left 3 / right 2. Band-resisted chop & lift, 3×8 each side. KB windmill (16kg) at light/assisted range." },
+  3: { label: "Phase 3 (wks 9-12) · Rotational power", text: "Explosive band rotations/throws, 3×6 fast reps. Full-range KB windmill (16kg). Rotational med-ball-style slams for racquet-head-speed transfer." },
+};
+
 const ACCESSORIES = [
-  "5 min unipedal balance work",
   "Dead hang EMOM, left bias",
+  "Eccentric wrist extensor, 3.5 kg",
   "Post-meal Zone 2 walk — lunch",
   "Post-meal Zone 2 walk — dinner",
 ];
@@ -182,27 +202,75 @@ const weekNumber = (today, anchorStr) => {
 /* ------------------------------------------------------------------ */
 
 function sessionsForDay(dow, weekNum, tennisCount) {
-  // HIIT parity: odd weeks 4x4, even 10-20-30; week 8 of 8-week cycle = deload
+  // 2x Norwegian 4x4 per week (Tue + Fri). Week 8 of each 8-week cycle = deload (HIIT only).
   const cycleWeek = ((((weekNum - 1) % 8) + 8) % 8) + 1;
-  const hiitKey = cycleWeek === 8 ? "deload" : weekNum % 2 === 1 ? "hiit44" : "hiit1020";
+  const hiitKey = cycleWeek === 8 ? "deload" : "hiit44";
 
   switch (dow) {
     case 1: return { main: ["pull"], note: null };
-    case 2: return { main: [hiitKey], note: "Dedicated HIIT slot (Wed tennis is the second HIIT of the week)." };
-    case 3: return { main: ["legs", "tennis"], note: "Tennis 8pm. Fast wind-down after: home ~22:00, lights out 22:30." };
-    case 4: return { main: ["yoga"], note: "Weekly yoga/Pilates slot. Swap freely if the week demands." };
-    case 5: return { main: ["push"], note: null };
+    case 2: return { main: [hiitKey], note: "First of two Norwegian 4x4 sessions this week (second is Friday)." };
+    case 3: return { main: ["legs", "tennis"], note: "Power/plyo, hip hinge, and tennis-functional core this morning — stay sub-maximal, tennis is tonight at 8pm. High-intensity exposures this week: Tue 4x4, tonight's tennis, Fri 4x4. Fast wind-down after: home ~22:00, lights out 22:30." };
+    case 4: return { main: ["push"], note: null };
+    case 5: return { main: [hiitKey], note: "Second Norwegian 4x4 session this week." };
     case 6:
-    case 0:
       if (tennisCount >= 2)
-        return { main: ["longz2"], note: "Tennis cap (2/week) reached. Long Zone 2 or full rest." };
+        return { main: ["longz2"], note: "Tennis cap (2/week) reached. Long Zone 2 today." };
       return {
         main: ["tennis", "longz2"],
-        note: "Choose one: tennis morning (counts toward 2/week cap) OR long Zone 2 75-90 min.",
+        note: "Choose one: tennis (2nd of the week, cap 2) OR long Zone 2 75-90 min. A tennis Saturday means no long Zone 2 this week — accepted trade-off, logged 5 Jul 2026.",
         choice: true,
       };
+    case 0:
+      return { main: ["rest"], note: "Rest + meal prep day. Sunday reflective review in Notion. No training — accessories below are optional." };
     default: return { main: ["rest"], note: null };
   }
+}
+
+function coreCyclePhase(weekNum) {
+  const w = Math.max(1, weekNum);
+  // Hold Phase 3 after week 12 pending reassessment — no automatic restart.
+  return w <= 4 ? 1 : w <= 8 ? 2 : 3;
+}
+
+/* ------------------------------------------------------------------ */
+/*  PROGRESSION NUDGE ENGINE                                           */
+/*  branch mode: rep-range double progression (4 lifts)                */
+/*  streak mode: 3 identical tags in a row (KB swing + standing-flag)  */
+/* ------------------------------------------------------------------ */
+
+function computeNudge(ex, hist) {
+  if (!ex.id || !hist || hist.length === 0) return null;
+  const h = hist; // sorted newest first
+  const last = h[0];
+  if (ex.mode === "branch" && ex.rr) {
+    const lo = ex.rr[0], hi = ex.rr[1];
+    if (last.t === "easy") {
+      const maxedTwice = h.length >= 2 && h[0].r != null && h[1].r != null && h[0].r >= hi && h[1].r >= hi && h[0].t === "easy" && h[1].t === "easy";
+      if (maxedTwice) return { kind: "up", text: ex.accom };
+      if (last.r == null) return { kind: "up", text: "Tagged easy — log reps on your limiting set so progression can be judged against the " + lo + "-" + hi + " range." };
+      if (last.r < hi) return { kind: "up", text: "Add 1-2 reps next session (top of range is " + hi + ")." };
+      return { kind: "up", text: "Top of range hit — one more easy session at " + hi + " reps triggers the accommodation step." };
+    }
+    if (last.t === "hard") {
+      const bottomTwice = h.length >= 2 && h[0].r != null && h[1].r != null && h[0].r <= lo && h[1].r <= lo && h[0].t === "hard" && h[1].t === "hard";
+      if (bottomTwice) return { kind: "down", text: ex.regress };
+      if (last.r == null) return { kind: "down", text: "Tagged hard — log reps; if above " + lo + ", reduce reps within the range before touching load." };
+      if (last.r > lo) return { kind: "down", text: "Drop reps toward the bottom of range (" + lo + ") next session before changing anything else." };
+      return { kind: "down", text: "Bottom of range — one more hard session triggers the regression step." };
+    }
+    return null;
+  }
+  // streak mode
+  if (h.length >= 3 && h[0].t === h[1].t && h[1].t === h[2].t && h[0].t) {
+    if (h[0].t === "easy") return { kind: "up", text: "Tagged too easy 3x running — " + (ex.accom || "progress via tempo or an extra set.") };
+    if (h[0].t === "hard") return {
+      kind: "down",
+      text: ex.standing
+        ? "Tagged too hard 3x running — this lift is under-loaded on paper, so the pattern usually signals recovery (sleep/HRV), not load. Check recovery before regressing."
+        : (ex.regress || "Reduce a set next session."),
+    };
+  }
+  return null;
 }
 
 /* ------------------------------------------------------------------ */
@@ -212,8 +280,9 @@ function sessionsForDay(dow, weekNum, tennisCount) {
 const STORE_KEY = "training-tracker-v1";
 
 const DEFAULT_DATA = {
-  settings: { anchorDate: "2026-06-22", anchorConfirmed: false },
+  settings: { anchorDate: "2026-07-06", anchorConfirmed: true },
   overrides: {}, // per-session user edits to exercises
+  exlog: {}, // per-exercise effort tags + reps: { "sa-row": [{ d, t, r }] }
   sessions: {}, // { "2026-07-04": { done: ["tennis"], notes: "..." } }
   weights: [], // [{ date: "2026-07-04", kg: 87.5 }]
 };
@@ -221,7 +290,15 @@ const DEFAULT_DATA = {
 async function loadData() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
-    if (raw) return { ...DEFAULT_DATA, ...JSON.parse(raw) };
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      // Migration 5 Jul 2026: protocol restarted, week 1 = Mon 6 Jul 2026
+      if (parsed.settings && parsed.settings.anchorDate === "2026-06-22") {
+        parsed.settings.anchorDate = "2026-07-06";
+        parsed.settings.anchorConfirmed = true;
+      }
+      return { ...DEFAULT_DATA, ...parsed };
+    }
   } catch (e) {
     /* key missing on first run — fine */
   }
@@ -478,13 +555,37 @@ function TrainingTracker() {
 
   const PROG = useMemo(() => {
     const p = JSON.parse(JSON.stringify(PROGRAMME));
+    const weekNumForCore = data ? weekNumber(viewDate, data.settings.anchorDate) : 1;
+    const phase = coreCyclePhase(weekNumForCore);
+    const structural = CORE_STRUCTURAL[phase];
+    const tennisCore = CORE_TENNIS[phase];
+    const fillCore = (arr, label, block) => {
+      const idx = arr.findIndex((e) => e.n.startsWith("Core Block") || e.n.startsWith("Tennis Functional Core"));
+      if (idx !== -1) {
+        arr[idx] = { ...arr[idx], n: arr[idx].n.replace(/\(see below\)|— see below/i, "").trim() + " — " + block.label, c: block.text };
+      }
+    };
+    if (p.pull) fillCore(p.pull.exercises, "structural", structural);
+    if (p.push) fillCore(p.push.exercises, "structural", structural);
+    if (p.legs) fillCore(p.legs.exercises, "tennis", tennisCore);
+    // Asymmetry taper (anchor 6 Jul 2026): weeks 1-10 = L3/R2, weeks 11-12 = 1:1, hold 1:1 after 12 pending re-test
+    if (weekNumForCore >= 11) {
+      const label = weekNumForCore <= 12 ? "3 sets each side (1:1 taper, wks 11-12)" : "3 sets each side (1:1 hold — asymmetry re-test due)";
+      Object.keys(p).forEach((k) => {
+        (p[k].exercises || []).forEach((e) => {
+          if (e.d && e.d.indexOf("Left 3 sets, right 2 sets") !== -1) {
+            e.d = e.d.replace("Left 3 sets, right 2 sets", label);
+          }
+        });
+      });
+    }
     if (data && data.overrides) {
       Object.keys(data.overrides).forEach((k) => {
         if (p[k]) p[k].exercises = data.overrides[k];
       });
     }
     return p;
-  }, [data]);
+  }, [data, viewDateStr]);
 
   const derived = useMemo(() => {
     if (!data) return null;
@@ -577,11 +678,117 @@ function TrainingTracker() {
     setEditKey(null);
   };
 
+  const exportData = () => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "court-board-" + dayKey(new Date()) + ".json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const importData = (e) => {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = "";
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        if (!parsed || typeof parsed !== "object" || !parsed.sessions) throw new Error("bad format");
+        persist({ ...DEFAULT_DATA, ...parsed });
+      } catch (err) {
+        setSaveState("error");
+        setTimeout(() => setSaveState(""), 1500);
+      }
+    };
+    reader.readAsText(file);
+  };
+
   const inp = { width: "100%", background: T.cardAlt, border: `1px solid ${T.line}`, borderRadius: 6, padding: "8px 10px", color: T.chalk, fontSize: 14, outline: "none", marginBottom: 6, boxSizing: "border-box", fontFamily: "'Inter', sans-serif" };
 
+  const exHist = (exId) => ((data.exlog || {})[exId] || []);
+  const todayEntry = (exId) => exHist(exId).find((en) => en.d === tKey) || null;
+
+  const logEx = (exId, patch) => {
+    const exlog = { ...(data.exlog || {}) };
+    const arr = [...(exlog[exId] || [])];
+    const idx = arr.findIndex((en) => en.d === tKey);
+    if (idx >= 0) arr[idx] = { ...arr[idx], ...patch };
+    else arr.push({ d: tKey, ...patch });
+    arr.sort((a, b) => b.d.localeCompare(a.d));
+    exlog[exId] = arr;
+    persist({ ...data, exlog });
+  };
+
+  const EFFORT_TAGS = [["easy", "Too easy"], ["right", "Right"], ["hard", "Too hard"]];
+
+  const renderTracking = (e) => {
+    if (!e.id) return null;
+    const entry = todayEntry(e.id);
+    const hist = exHist(e.id);
+    const nudge = computeNudge(e, hist);
+    return (
+      <div style={{ marginTop: 8 }}>
+        {e.standing && (
+          <div style={{ fontSize: 12, color: T.optic, border: `1px solid ${T.line}`, borderRadius: 6, padding: "6px 8px", marginBottom: 8, lineHeight: 1.5 }}>
+            ⚑ {e.standing}
+          </div>
+        )}
+        <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+          {EFFORT_TAGS.map(([val, label]) => {
+            const selected = entry && entry.t === val;
+            return (
+              <button
+                key={val}
+                onClick={() => logEx(e.id, { t: selected ? null : val })}
+                style={{ fontFamily: "'Oswald', sans-serif", fontSize: 11, letterSpacing: "0.05em", textTransform: "uppercase", padding: "5px 9px", borderRadius: 5, cursor: "pointer", border: `1px solid ${selected ? T.optic : T.line}`, background: selected ? "rgba(217,230,74,0.12)" : "transparent", color: selected ? T.optic : T.muted }}
+              >
+                {label}
+              </button>
+            );
+          })}
+          {e.rr && (
+            <input
+              key={e.id + tKey}
+              type="number"
+              inputMode="numeric"
+              placeholder="reps"
+              defaultValue={entry && entry.r != null ? entry.r : ""}
+              onBlur={(ev) => { const v = parseInt(ev.target.value, 10); logEx(e.id, { r: isNaN(v) ? null : v }); }}
+              style={{ width: 64, background: T.cardAlt, border: `1px solid ${T.line}`, borderRadius: 5, padding: "5px 8px", color: T.chalk, fontSize: 13, outline: "none" }}
+            />
+          )}
+          {hist.length > 0 && (
+            <span title="Last 5 sessions, newest first" style={{ fontSize: 11, color: T.muted, letterSpacing: "0.2em" }}>
+              {hist.slice(0, 5).map((en) => (en.t === "easy" ? "E" : en.t === "hard" ? "H" : en.t === "right" ? "R" : "·")).join(" ")}
+            </span>
+          )}
+        </div>
+        {e.rr && (
+          <div style={{ fontSize: 11, color: T.muted, marginTop: 4 }}>
+            Range {e.rr[0]}-{e.rr[1]} reps — log reps on your limiting set
+          </div>
+        )}
+        {nudge && (
+          <div style={{ fontSize: 12, color: nudge.kind === "down" ? T.danger : T.optic, marginTop: 6, lineHeight: 1.5 }}>
+            → {nudge.text}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const hiitLabel =
-    derived.cycleWeek === 8 ? "Deload week" : derived.weekNum % 2 === 1 ? "4×4 week" : "10-20-30 week";
+  const hiitLabel = derived.cycleWeek === 8 ? "Deload week" : "Norwegian 4×4 (2x this week)";
+  const corePhase = coreCyclePhase(derived.weekNum);
+  const corePhaseLabel = derived.weekNum > 12
+    ? "Core: Phase 3 (hold — re-test due)"
+    : corePhase === 1 ? "Core: Phase 1 (motor control)" : corePhase === 2 ? "Core: Phase 2 (anti-rotation load)" : "Core: Phase 3 (rotational power)";
+  const ratioLabel = derived.weekNum >= 11 ? (derived.weekNum <= 12 ? "Ratio: 1:1 taper" : "Ratio: 1:1 hold") : "Ratio: L3/R2";
 
   const TABS = [
     ["today", "Today"],
@@ -643,6 +850,8 @@ function TrainingTracker() {
 
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
               <Chip active>{hiitLabel}</Chip>
+              <Chip active>{corePhaseLabel}</Chip>
+              <Chip active>{ratioLabel}</Chip>
               <Chip active={derived.tennisCount >= 2}>
                 Tennis {derived.tennisCount}/2
               </Chip>
@@ -653,6 +862,35 @@ function TrainingTracker() {
                 {derived.plan.note}
               </div>
             )}
+
+            {(() => {
+              const primerDone = todayLog.done.includes("primer");
+              const s = PROG.primer;
+              return (
+                <Card style={{ marginBottom: 12, borderColor: primerDone ? T.optic : T.line }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                    <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600, fontSize: 18, textTransform: "uppercase", letterSpacing: "0.04em", color: primerDone ? T.optic : T.chalk }}>
+                      {s.name}
+                    </div>
+                    <Btn small primary={!primerDone} onClick={() => toggleDone("primer")}>
+                      {primerDone ? "Done ✓" : "Mark done"}
+                    </Btn>
+                  </div>
+                  {s.exercises.map((e, i) => (
+                    <div key={i} style={{ padding: "8px 0", borderTop: `1px solid ${T.line}` }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 14, fontWeight: 600 }}>{e.n}</div>
+                          <div style={{ fontSize: 13, color: T.muted }}>{e.d}</div>
+                          {e.c && <div style={{ fontSize: 12.5, color: T.muted, marginTop: 5, lineHeight: 1.5 }}>{e.c}</div>}
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5, alignSelf: "flex-start" }}><a href={e.v} target="_blank" rel="noreferrer" style={{ color: T.opticDim, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>▶ form</a><a href={imgLink(e.v)} target="_blank" rel="noreferrer" style={{ color: T.opticDim, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>▣ pics</a></div>
+                      </div>
+                    </div>
+                  ))}
+                </Card>
+              );
+            })()}
 
             {derived.plan.main.map((key) => {
               const s = PROG[key];
@@ -675,10 +913,12 @@ function TrainingTracker() {
                           <div style={{ fontSize: 13, color: T.muted }}>{e.d}</div>
                           {e.c && <div style={{ fontSize: 12.5, color: T.muted, marginTop: 5, lineHeight: 1.5 }}>{e.c}</div>}
                         </div>
-                        <a href={e.v} target="_blank" rel="noreferrer" style={{ color: T.opticDim, fontSize: 12, alignSelf: "flex-start", textDecoration: "none", whiteSpace: "nowrap" }}>
-                          ▶ form
-                        </a>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5, alignSelf: "flex-start" }}>
+                          <a href={e.v} target="_blank" rel="noreferrer" style={{ color: T.opticDim, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>▶ form</a>
+                          <a href={imgLink(e.v)} target="_blank" rel="noreferrer" style={{ color: T.opticDim, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>▣ pics</a>
+                        </div>
                       </div>
+                      {renderTracking(e)}
                     </div>
                   ))}
                 </Card>
@@ -758,12 +998,13 @@ function TrainingTracker() {
             <SectionLabel>Weekly skeleton</SectionLabel>
             <Card>
               {[
-                ["Mon", "Pull"],
-                ["Tue", "HIIT (" + hiitLabel + ")"],
-                ["Wed", "Legs / Core + Tennis 8pm"],
-                ["Thu", "Yoga / Pilates"],
-                ["Fri", "Push"],
-                ["Sat/Sun", "Tennis OR Long Zone 2 (75-90 min)"],
+                ["Mon", "Pull + Core A (structural)"],
+                ["Tue", "Norwegian 4×4 (1st of 2)"],
+                ["Wed", "Legs · Power + Tennis Core + Tennis 8pm"],
+                ["Thu", "Push + Core B (structural)"],
+                ["Fri", "Norwegian 4×4 (2nd of 2)"],
+                ["Sat", "Tennis OR Long Zone 2 (75-90 min) — cap 2 tennis/week"],
+                ["Sun", "Rest + meal prep. Notion review. No training."],
               ].map(([d, s], i) => (
                 <div key={d} style={{ display: "flex", gap: 14, padding: "8px 0", borderTop: i ? `1px solid ${T.line}` : "none" }}>
                   <div style={{ fontFamily: "'Oswald', sans-serif", width: 70, color: T.optic, fontWeight: 600, fontSize: 14, textTransform: "uppercase" }}>{d}</div>
@@ -777,13 +1018,38 @@ function TrainingTracker() {
               <div style={{ fontSize: 14, lineHeight: 1.7 }}>
                 Zone 2: HR 120-130 (measured). HIIT: HR 157-165 (90-95% of HRmax 174).
                 Power cue: 3s eccentric, explosive concentric, every lift.
-                Left side always leads; left exercises first when fresh.
-                Tennis cap: 2/week until HRV stabilises above 55.
+                Left side always leads; left exercises first when fresh, 3:2 set ratio.
+                Tennis cap: 2/week (Wed evening + one weekend day) until HRV stabilises above 55.
+              </div>
+            </Card>
+
+            <SectionLabel>Equipment</SectionLabel>
+            <Card>
+              <div style={{ fontSize: 14, lineHeight: 1.7 }}>
+                2× 15 kg dumbbells (primary compound-lift tool) · 2× 16 kg kettlebells (swings, front squats, windmills, single-arm work) ·
+                Technogym bench with integrated 10 kg DBs (small-muscle/rehab only — lateral raises, rear delts, rotator cuff) ·
+                Pull-up bar · resistance bands. No cable machine, barbell, or rack.
+                Flag: 15 kg DBs and 16 kg KBs are likely to be outgrown for hinge/squat strength within 4-8 weeks —
+                next purchase is a heavier adjustable pair or a single heavier KB (24kg+).
+              </div>
+            </Card>
+
+            <SectionLabel>HRV downgrade rules</SectionLabel>
+            <Card>
+              <div style={{ fontSize: 13, lineHeight: 1.7, color: T.muted }}>
+                Trigger: 7-day HRV below 43ms, or waking Body Battery below 35.<br/>
+                <b style={{ color: T.chalk }}>Norwegian 4×4</b> → Zone 2 only, 30-40 min.<br/>
+                <b style={{ color: T.chalk }}>Pull / Push</b> → 2 sets, ~60% load. If Body Battery &lt;25: mobility + Core Block only.<br/>
+                <b style={{ color: T.chalk }}>Wednesday Legs/Power</b> → skip plyometrics, reduce hinge to technique sets, keep core + Zone 2.<br/>
+                <b style={{ color: T.chalk }}>Core &amp; Daily Primer</b> → never downgrade, always restorative.<br/>
+                <b style={{ color: T.chalk }}>Long Zone 2</b> → reduce to 45-60 min, low end of zone.<br/>
+                <b style={{ color: T.chalk }}>Tennis</b> → social rally, not competitive points.<br/>
+                Never more than 2 consecutive high-intensity days or 2 consecutive rest days. HRV suppressed 3+ days → 3-5 day deload, prioritise sleep.
               </div>
             </Card>
 
             <SectionLabel>Session detail</SectionLabel>
-            {["pull", "legs", "push", "hiit44", "hiit1020", "deload", "tennis", "longz2", "yoga"].map((key) => {
+            {["primer", "pull", "legs", "push", "hiit44", "deload", "tennis", "longz2"].map((key) => {
               const s = PROG[key];
               const open = planOpen === key;
               const hasOverride = data.overrides && data.overrides[key];
@@ -805,6 +1071,7 @@ function TrainingTracker() {
                     <div style={{ marginTop: 10 }}>
                       {editRows.map((row, i) => (
                         <div key={i} style={{ borderTop: `1px solid ${T.line}`, padding: "10px 0" }}>
+                          <div style={{ fontSize: 11, color: T.muted, marginBottom: 4 }}>ID: {row.id || "(none — no tag tracking)"}</div>
                           <input
                             value={row.n}
                             onChange={(ev) => { const r = [...editRows]; r[i] = { ...r[i], n: ev.target.value }; setEditRows(r); }}
@@ -828,7 +1095,7 @@ function TrainingTracker() {
                         </div>
                       ))}
                       <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
-                        <Btn small onClick={() => setEditRows([...editRows, { n: "", d: "", c: "", v: yt("exercise form") }])}>+ Add exercise</Btn>
+                        <Btn small onClick={() => setEditRows([...editRows, { id: "custom-" + Date.now(), n: "", d: "", c: "", v: yt("exercise form") }])}>+ Add exercise</Btn>
                         <Btn small primary onClick={saveEdit}>Save</Btn>
                         <Btn small onClick={() => setEditKey(null)}>Cancel</Btn>
                       </div>
@@ -843,7 +1110,7 @@ function TrainingTracker() {
                             <div style={{ fontSize: 13, color: T.muted }}>{e.d}</div>
                             {e.c && <div style={{ fontSize: 12.5, color: T.muted, marginTop: 5, lineHeight: 1.5 }}>{e.c}</div>}
                           </div>
-                          <a href={e.v} target="_blank" rel="noreferrer" style={{ color: T.opticDim, fontSize: 12, alignSelf: "flex-start", textDecoration: "none", whiteSpace: "nowrap" }}>▶ form</a>
+                          <div style={{ display: "flex", flexDirection: "column", gap: 5, alignSelf: "flex-start" }}><a href={e.v} target="_blank" rel="noreferrer" style={{ color: T.opticDim, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>▶ form</a><a href={imgLink(e.v)} target="_blank" rel="noreferrer" style={{ color: T.opticDim, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>▣ pics</a></div>
                         </div>
                       </div>
                     ))}
@@ -938,19 +1205,42 @@ function TrainingTracker() {
                 style={{ background: T.cardAlt, border: `1px solid ${T.line}`, borderRadius: 6, padding: "10px 12px", color: T.chalk, fontSize: 15, outline: "none", width: "100%" }}
               />
               <div style={{ fontSize: 13, marginTop: 10, color: data.settings.anchorConfirmed ? T.optic : T.danger }}>
-                {data.settings.anchorConfirmed ? "Confirmed" : "Unconfirmed default (22 Jun 2026)"}
+                {data.settings.anchorConfirmed ? "Confirmed — week 1 = " + data.settings.anchorDate : "Unconfirmed default (6 Jul 2026)"}
+              </div>
+            </Card>
+
+            <SectionLabel>Data</SectionLabel>
+            <Card>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                <Btn small primary onClick={exportData}>Export JSON</Btn>
+                <label style={{ display: "inline-block" }}>
+                  <span style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600, fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase", padding: "8px 14px", borderRadius: 6, cursor: "pointer", border: `1px solid ${T.line}`, color: T.chalk, display: "inline-block" }}>
+                    Import JSON
+                  </span>
+                  <input type="file" accept="application/json,.json" onChange={importData} style={{ display: "none" }} />
+                </label>
+              </div>
+              <div style={{ fontSize: 12, color: T.muted, marginTop: 10, lineHeight: 1.5 }}>
+                Export downloads sessions, weights, settings and programme edits as a
+                JSON file (photos not included). Import replaces this device's data
+                with the file's contents. Use the pair to move data between phone and
+                laptop, or share the exported file with Claude for analysis.
               </div>
             </Card>
 
             <SectionLabel>About</SectionLabel>
             <Card>
               <div style={{ fontSize: 13, color: T.muted, lineHeight: 1.6 }}>
-                Seeded from Master_Context_Briefing V20 §14.6 (protocol updated 20 Jun 2026).
-                Navigate to any date on the Today tab to view, log, or backfill that day.
-                Edit any session's exercises on the Plan tab (edited sessions show a • mark).
-                Logging here is raw training data only; Sunday reflective review stays in Notion.
+                Protocol per V20 §14.6 as updated 5 July 2026 (integrates 28 June research;
+                week 1 of all cycles anchors Monday 6 July 2026). Sunday is rest + meal prep.
+                Tennis: Wednesday 8pm and Saturday only, cap 2/week.
+                Effort tags + reps on the 7 loaded lifts drive progression nudges — informational
+                only; load changes are yours, made via Edit on the Plan tab (edited sessions show a • mark;
+                exercise IDs survive edits so tag history is never lost).
+                Navigate to any date on the Today tab to view, log, or backfill.
+                Raw training data lives here; Sunday reflective review stays in Notion.
                 Data and photos are stored in this browser only — they will not sync
-                between your phone and laptop. Each device keeps its own log.
+                between your phone and laptop. Use Export/Import above to move data.
               </div>
             </Card>
           </>
