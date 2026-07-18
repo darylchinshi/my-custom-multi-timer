@@ -60,7 +60,10 @@ const FONT_LINK =
   "@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Inter:wght@400;500;600&display=swap');";
 
 /* ------------------------------------------------------------------ */
-/*  SEED DATA — V20 Section 14.6 programme                             */
+/*  SEED DATA — Master Context Briefing Section 14.6 programme         */
+/*  Rep ranges confirmed 18 July 2026: pull-ups 5-8, face-pulls 12-20, */
+/*  lateral raise 12-15, push-ups 8-12, kettlebell deadlift 6-8,       */
+/*  goblet squat 8-10, Pallof press 8/side.                            */
 /* ------------------------------------------------------------------ */
 
 const yt = (q) =>
@@ -73,70 +76,70 @@ const PROGRAMME = {
   primer: {
     name: "Daily Longevity Primer (5 min · every day)",
     exercises: [
-      { n: "Single-leg stand progression", d: "30s each leg, left first · eyes open → eyes closed", c: "Weak/left side first. Trains the Araújo (BJSM 2022) 10-second single-leg-stance mortality predictor. Once eyes-open holds feel solid, progress to eyes closed for a harder balance challenge.", v: yt("single leg balance progression eyes closed") },
-      { n: "Sit-to-stand / floor transitions", d: "3-4 controlled reps, minimal hand support", c: "Controlled descent to the floor and back up, using as little hand support as you can manage safely. Directly trains the Sitting-Rising Test — each point of SRT score is linked to a 21% improvement in survival (Brito 2014).", v: yt("sitting rising test practice") },
-      { n: "Bodyweight hip hinge + single-leg RDL reach", d: "5 reps each side, no load", c: "Grooves the hinge pattern underpinning your deadlift power and protects the lower back. The single-leg version doubles as a balance and hip-stability drill.", v: yt("single leg RDL reach bodyweight") },
+      { n: "Single-leg stand progression", d: "30 seconds each leg, left first · eyes open → eyes closed", c: "Weak/left side first. Trains the Araújo (British Journal of Sports Medicine, 2022) 10-second single-leg-stance mortality predictor. Once eyes-open holds feel solid, progress to eyes closed for a harder balance challenge.", v: yt("single leg balance progression eyes closed") },
+      { n: "Sit-to-stand / floor transitions", d: "3-4 controlled reps, minimal hand support", c: "Controlled descent to the floor and back up, using as little hand support as you can manage safely. Directly trains the Sitting-Rising Test — each point of test score is linked to a 21% improvement in survival (Brito 2014).", v: yt("sitting rising test practice") },
+      { n: "Bodyweight hip hinge + single-leg Romanian deadlift reach", d: "5 reps each side, no load", c: "Grooves the hinge pattern underpinning your deadlift power and protects the lower back. The single-leg version doubles as a balance and hip-stability drill.", v: yt("single leg RDL reach bodyweight") },
       { n: "Tandem walk + heel-to-toe + ankle pogo taps", d: "~1 min total", c: "Fall-risk and reactive-balance training. Small, quick ankle/calf taps — this is priming reactive balance, not a calf workout.", v: yt("tandem walk balance drill") },
     ],
   },
   pull: {
     name: "Pull",
     exercises: [
-      { n: "Pull-ups / band-assisted pull-ups", d: "3 sets", c: "Full dead hang at the bottom, chin clears the bar at top. Trains grip strength directly — the PURE-study lever linking grip to longevity. Use a resistance band under the knees for assistance if needed to hit clean reps.", v: yt("band assisted pull up form") },
-      { id: "sa-row", rr: [8, 12], mode: "branch", accom: "Reps maxed at 12 and tagged easy two sessions running. No heavier DB exists yet: progress via 3s eccentric + 2s pause at the top, or a towel-grip row for grip overload. A heavier adjustable DB is the durable fix.", regress: "Two sessions at the bottom of range tagged hard: drop to 2 sets per side, or use the bench 10 kg DB for a technique-reset session.", n: "Single-arm row, 15 kg DB", d: "Left 3 sets, right 2 sets · 8-12 reps · 3s eccentric", c: "Hinge at the hips, flat back, brace the core, free hand supported on the bench. Pull the elbow past the ribs, squeeze the shoulder blade, then lower over a full 3 seconds — left side always goes first while fresh.", v: yt("single arm dumbbell row form") },
-      { n: "Band face-pulls + external rotation", d: "3 sets", c: "Pull the band to face height, elbows high, squeeze the shoulder blades together — this targets the posterior rotator cuff, the shoulder-stability piece tennis constantly loads.", v: yt("band face pull external rotation") },
-      { id: "hammer-curl", rr: [8, 12], mode: "branch", accom: "Reps maxed and tagged easy two sessions running: slow to a 4s eccentric, or switch to offset-grip or Zottman curls before thinking about load.", regress: "Two sessions at the bottom of range tagged hard: drop a set, or use the bench 10 kg DBs for a lighter week.", n: "Hammer / biceps curl, 15 kg DB", d: "Left 3 sets, right 2 sets · 8-12 reps", c: "Elbows pinned to the sides, no swinging the torso for momentum. Left-first 3:2 ratio, same as the row.", v: yt("hammer curl dumbbell form") },
+      { id: "pullups", rr: [5, 8], mode: "branch", accom: "Reps maxed at 8 and tagged easy two sessions running: reduce band assistance (or go unassisted), add a 3-second lowering, or load with a small backpack. Progress assistance before load.", regress: "Two sessions at the bottom of range tagged hard: use a thicker assistance band, or drop to 2 sets and rebuild.", n: "Pull-ups / band-assisted pull-ups", d: "3 sets · 5-8 reps", c: "Full dead hang at the bottom, chin clears the bar at top. Trains grip strength directly — the PURE-study lever linking grip to longevity. Use a resistance band under the knees for assistance if needed to hit clean reps.", v: yt("band assisted pull up form") },
+      { id: "sa-row", rr: [8, 12], mode: "branch", accom: "Reps maxed at 12 and tagged easy two sessions running. No heavier dumbbell exists yet: progress via 3-second lowering + 2-second pause at the top, or a towel-grip row for grip overload. A heavier adjustable dumbbell is the durable fix.", regress: "Two sessions at the bottom of range tagged hard: drop to 2 sets per side, or use the bench 10 kg dumbbell for a technique-reset session.", n: "Single-arm row, 15 kg dumbbell", d: "Left 3 sets, right 2 sets · 8-12 reps · 3-second lowering", c: "Hinge at the hips, flat back, brace the core, free hand supported on the bench. Pull the elbow past the ribs, squeeze the shoulder blade, then lower over a full 3 seconds — left side always goes first while fresh.", v: yt("single arm dumbbell row form") },
+      { id: "face-pulls", rr: [12, 20], mode: "branch", accom: "Reps maxed at 20 and tagged easy two sessions running: move to a heavier band, or slow the return to 3 seconds on every rep.", regress: "Two sessions at the bottom of range tagged hard: switch to a lighter band and rebuild clean reps.", n: "Band face-pulls + external rotation", d: "3 sets · 12-20 reps", c: "Pull the band to face height, elbows high, squeeze the shoulder blades together — this targets the posterior rotator cuff, the shoulder-stability piece tennis constantly loads.", v: yt("band face pull external rotation") },
+      { id: "hammer-curl", rr: [8, 12], mode: "branch", accom: "Reps maxed and tagged easy two sessions running: slow to a 4-second lowering, or switch to offset-grip or Zottman curls before thinking about load.", regress: "Two sessions at the bottom of range tagged hard: drop a set, or use the bench 10 kg dumbbells for a lighter week.", n: "Hammer / biceps curl, 15 kg dumbbell", d: "Left 3 sets, right 2 sets · 8-12 reps", c: "Elbows pinned to the sides, no swinging the torso for momentum. Left-first 3:2 ratio, same as the row.", v: yt("hammer curl dumbbell form") },
       { n: "Core Block A — structural (see below)", d: "See Core Block A card", c: "Anti-extension emphasis. Detailed below, phase-adjusted to your current week.", v: yt("mcgill big 3 core exercises") },
-      { n: "Zone 2 bike finisher", d: "~21 min, HR 120-130", c: "Steady, unbroken effort — conversational pace throughout.", v: yt("zone 2 cycling explained") },
+      { n: "Zone 2 bike finisher", d: "~21 min, heart rate 120-130", c: "Steady, unbroken effort — conversational pace throughout.", v: yt("zone 2 cycling explained") },
     ],
   },
   push: {
     name: "Push",
     exercises: [
-      { id: "floor-press", rr: [6, 10], mode: "branch", accom: "Reps maxed and tagged easy two sessions running: progress via 1.5-rep floor press, 3s eccentric + pause at the bottom, or a feet-elevated push-up superset.", regress: "Two sessions at the bottom of range tagged hard: reduce to 2 sets, or regress to standard push-ups for a session.", n: "Floor press / bench DB press, 15 kg", d: "3 sets · 6-10 reps · 3s eccentric", c: "Elbows at roughly 45° from the torso rather than flared to 90°. Press up and slightly inward, control the full 3-second lowering rather than letting the weight drop.", v: yt("dumbbell floor press form") },
-      { id: "oh-press", rr: [6, 10], mode: "branch", accom: "Reps maxed and tagged easy two sessions running: switch to the bottoms-up KB press (16 kg) for stability overload, or add a 2s pause at the bottom of each rep.", regress: "Two sessions at the bottom of range tagged hard: half-kneeling position with the bench 10 kg DB for a technique reset.", n: "Single-arm overhead press, 15 kg DB or KB", d: "Left 3 sets, right 2 sets · 6-10 reps", c: "Shoulder stability under a single-sided load. Start at shoulder height, press straight overhead without arching the lower back to compensate. Left first while fresh.", v: yt("single arm overhead press kettlebell") },
-      { n: "Band/DB lateral raise + eccentric external rotation", d: "3 sets", c: "Lateral raise to shoulder height, leading with the elbow. The eccentric external rotation is the evidence-backed tennis-shoulder protector — control the slow return every rep, don't let the band snap back.", v: yt("eccentric external rotation shoulder band") },
-      { n: "Push-up variations", d: "2 sets", c: "Standard, incline, or feet-elevated depending on the day's capacity — pick the variation that lets you hit clean reps to near-failure.", v: yt("push up variations progression") },
+      { id: "floor-press", rr: [6, 10], mode: "branch", accom: "Reps maxed and tagged easy two sessions running: progress via 1.5-rep floor press, 3-second lowering + pause at the bottom, or a feet-elevated push-up superset.", regress: "Two sessions at the bottom of range tagged hard: reduce to 2 sets, or regress to standard push-ups for a session.", n: "Floor press / bench dumbbell press, 15 kg", d: "3 sets · 6-10 reps · 3-second lowering", c: "Elbows at roughly 45° from the torso rather than flared to 90°. Press up and slightly inward, control the full 3-second lowering rather than letting the weight drop.", v: yt("dumbbell floor press form") },
+      { id: "oh-press", rr: [6, 10], mode: "branch", accom: "Reps maxed and tagged easy two sessions running: switch to the bottoms-up kettlebell press (16 kg) for stability overload, or add a 2-second pause at the bottom of each rep.", regress: "Two sessions at the bottom of range tagged hard: half-kneeling position with the bench 10 kg dumbbell for a technique reset.", n: "Single-arm overhead press, 15 kg dumbbell or kettlebell", d: "Left 3 sets, right 2 sets · 6-10 reps", c: "Shoulder stability under a single-sided load. Start at shoulder height, press straight overhead without arching the lower back to compensate. Left first while fresh.", v: yt("single arm overhead press kettlebell") },
+      { id: "lat-raise", rr: [12, 15], mode: "branch", accom: "Reps maxed at 15 and tagged easy two sessions running: step up within the bench dumbbells (to 10 kg per hand maximum), or slow the lowering to 3 seconds on every rep.", regress: "Two sessions at the bottom of range tagged hard: switch to band-only and rebuild clean reps.", n: "Band/dumbbell lateral raise + eccentric external rotation", d: "3 sets · 12-15 reps", c: "Lateral raise to shoulder height, leading with the elbow. The eccentric external rotation is the evidence-backed tennis-shoulder protector — control the slow return every rep, don't let the band snap back.", v: yt("eccentric external rotation shoulder band") },
+      { id: "pushups", rr: [8, 12], mode: "branch", accom: "Reps maxed at 12 and tagged easy two sessions running: progress the variation — feet-elevated, deficit, or tempo push-ups — rather than adding reps beyond the range.", regress: "Two sessions at the bottom of range tagged hard: regress to incline push-ups and rebuild.", n: "Push-up variations", d: "2 sets · 8-12 reps", c: "Standard, incline, or feet-elevated depending on the day's capacity — pick the variation that lets you hit clean reps to near-failure.", v: yt("push up variations progression") },
       { n: "Core Block B — structural (see below)", d: "See Core Block B card", c: "Anti-rotation / lateral emphasis. Detailed below, phase-adjusted to your current week.", v: yt("side plank progression") },
-      { n: "Zone 2 bike finisher", d: "~21 min, HR 120-130", c: "Steady, unbroken effort — conversational pace throughout.", v: yt("zone 2 cycling explained") },
+      { n: "Zone 2 bike finisher", d: "~21 min, heart rate 120-130", c: "Steady, unbroken effort — conversational pace throughout.", v: yt("zone 2 cycling explained") },
     ],
   },
   legs: {
     name: "Legs · Power + Tennis Core",
     exercises: [
-      { n: "Lateral bounds / skater hops", d: "3×4 each side · stick landing 2s", c: "Push off the left foot laterally, land softly on the right foot only, hold the landing 2 full seconds on a bent (never locked) knee. The landing is the exercise — this trains the deceleration/braking that prevents most tennis lower-body injuries.", v: yt("lateral bounds skater hops tennis") },
-      { n: "Single-leg pogo hops", d: "2×6 each side · left first", c: "Rapid small bounces using ankle and calf only, minimal knee bend, ground contact as short as possible. If the left ankle feels noticeably weaker, that's your reactive-power deficit to note.", v: yt("single leg pogo hop drill") },
-      { id: "kb-dl-rdl", mode: "streak", standing: "At/near equipment ceiling (research-confirmed): progress via 3s eccentric + 1-2s pause, single-leg RDL (halves load per side), band-loaded RDL, or KB + DB combined. Next purchase: 24 kg+ KB or heavier adjustable DBs.", accom: "apply one of the standing-flag accommodation strategies above.", n: "Double-KB deadlift (2×16kg) or 15 kg DB RDL", d: "3 sets, 3s eccentric, explosive up", c: "Soft knees, hinge at the hips pushing them back, weights stay close to the legs. Lower over 3 seconds, drive up with intent. This is your primary posterior-chain strength builder.", v: yt("double kettlebell deadlift form") },
-      { id: "goblet-squat", mode: "streak", standing: "At/near equipment ceiling (research-confirmed): progress via slow 3s descent + pause at depth, 1.5 reps, or double-KB front squat (32 kg total) as the heavier variant. A heavier bell is the durable fix.", accom: "apply one of the standing-flag accommodation strategies above.", n: "Goblet squat, 15 kg DB or double-KB front squat", d: "3 sets", c: "Weight at chest height, sit the hips back and down, chest stays up, knees track over the toes.", v: yt("double kettlebell front squat form") },
-      { id: "kb-swing", mode: "streak", accom: "add a 5th set of 10, or sharpen hip-snap intent; a 24 kg bell is the true progression.", regress: "Drop to 3×10 and re-groove the hinge pattern.", n: "Kettlebell swing, 16 kg", d: "4×10", c: "Ballistic hip-hinge power, not a squat. Drive the hips forward explosively — this is the single best posterior-chain 'bang for buck' movement and builds the first-step explosiveness tennis needs.", v: yt("kettlebell swing form") },
-      { n: "Half-kneeling Pallof press (band)", d: "Left 3 sets, right 2 sets", c: "Anti-rotation — the tennis-core anchor. Press the band straight out from the chest and resist the pull rotating your torso. This is the prerequisite strength for safe rotational power later in the block.", v: yt("half kneeling pallof press") },
+      { n: "Lateral bounds / skater hops", d: "3 sets of 4 each side · stick landing 2 seconds", c: "Push off the left foot laterally, land softly on the right foot only, hold the landing 2 full seconds on a bent (never locked) knee. The landing is the exercise — this trains the deceleration/braking that prevents most tennis lower-body injuries.", v: yt("lateral bounds skater hops tennis") },
+      { n: "Single-leg pogo hops", d: "2 sets of 6 each side · left first", c: "Rapid small bounces using ankle and calf only, minimal knee bend, ground contact as short as possible. If the left ankle feels noticeably weaker, that's your reactive-power deficit to note.", v: yt("single leg pogo hop drill") },
+      { id: "kb-dl-rdl", mode: "streak", standing: "At/near equipment ceiling (research-confirmed): progress via 3-second lowering + 1-2 second pause, single-leg Romanian deadlift (halves load per side), band-loaded Romanian deadlift, or kettlebell + dumbbell combined. Next purchase: 24 kg+ kettlebell or heavier adjustable dumbbells.", accom: "apply one of the standing-flag accommodation strategies above.", n: "Double-kettlebell deadlift (2×16 kg) or 15 kg dumbbell Romanian deadlift", d: "3 sets · 6-8 reps · 3-second lowering, explosive up", c: "Soft knees, hinge at the hips pushing them back, weights stay close to the legs. Lower over 3 seconds, drive up with intent. This is your primary posterior-chain strength builder.", v: yt("double kettlebell deadlift form") },
+      { id: "goblet-squat", mode: "streak", standing: "At/near equipment ceiling (research-confirmed): progress via slow 3-second descent + pause at depth, 1.5 reps, or double-kettlebell front squat (32 kg total) as the heavier variant. A heavier bell is the durable fix.", accom: "apply one of the standing-flag accommodation strategies above.", n: "Goblet squat, 15 kg dumbbell or double-kettlebell front squat", d: "3 sets · 8-10 reps", c: "Weight at chest height, sit the hips back and down, chest stays up, knees track over the toes.", v: yt("double kettlebell front squat form") },
+      { id: "kb-swing", mode: "streak", accom: "add a 5th set of 10, or sharpen hip-snap intent; a 24 kg bell is the true progression.", regress: "Drop to 3 sets of 10 and re-groove the hinge pattern.", n: "Kettlebell swing, 16 kg", d: "4 sets of 10 reps", c: "Ballistic hip-hinge power, not a squat. Drive the hips forward explosively — this is the single best posterior-chain 'bang for buck' movement and builds the first-step explosiveness tennis needs.", v: yt("kettlebell swing form") },
+      { n: "Half-kneeling Pallof press (band)", d: "Left 3 sets, right 2 sets · 8 reps per side", c: "Anti-rotation — the tennis-core anchor. Press the band straight out from the chest and resist the pull rotating your torso. This is the prerequisite strength for safe rotational power later in the block.", v: yt("half kneeling pallof press") },
       { n: "Tennis Functional Core — see below", d: "See Core Tennis card", c: "Rotational/anti-rotation work, phase-adjusted to your current week.", v: yt("rotational core tennis training") },
-      { n: "Zone 2 bike finisher", d: "~17 min, HR 120-130", c: "Shorter finisher today since this is already the highest-load morning session, and evening tennis adds a second stimulus.", v: yt("zone 2 cycling explained") },
+      { n: "Zone 2 bike finisher", d: "~17 min, heart rate 120-130", c: "Shorter finisher today since this is already the highest-load morning session, and evening tennis adds a second stimulus.", v: yt("zone 2 cycling explained") },
     ],
   },
   hiit44: {
-    name: "HIIT — Norwegian 4×4",
+    name: "High-Intensity Intervals — Norwegian 4×4",
     exercises: [
-      { n: "Norwegian 4×4", d: "4 min at HR 157-165, 3 min recovery, 4 rounds", c: "10 min easy warm-up first. Each hard interval builds to 90-95% max HR (157-165) by the end of the 4 minutes, not from the start. 3 min active recovery on the bike at ~120bpm — HR must drop below 130 before the next interval; if it doesn't, you went out too hard. 5-10 min cool-down after round 4, allow HR to drop below 110 gradually rather than stopping abruptly. This is your single highest-leverage longevity action — protect it.", v: yt("norwegian 4x4 interval training") },
+      { n: "Norwegian 4×4", d: "4 min at heart rate 157-165, 3 min recovery, 4 rounds", c: "10 min easy warm-up first. Each hard interval builds to 90-95% of maximum heart rate (157-165) by the end of the 4 minutes, not from the start. 3 min active recovery on the bike at about 120 beats per minute — heart rate must drop below 130 before the next interval; if it doesn't, you went out too hard. 5-10 min cool-down after round 4, allow heart rate to drop below 110 gradually rather than stopping abruptly. This is your single highest-leverage longevity action — protect it.", v: yt("norwegian 4x4 interval training") },
     ],
   },
   deload: {
-    name: "HIIT — Deload (week 8)",
+    name: "High-Intensity Intervals — Deload (week 8)",
     exercises: [
-      { n: "Deload intervals", d: "6 × 1 min at 90% HRmax / 2 min easy", c: "Lower-intensity week by design. 6 rounds of 1 minute moderately hard (not max effort) with 2 minutes easy recovery between rounds. The purpose is active recovery going into the next block, not a new personal best.", v: yt("hiit deload week") },
+      { n: "Deload intervals", d: "6 rounds of 1 min at 90% of maximum heart rate / 2 min easy", c: "Lower-intensity week by design. 6 rounds of 1 minute moderately hard (not max effort) with 2 minutes easy recovery between rounds. The purpose is active recovery going into the next block, not a new personal best.", v: yt("hiit deload week") },
     ],
   },
   tennis: {
     name: "Tennis",
     exercises: [
       { n: "Tennis 10+ warm-up protocol", d: "Before every match", c: "Dynamic movement first: light jog, lateral shuffles, leg swings, roughly 3-4 minutes. Then progressive ball work building intensity: mini-tennis, groundstrokes, volleys, overheads, serves — around 10 minutes total before full-pace play.", v: yt("tennis 10 plus warm up ITF") },
-      { n: "Match / session", d: "Counts toward the week's HIIT load. Electrolyte tablets.", c: "Wednesday evening tennis is a high-intensity exposure alongside Tuesday and Friday's Norwegian 4x4. Weekend tennis is Saturday only (cap 2/week); a tennis Saturday replaces that week's long Zone 2 — accepted trade-off. Electrolytes on hand, especially in humidity.", v: yt("tennis footwork drills") },
+      { n: "Match / session", d: "Counts toward the week's high-intensity load. Electrolyte tablets.", c: "Wednesday evening tennis is a high-intensity exposure alongside Tuesday and Friday's Norwegian 4×4. Weekend tennis is Saturday only (cap 2/week); a tennis Saturday replaces that week's long Zone 2 — accepted trade-off. Electrolytes on hand, especially in humidity.", v: yt("tennis footwork drills") },
     ],
   },
   longz2: {
     name: "Long Zone 2",
     exercises: [
-      { n: "Long Zone 2", d: "75-90 min, HR 120-130 (measured)", c: "Sustained, steady effort for the full duration with no surges or intervals. HR should sit in the 120-130 band throughout — if it creeps above that, ease the pace back rather than pushing through.", v: yt("long zone 2 training session") },
+      { n: "Long Zone 2", d: "75-90 min, heart rate 120-130 (measured)", c: "Sustained, steady effort for the full duration with no surges or intervals. Heart rate should sit in the 120-130 band throughout — if it creeps above that, ease the pace back rather than pushing through.", v: yt("long zone 2 training session") },
     ],
   },
   rest: { name: "Rest / Accessories only", exercises: [] },
@@ -148,22 +151,22 @@ const PROGRAMME = {
 /* ------------------------------------------------------------------ */
 
 const CORE_STRUCTURAL = {
-  1: { label: "Phase 1 (wks 1-4) · Endurance & motor control", text: "McGill Big 3 — modified curl-up, side plank (knees), bird dog (toe-tap). 5-3-1 descending pyramid, 8-10s holds. Dead bug retained as a warm-up regression." },
-  2: { label: "Phase 2 (wks 5-8) · Add anti-rotation load", text: "Big 3 with longer holds. Side plank progresses to feet-staggered. Add stir-the-pot or RKC plank for anti-rotation under instability." },
+  1: { label: "Phase 1 (wks 1-4) · Endurance & motor control", text: "McGill Big 3 — modified curl-up, side plank (knees), bird dog (toe-tap). 5-3-1 descending pyramid, 8-10 second holds. Dead bug retained as a warm-up regression." },
+  2: { label: "Phase 2 (wks 5-8) · Add anti-rotation load", text: "Big 3 with longer holds. Side plank progresses to feet-staggered. Add stir-the-pot or hard-style plank for anti-rotation under instability." },
   3: { label: "Phase 3 (wks 9-12) · Rotational power", text: "Big 3 at maintenance volume — endurance base is built, this is upkeep. Side plank now weighted to keep progressing." },
 };
 
 const CORE_TENNIS = {
-  1: { label: "Phase 1 (wks 1-4) · Endurance & motor control", text: "Half-kneeling Pallof press (band), 3×8, left 3 / right 2. Bird-dog focus carried over from the Big 3 work." },
-  2: { label: "Phase 2 (wks 5-8) · Add anti-rotation load", text: "Standing Pallof press, left 3 / right 2. Band-resisted chop & lift, 3×8 each side. KB windmill (16kg) at light/assisted range." },
-  3: { label: "Phase 3 (wks 9-12) · Rotational power", text: "Explosive band rotations/throws, 3×6 fast reps. Full-range KB windmill (16kg). Rotational med-ball-style slams for racquet-head-speed transfer." },
+  1: { label: "Phase 1 (wks 1-4) · Endurance & motor control", text: "Half-kneeling Pallof press (band), 3 sets of 8, left 3 / right 2. Bird-dog focus carried over from the Big 3 work." },
+  2: { label: "Phase 2 (wks 5-8) · Add anti-rotation load", text: "Standing Pallof press, left 3 / right 2. Band-resisted chop & lift, 3 sets of 8 each side. Kettlebell windmill (16 kg) at light/assisted range." },
+  3: { label: "Phase 3 (wks 9-12) · Rotational power", text: "Explosive band rotations/throws, 3 sets of 6 fast reps. Full-range kettlebell windmill (16 kg). Rotational medicine-ball-style slams for racquet-head-speed transfer." },
 };
 
 const ACCESSORIES = [
-  "Dead hang EMOM, left bias",
-  "Eccentric wrist extensor, 3.5 kg",
-  "Post-meal Zone 2 walk — lunch",
-  "Post-meal Zone 2 walk — dinner",
+  "Dead hang — every minute on the minute, 5 minutes: hang 20-30 seconds at the top of each minute, left-hand-biased grip",
+  "Eccentric wrist extensor, 3.5 kg — 3 sets of 15 per side, 3-second lowering",
+  "Post-meal Zone 2 walk — lunch (10-15 minutes, easy pace)",
+  "Post-meal Zone 2 walk — dinner (10-15 minutes, easy pace)",
 ];
 
 /* ------------------------------------------------------------------ */
@@ -202,16 +205,16 @@ const weekNumber = (today, anchorStr) => {
 /* ------------------------------------------------------------------ */
 
 function sessionsForDay(dow, weekNum, tennisCount) {
-  // 2x Norwegian 4x4 per week (Tue + Fri). Week 8 of each 8-week cycle = deload (HIIT only).
+  // 2x Norwegian 4×4 per week (Tue + Fri). Week 8 of each 8-week cycle = deload (intervals session only).
   const cycleWeek = ((((weekNum - 1) % 8) + 8) % 8) + 1;
   const hiitKey = cycleWeek === 8 ? "deload" : "hiit44";
 
   switch (dow) {
     case 1: return { main: ["pull"], note: null };
-    case 2: return { main: [hiitKey], note: "First of two Norwegian 4x4 sessions this week (second is Friday)." };
-    case 3: return { main: ["legs", "tennis"], note: "Power/plyo, hip hinge, and tennis-functional core this morning — stay sub-maximal, tennis is tonight at 8pm. High-intensity exposures this week: Tue 4x4, tonight's tennis, Fri 4x4. Fast wind-down after: home ~22:00, lights out 22:30." };
+    case 2: return { main: [hiitKey], note: "First of two Norwegian 4×4 sessions this week (second is Friday)." };
+    case 3: return { main: ["legs", "tennis"], note: "Power/plyometrics, hip hinge, and tennis-functional core this morning — stay sub-maximal, tennis is tonight at 8pm. High-intensity exposures this week: Tuesday's 4×4, tonight's tennis, Friday's 4×4. Fast wind-down after: home ~22:00, lights out 22:30." };
     case 4: return { main: ["push"], note: null };
-    case 5: return { main: [hiitKey], note: "Second Norwegian 4x4 session this week." };
+    case 5: return { main: [hiitKey], note: "Second Norwegian 4×4 session this week." };
     case 6:
       if (tennisCount >= 2)
         return { main: ["longz2"], note: "Tennis cap (2/week) reached. Long Zone 2 today." };
@@ -234,8 +237,8 @@ function coreCyclePhase(weekNum) {
 
 /* ------------------------------------------------------------------ */
 /*  PROGRESSION NUDGE ENGINE                                           */
-/*  branch mode: rep-range double progression (4 lifts)                */
-/*  streak mode: 3 identical tags in a row (KB swing + standing-flag)  */
+/*  branch mode: rep-range double progression (8 lifts)                */
+/*  streak mode: 3 identical tags in a row (swing + standing-flag)     */
 /* ------------------------------------------------------------------ */
 
 function computeNudge(ex, hist) {
@@ -266,7 +269,7 @@ function computeNudge(ex, hist) {
     if (h[0].t === "hard") return {
       kind: "down",
       text: ex.standing
-        ? "Tagged too hard 3x running — this lift is under-loaded on paper, so the pattern usually signals recovery (sleep/HRV), not load. Check recovery before regressing."
+        ? "Tagged too hard 3x running — this lift is under-loaded on paper, so the pattern usually signals recovery (sleep / heart rate variability), not load. Check recovery before regressing."
         : (ex.regress || "Reduce a set next session."),
     };
   }
@@ -280,7 +283,7 @@ function computeNudge(ex, hist) {
 const STORE_KEY = "training-tracker-v1";
 
 const DEFAULT_DATA = {
-  settings: { anchorDate: "2026-07-06", anchorConfirmed: true },
+  settings: { anchorDate: "2026-07-06", anchorConfirmed: true, lastExport: null },
   overrides: {}, // per-session user edits to exercises
   exlog: {}, // per-exercise effort tags + reps: { "sa-row": [{ d, t, r }] }
   sessions: {}, // { "2026-07-04": { done: ["tennis"], notes: "..." } }
@@ -297,7 +300,7 @@ async function loadData() {
         parsed.settings.anchorDate = "2026-07-06";
         parsed.settings.anchorConfirmed = true;
       }
-      return { ...DEFAULT_DATA, ...parsed };
+      return { ...DEFAULT_DATA, ...parsed, settings: { ...DEFAULT_DATA.settings, ...(parsed.settings || {}) } };
     }
   } catch (e) {
     /* key missing on first run — fine */
@@ -568,7 +571,7 @@ function TrainingTracker() {
     if (p.pull) fillCore(p.pull.exercises, "structural", structural);
     if (p.push) fillCore(p.push.exercises, "structural", structural);
     if (p.legs) fillCore(p.legs.exercises, "tennis", tennisCore);
-    // Asymmetry taper (anchor 6 Jul 2026): weeks 1-10 = L3/R2, weeks 11-12 = 1:1, hold 1:1 after 12 pending re-test
+    // Asymmetry taper (anchor 6 Jul 2026): weeks 1-10 = Left 3 / Right 2, weeks 11-12 = 1:1, hold 1:1 after 12 pending re-test
     if (weekNumForCore >= 11) {
       const label = weekNumForCore <= 12 ? "3 sets each side (1:1 taper, wks 11-12)" : "3 sets each side (1:1 hold — asymmetry re-test due)";
       Object.keys(p).forEach((k) => {
@@ -612,6 +615,12 @@ function TrainingTracker() {
     );
 
   const todayLog = data.sessions[tKey] || { done: [], notes: "" };
+
+  // Backup nudge: 14 days since last export from this tracker (or never)
+  const backupDays = data.settings.lastExport
+    ? Math.floor((Date.now() - data.settings.lastExport) / (24 * 3600 * 1000))
+    : null;
+  const backupOverdue = backupDays === null || backupDays >= 14;
 
   const toggleDone = (key) => {
     const done = todayLog.done.includes(key)
@@ -679,7 +688,8 @@ function TrainingTracker() {
   };
 
   const exportData = () => {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const stamped = { ...data, settings: { ...data.settings, lastExport: Date.now() } };
+    const blob = new Blob([JSON.stringify(stamped, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -688,6 +698,7 @@ function TrainingTracker() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    persist(stamped);
   };
 
   const importData = (e) => {
@@ -699,7 +710,7 @@ function TrainingTracker() {
       try {
         const parsed = JSON.parse(reader.result);
         if (!parsed || typeof parsed !== "object" || !parsed.sessions) throw new Error("bad format");
-        persist({ ...DEFAULT_DATA, ...parsed });
+        persist({ ...DEFAULT_DATA, ...parsed, settings: { ...DEFAULT_DATA.settings, ...(parsed.settings || {}) } });
       } catch (err) {
         setSaveState("error");
         setTimeout(() => setSaveState(""), 1500);
@@ -788,7 +799,7 @@ function TrainingTracker() {
   const corePhaseLabel = derived.weekNum > 12
     ? "Core: Phase 3 (hold — re-test due)"
     : corePhase === 1 ? "Core: Phase 1 (motor control)" : corePhase === 2 ? "Core: Phase 2 (anti-rotation load)" : "Core: Phase 3 (rotational power)";
-  const ratioLabel = derived.weekNum >= 11 ? (derived.weekNum <= 12 ? "Ratio: 1:1 taper" : "Ratio: 1:1 hold") : "Ratio: L3/R2";
+  const ratioLabel = derived.weekNum >= 11 ? (derived.weekNum <= 12 ? "Ratio: 1:1 taper" : "Ratio: 1:1 hold") : "Ratio: Left 3 / Right 2";
 
   const TABS = [
     ["today", "Today"],
@@ -809,7 +820,7 @@ function TrainingTracker() {
             Court Board
           </div>
           <div style={{ fontFamily: "'Oswald', sans-serif", color: T.muted, fontSize: 14, letterSpacing: "0.08em" }}>
-            WK {derived.weekNum} · C{derived.cycleWeek}/8
+            Week {derived.weekNum} · Cycle {derived.cycleWeek}/8
           </div>
         </div>
 
@@ -819,11 +830,19 @@ function TrainingTracker() {
           </div>
         )}
 
+        {backupOverdue && (
+          <div style={{ fontSize: 12, color: T.danger, border: `1px solid ${T.danger}`, background: "rgba(224,122,95,0.10)", borderRadius: 6, padding: "8px 10px", marginTop: 10, lineHeight: 1.5 }}>
+            {backupDays === null
+              ? "No backup has ever been exported from this tracker. Data lives in this browser only — Export JSON in Set-up, or Export All on the dashboard."
+              : "Backup overdue: last export was " + backupDays + " days ago. Export JSON in Set-up, or Export All on the dashboard."}
+          </div>
+        )}
+
         {!data.settings.anchorConfirmed && (
           <Card style={{ marginTop: 14, borderColor: T.optic }}>
             <div style={{ fontSize: 13, color: T.chalk }}>
               Week counting is anchored to <b>{data.settings.anchorDate}</b> (unconfirmed).
-              Confirm or change it in Set-up — HIIT parity and deload depend on it.
+              Confirm or change it in Set-up — the interval-session schedule and deload depend on it.
             </div>
           </Card>
         )}
@@ -1016,10 +1035,10 @@ function TrainingTracker() {
             <SectionLabel>Prescriptions</SectionLabel>
             <Card>
               <div style={{ fontSize: 14, lineHeight: 1.7 }}>
-                Zone 2: HR 120-130 (measured). HIIT: HR 157-165 (90-95% of HRmax 174).
-                Power cue: 3s eccentric, explosive concentric, every lift.
+                Zone 2: heart rate 120-130 (measured). High-intensity intervals: heart rate 157-165 (90-95% of maximum heart rate 174).
+                Power cue: 3-second lowering, explosive lift, every exercise.
                 Left side always leads; left exercises first when fresh, 3:2 set ratio.
-                Tennis cap: 2/week (Wed evening + one weekend day) until HRV stabilises above 55.
+                Tennis cap: 2/week (Wednesday evening + one weekend day) until heart rate variability stabilises above 55.
               </div>
             </Card>
 
@@ -1027,24 +1046,24 @@ function TrainingTracker() {
             <Card>
               <div style={{ fontSize: 14, lineHeight: 1.7 }}>
                 2× 15 kg dumbbells (primary compound-lift tool) · 2× 16 kg kettlebells (swings, front squats, windmills, single-arm work) ·
-                Technogym bench with integrated 10 kg DBs (small-muscle/rehab only — lateral raises, rear delts, rotator cuff) ·
+                Technogym bench with integrated 10 kg dumbbells (small-muscle/rehab only — lateral raises, rear delts, rotator cuff) ·
                 Pull-up bar · resistance bands. No cable machine, barbell, or rack.
-                Flag: 15 kg DBs and 16 kg KBs are likely to be outgrown for hinge/squat strength within 4-8 weeks —
-                next purchase is a heavier adjustable pair or a single heavier KB (24kg+).
+                Flag: 15 kg dumbbells and 16 kg kettlebells are likely to be outgrown for hinge/squat strength within 4-8 weeks —
+                next purchase is a heavier adjustable pair or a single heavier kettlebell (24 kg+).
               </div>
             </Card>
 
-            <SectionLabel>HRV downgrade rules</SectionLabel>
+            <SectionLabel>Heart rate variability downgrade rules</SectionLabel>
             <Card>
               <div style={{ fontSize: 13, lineHeight: 1.7, color: T.muted }}>
-                Trigger: 7-day HRV below 43ms, or waking Body Battery below 35.<br/>
+                Trigger: 7-day heart rate variability below 43 milliseconds, or waking Body Battery below 35.<br/>
                 <b style={{ color: T.chalk }}>Norwegian 4×4</b> → Zone 2 only, 30-40 min.<br/>
                 <b style={{ color: T.chalk }}>Pull / Push</b> → 2 sets, ~60% load. If Body Battery &lt;25: mobility + Core Block only.<br/>
                 <b style={{ color: T.chalk }}>Wednesday Legs/Power</b> → skip plyometrics, reduce hinge to technique sets, keep core + Zone 2.<br/>
                 <b style={{ color: T.chalk }}>Core &amp; Daily Primer</b> → never downgrade, always restorative.<br/>
                 <b style={{ color: T.chalk }}>Long Zone 2</b> → reduce to 45-60 min, low end of zone.<br/>
                 <b style={{ color: T.chalk }}>Tennis</b> → social rally, not competitive points.<br/>
-                Never more than 2 consecutive high-intensity days or 2 consecutive rest days. HRV suppressed 3+ days → 3-5 day deload, prioritise sleep.
+                Never more than 2 consecutive high-intensity days or 2 consecutive rest days. Heart rate variability suppressed 3+ days → 3-5 day deload, prioritise sleep.
               </div>
             </Card>
 
@@ -1071,7 +1090,7 @@ function TrainingTracker() {
                     <div style={{ marginTop: 10 }}>
                       {editRows.map((row, i) => (
                         <div key={i} style={{ borderTop: `1px solid ${T.line}`, padding: "10px 0" }}>
-                          <div style={{ fontSize: 11, color: T.muted, marginBottom: 4 }}>ID: {row.id || "(none — no tag tracking)"}</div>
+                          <div style={{ fontSize: 11, color: T.muted, marginBottom: 4 }}>Identifier: {row.id || "(none — no tag tracking)"}</div>
                           <input
                             value={row.n}
                             onChange={(ev) => { const r = [...editRows]; r[i] = { ...r[i], n: ev.target.value }; setEditRows(r); }}
@@ -1195,8 +1214,8 @@ function TrainingTracker() {
             <SectionLabel>Week 1 anchor (Monday)</SectionLabel>
             <Card>
               <div style={{ fontSize: 13, color: T.muted, marginBottom: 10, lineHeight: 1.5 }}>
-                Drives odd/even HIIT parity (odd = Norwegian 4×4, even = 10-20-30) and the
-                week-8 deload. Set it to the Monday your current cycle started.
+                Drives the week counter for the core phases, the asymmetry taper, and the
+                week-8 deload of each 8-week cycle. Set it to the Monday your current cycle started.
               </div>
               <input
                 type="date"
@@ -1224,19 +1243,22 @@ function TrainingTracker() {
                 Export downloads sessions, weights, settings and programme edits as a
                 JSON file (photos not included). Import replaces this device's data
                 with the file's contents. Use the pair to move data between phone and
-                laptop, or share the exported file with Claude for analysis.
+                laptop, or share the exported file with Claude for analysis. A reminder
+                appears on the Today tab if no export has run in 14 days. The dashboard's
+                Export All also covers this tracker's data.
               </div>
             </Card>
 
             <SectionLabel>About</SectionLabel>
             <Card>
               <div style={{ fontSize: 13, color: T.muted, lineHeight: 1.6 }}>
-                Protocol per V20 §14.6 as updated 5 July 2026 (integrates 28 June research;
-                week 1 of all cycles anchors Monday 6 July 2026). Sunday is rest + meal prep.
+                Protocol per Master Context Briefing §14.6 as updated 5 July 2026 (integrates 28 June research;
+                week 1 of all cycles anchors Monday 6 July 2026). Rep ranges completed across all lifts
+                18 July 2026. Sunday is rest + meal prep.
                 Tennis: Wednesday 8pm and Saturday only, cap 2/week.
-                Effort tags + reps on the 7 loaded lifts drive progression nudges — informational
+                Effort tags and rep logging on the tracked lifts drive progression nudges — informational
                 only; load changes are yours, made via Edit on the Plan tab (edited sessions show a • mark;
-                exercise IDs survive edits so tag history is never lost).
+                exercise identifiers survive edits so tag history is never lost).
                 Navigate to any date on the Today tab to view, log, or backfill.
                 Raw training data lives here; Sunday reflective review stays in Notion.
                 Data and photos are stored in this browser only — they will not sync

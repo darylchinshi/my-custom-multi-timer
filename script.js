@@ -1,9 +1,7 @@
-
 // ============================================
-// TIMER INITIALIZATION WITH RETRY LOGIC
+// TIMER INITIALIZATION
 // ============================================
 function initializeTimers() {
-    // --- Global Helper Functions ---
     function formatTime(milliseconds) {
         if (milliseconds < 0) {
             milliseconds = Math.abs(milliseconds);
@@ -45,11 +43,10 @@ function initializeTimers() {
         }
     }
 
-    // --- Timer Functions ---
     function update75thBirthdayCountdown() {
         const elem = document.getElementById('countdown-75');
         if (!elem) return;
-        
+
         const birthDate = new Date('1981-08-04');
         const targetAge = 75;
         const targetDate = new Date(birthDate.getFullYear() + targetAge, birthDate.getMonth(), birthDate.getDate());
@@ -67,7 +64,7 @@ function initializeTimers() {
     function updateCountUpFeb2025() {
         const elem = document.getElementById('countup-feb-2025');
         if (!elem) return;
-        
+
         const startDate = new Date('2025-02-01T00:00:00').getTime();
         const now = new Date().getTime();
         const elapsedTime = now - startDate;
@@ -82,7 +79,7 @@ function initializeTimers() {
     function updateCountUpJan122026() {
         const elem = document.getElementById('countup-jan12-2026');
         if (!elem) return;
-        
+
         const startDate = new Date('2026-01-12T00:00:00').getTime();
         const now = new Date().getTime();
         const elapsedTime = now - startDate;
@@ -97,7 +94,7 @@ function initializeTimers() {
     function updateCountdownDec312026() {
         const elem = document.getElementById('countdown-dec31-2026');
         if (!elem) return;
-        
+
         const endDate = new Date('2026-12-31T23:59:59').getTime();
         const now = new Date().getTime();
         const timeRemaining = endDate - now;
@@ -109,13 +106,11 @@ function initializeTimers() {
         }
     }
 
-    // --- Initial Updates ---
     update75thBirthdayCountdown();
     updateCountUpFeb2025();
     updateCountUpJan122026();
     updateCountdownDec312026();
 
-    // --- Live Intervals ---
     setInterval(update75thBirthdayCountdown, 1000);
     setInterval(updateCountUpFeb2025, 1000);
     setInterval(updateCountUpJan122026, 1000);
@@ -252,7 +247,7 @@ function initializeTodos() {
     function renderTodos() {
         todoList.innerHTML = '';
         if (todos.length === 0) {
-            todoList.innerHTML = '<p style="text-align: center; color: #7f8c8d;">No tasks added yet.</p>';
+            todoList.innerHTML = '<p class="empty-message">No tasks added yet.</p>';
             return;
         }
         todos.forEach((todo, index) => {
@@ -333,10 +328,10 @@ function initializeHabits() {
     function renderHabits() {
         habitListContainer.innerHTML = '';
         const todayKey = getCurrentDateKey();
-        currentDateDisplay.textContent = new Date().toLocaleDateString('en-GB', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
+        currentDateDisplay.textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
         if (habits.length === 0) {
-            habitListContainer.innerHTML = '<p style="text-align: center; color: #7f8c8d;">No habits added yet.</p>';
+            habitListContainer.innerHTML = '<p class="empty-message">No habits added yet.</p>';
             return;
         }
 
@@ -410,7 +405,7 @@ function initializeLinks() {
     function renderLinks() {
         linkList.innerHTML = '';
         if (links.length === 0) {
-            linkList.innerHTML = '<p style="text-align: center; color: #7f8c8d;">No links added yet.</p>';
+            linkList.innerHTML = '<p class="empty-message">No links added yet.</p>';
             return;
         }
         links.forEach((link, index) => {
@@ -472,6 +467,7 @@ function initializeGoals() {
     function renderGoals() {
         goalsListContainer.innerHTML = '';
         if (goals.length === 0) {
+            goalsListContainer.appendChild(noGoalsMessage);
             noGoalsMessage.style.display = 'block';
             return;
         }
@@ -482,13 +478,12 @@ function initializeGoals() {
             goalItem.className = 'goal-item';
             const percentage = goal.target > 0 ? (goal.current / goal.target) * 100 : 0;
             const progressText = goal.current >= goal.target && goal.target > 0 ? `Goal Achieved!` : `${Math.floor(percentage)}%`;
-            const progressFillColor = goal.current >= goal.target && goal.target > 0 ? '#28a745' : '#28a745';
 
             goalItem.innerHTML = `
                 <h3>${goal.name}</h3>
                 <p>Current: <span data-id="current-value">${goal.current}</span> / <span data-id="target-value">${goal.target}</span></p>
                 <div class="progress-bar-container">
-                    <div class="progress-bar-fill" style="width: ${Math.min(100, percentage)}%; background-color: ${progressFillColor};"></div>
+                    <div class="progress-bar-fill" style="width: ${Math.min(100, percentage)}%;"></div>
                     <span class="progress-bar-text">${progressText}</span>
                 </div>
                 <div class="goal-controls">
@@ -546,9 +541,197 @@ function initializeGoals() {
 }
 
 // ============================================
-// MASTER INITIALIZATION WITH RETRY
+// SINKING FUND (SGD)
+// ============================================
+function initializeFund() {
+    const targetInput = document.getElementById('fund-target-input');
+    const entryDateInput = document.getElementById('fund-entry-date');
+    const entryAmountInput = document.getElementById('fund-entry-amount');
+    const addEntryBtn = document.getElementById('add-fund-entry-btn');
+    const entryList = document.getElementById('fund-entry-list');
+    const progressFill = document.getElementById('fund-progress-fill');
+    const progressText = document.getElementById('fund-progress-text');
+    const totalDisplay = document.getElementById('fund-total-display');
+
+    if (!targetInput || !addEntryBtn) return;
+
+    const DEFAULT_TARGET = 300000;
+    let fund = JSON.parse(localStorage.getItem('sinkingFund')) || { target: DEFAULT_TARGET, entries: [] };
+    if (!fund.target || fund.target <= 0) fund.target = DEFAULT_TARGET;
+    if (!Array.isArray(fund.entries)) fund.entries = [];
+
+    function todayKey() {
+        const t = new Date();
+        return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+    }
+
+    function fmtSGD(n) {
+        return 'S$' + Number(n).toLocaleString('en-SG', { maximumFractionDigits: 0 });
+    }
+
+    function saveFund() {
+        localStorage.setItem('sinkingFund', JSON.stringify(fund));
+    }
+
+    function renderFund() {
+        const total = fund.entries.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
+        const pct = fund.target > 0 ? (total / fund.target) * 100 : 0;
+
+        progressFill.style.width = Math.min(100, pct) + '%';
+        progressText.textContent = pct >= 100 ? 'Funded' : Math.floor(pct) + '%';
+        totalDisplay.textContent = fmtSGD(total) + ' saved of ' + fmtSGD(fund.target);
+
+        entryList.innerHTML = '';
+        if (fund.entries.length === 0) {
+            entryList.innerHTML = '<p class="empty-message">No contributions logged yet.</p>';
+            return;
+        }
+        [...fund.entries]
+            .sort((a, b) => b.date.localeCompare(a.date))
+            .forEach((entry) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="fund-entry-date">${entry.date}</span>
+                    <span class="fund-entry-amount">${fmtSGD(entry.amount)}</span>
+                    <button class="delete-fund-btn">Delete</button>
+                `;
+                li.querySelector('.delete-fund-btn').addEventListener('click', () => {
+                    fund.entries = fund.entries.filter((e) => e !== entry);
+                    saveFund();
+                    renderFund();
+                });
+                entryList.appendChild(li);
+            });
+    }
+
+    targetInput.value = fund.target;
+    entryDateInput.value = todayKey();
+
+    targetInput.addEventListener('change', () => {
+        const v = parseInt(targetInput.value, 10);
+        if (!isNaN(v) && v > 0) {
+            fund.target = v;
+            saveFund();
+            renderFund();
+        }
+    });
+
+    addEntryBtn.addEventListener('click', () => {
+        const date = entryDateInput.value || todayKey();
+        const amount = parseFloat(entryAmountInput.value);
+        if (isNaN(amount) || amount === 0) {
+            alert('Enter a contribution amount in Singapore dollars. Negative amounts are allowed for withdrawals.');
+            return;
+        }
+        fund.entries.push({ date: date, amount: amount });
+        entryAmountInput.value = '';
+        entryDateInput.value = todayKey();
+        saveFund();
+        renderFund();
+    });
+
+    renderFund();
+}
+
+// ============================================
+// BACKUP — EXPORT / IMPORT ALL + 14-DAY NUDGE
+// ============================================
+function initializeBackup() {
+    const exportBtn = document.getElementById('export-all-btn');
+    const importInput = document.getElementById('import-all-input');
+    const statusEl = document.getElementById('backup-status');
+    const bannerEl = document.getElementById('backup-banner');
+
+    if (!exportBtn || !importInput) return;
+
+    const BACKUP_KEYS = ['todos', 'quickLinks', 'quickNotes', 'habits', 'goals', 'sinkingFund', 'training-tracker-v1'];
+    const NUDGE_DAYS = 14;
+
+    function refreshStatus() {
+        const last = localStorage.getItem('lastExportAll');
+        if (!last) {
+            statusEl.textContent = 'No backup yet. Everything on this page lives in this browser only.';
+            statusEl.classList.add('overdue');
+            bannerEl.textContent = 'No backup has ever been exported. Use Export All in the Backup card below.';
+            bannerEl.style.display = 'block';
+            return;
+        }
+        const lastDate = new Date(parseInt(last, 10));
+        const days = Math.floor((Date.now() - lastDate.getTime()) / (24 * 3600 * 1000));
+        statusEl.textContent = 'Last backup: ' + lastDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) + ' (' + days + (days === 1 ? ' day' : ' days') + ' ago)';
+        if (days >= NUDGE_DAYS) {
+            statusEl.classList.add('overdue');
+            bannerEl.textContent = 'Backup overdue: last export was ' + days + ' days ago. Use Export All in the Backup card below.';
+            bannerEl.style.display = 'block';
+        } else {
+            statusEl.classList.remove('overdue');
+            bannerEl.style.display = 'none';
+        }
+    }
+
+    exportBtn.addEventListener('click', () => {
+        const payload = { exportedAt: new Date().toISOString(), source: 'mox-nox-dashboard', data: {} };
+        BACKUP_KEYS.forEach((key) => {
+            const raw = localStorage.getItem(key);
+            if (raw !== null) {
+                try {
+                    payload.data[key] = JSON.parse(raw);
+                } catch (e) {
+                    payload.data[key] = raw; // quickNotes is a plain string
+                }
+            }
+        });
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const t = new Date();
+        a.href = url;
+        a.download = 'mox-nox-backup-' + t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0') + '.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        localStorage.setItem('lastExportAll', String(Date.now()));
+        refreshStatus();
+    });
+
+    importInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        e.target.value = '';
+        if (!file) return;
+        if (!confirm('Import will replace this browser\'s data for every card (and the Training Tracker) with the file\'s contents. Continue?')) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+            try {
+                const parsed = JSON.parse(reader.result);
+                if (!parsed || typeof parsed !== 'object' || !parsed.data) throw new Error('bad format');
+                BACKUP_KEYS.forEach((key) => {
+                    if (key in parsed.data) {
+                        const value = parsed.data[key];
+                        localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
+                    }
+                });
+                alert('Import complete. Reloading.');
+                location.reload();
+            } catch (err) {
+                alert('Import failed: that file is not a valid backup.');
+            }
+        };
+        reader.readAsText(file);
+    });
+
+    refreshStatus();
+}
+
+// ============================================
+// MASTER INITIALIZATION (single-run guard)
 // ============================================
 function masterInit() {
+    // Guard: prior version ran this up to three times, stacking duplicate
+    // click listeners (one click could add multiple tasks). Run once only.
+    if (window.__moxNoxInitialised) return;
+    window.__moxNoxInitialised = true;
+
     initializeTimers();
     initializePomodoro();
     initializeTodos();
@@ -556,15 +739,14 @@ function masterInit() {
     initializeHabits();
     initializeLinks();
     initializeGoals();
+    initializeFund();
+    initializeBackup();
 }
 
-// Try immediately
+// Script is loaded at the end of <body>, so the DOM is ready immediately.
 masterInit();
 
-// Also try on DOMContentLoaded as backup
+// Backup: if the script is ever moved into <head>, this still initialises once.
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', masterInit);
 }
-
-// Also try after 100ms as fallback (for very slow DOM ready)
-setTimeout(masterInit, 100);

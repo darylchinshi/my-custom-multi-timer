@@ -1,49 +1,89 @@
+/* ------------------------------------------------------------------
+   COURT BOARD DESIGN LANGUAGE — shared with training-tracker.html
+   bg ink-green #101410 | card #1B241B | card-alt #232E23
+   line #2E3A2E | chalk #EDEBE3 | muted #93A08F
+   optic (tennis ball) #D9E64A | optic-dim #B8C43E | danger #E07A5F
+   display: Oswald condensed | body: Inter
+------------------------------------------------------------------ */
+
+:root {
+    --bg: #101410;
+    --card: #1B241B;
+    --card-alt: #232E23;
+    --line: #2E3A2E;
+    --chalk: #EDEBE3;
+    --muted: #93A08F;
+    --optic: #D9E64A;
+    --optic-dim: #B8C43E;
+    --danger: #E07A5F;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f2f5;
-    color: #333;
+    background-color: var(--bg);
+    color: var(--chalk);
     margin: 0;
     padding: 20px;
 }
 
 .header-section {
     width: 100%;
-    max-width: 1200px; /* Increased max width to accommodate 4 columns */
-    text-align: center;
+    max-width: 1200px;
+    text-align: left;
     margin-bottom: 20px;
+    border-bottom: 2px solid var(--optic);
+    padding-bottom: 10px;
 }
 
 h1 {
-    color: #2c3e50;
-    margin-bottom: 0;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 2em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--chalk);
+    margin: 0;
 }
 
-/* Removed dashboard-controls styles as we removed the element */
+/* Backup nudge banner */
+.backup-banner {
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+    background: rgba(224, 122, 95, 0.12);
+    border: 1px solid var(--danger);
+    border-radius: 8px;
+    color: var(--danger);
+    font-size: 14px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+}
 
 .container {
-    display: grid; /* Use grid for explicit layout */
-    /* Define the grid for 4 columns in the first row, 2 in the second */
-    grid-template-columns: repeat(4, 1fr); /* Default to 4 equal columns */
-    grid-auto-rows: minmax(min-content, max-content); /* Rows size to content */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(min-content, max-content);
     gap: 20px;
     width: 100%;
-    max-width: 1200px; /* Adjust max width for 4 columns */
+    max-width: 1200px;
     justify-content: center;
 }
 
-/* Assign grid areas to position cards precisely */
-#card-timers { grid-column: 1 / span 1; grid-row: 1; }
-#card-todo { grid-column: 2 / span 1; grid-row: 1; }
-#card-links { grid-column: 3 / span 1; grid-row: 1; }
-#card-notes { grid-column: 4 / span 1; grid-row: 1; }
-#card-habits { grid-column: 1 / span 2; grid-row: 2; } /* Spans 2 columns */
-#card-goals { grid-column: 3 / span 2; grid-row: 2; } /* Spans 2 columns */
-#card-training { grid-column: 1 / span 4; grid-row: 3; } /* Full-width row */
+/* Grid placement — Training Tracker first, full width */
+#card-training { grid-column: 1 / span 4; grid-row: 1; }
+#card-fund     { grid-column: 1 / span 2; grid-row: 2; }
+#card-backup   { grid-column: 3 / span 2; grid-row: 2; }
+#card-timers   { grid-column: 1 / span 1; grid-row: 3; }
+#card-todo     { grid-column: 2 / span 1; grid-row: 3; }
+#card-links    { grid-column: 3 / span 1; grid-row: 3; }
+#card-notes    { grid-column: 4 / span 1; grid-row: 3; }
+#card-habits   { grid-column: 1 / span 2; grid-row: 4; }
+#card-goals    { grid-column: 3 / span 2; grid-row: 4; }
 
 .training-tracker-frame {
     width: 100%;
@@ -51,103 +91,154 @@ h1 {
     border: none;
     border-radius: 8px;
     display: block;
-    background-color: #101410;
+    background-color: var(--bg);
 }
 
-
 .dashboard-card {
-    background-color: #ffffff;
-    padding: 25px;
+    background-color: var(--card);
+    border: 1px solid var(--line);
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    /* Removed flex and min-width as grid handles sizing */
+    text-align: left;
 }
 
 .dashboard-card h2 {
-    color: #34495e;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1.15em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
     margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 1.6em;
+    margin-bottom: 16px;
+}
+
+.dashboard-card h2 #current-date-display {
+    font-size: 0.75em;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    display: block;
+    margin-top: 4px;
+}
+
+.empty-message {
+    text-align: left;
+    color: var(--muted);
+    font-size: 14px;
 }
 
 .sub-timer-section {
-    background-color: #ecf0f1;
-    margin-bottom: 15px;
-    padding: 15px;
+    background-color: var(--card-alt);
+    margin-bottom: 12px;
+    padding: 14px;
     border-radius: 8px;
-    border: 1px solid #dde1e5;
+    border: 1px solid var(--line);
+    text-align: center;
 }
 .sub-timer-section h3 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.2em;
-    color: #555;
+    margin-bottom: 8px;
+    font-size: 0.85em;
+    color: var(--muted);
 }
 
-/* Specific Timer Font Sizes */
 .timer-display.default-timer-size {
-    font-size: 15px; /* Default for countdown/count-up timers */
-    font-weight: bold;
-    color: #e74c3c;
-    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--optic);
+    margin-bottom: 4px;
 }
 .timer-display.pomodoro-size {
-    font-size: 35px; /* Specific size for Pomodoro */
-    font-weight: bold;
-    color: #e74c3c;
+    font-family: 'Oswald', sans-serif;
+    font-size: 38px;
+    font-weight: 600;
+    color: var(--optic);
     margin-bottom: 10px;
 }
 
-/* Removed .timer-controls and its input styles */
-
-.pomodoro-controls button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    margin: 5px;
-    border-radius: 5px;
+/* Buttons — Court Board style */
+.dashboard-card button,
+.import-label span {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background-color: transparent;
+    color: var(--chalk);
+    border: 1px solid var(--line);
+    padding: 8px 14px;
+    margin: 4px 4px 4px 0;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    display: inline-block;
 }
 
-.pomodoro-controls button:hover {
-    background-color: #2980b9;
+.dashboard-card button:hover,
+.import-label span:hover {
+    border-color: var(--optic);
+    color: var(--optic);
 }
 
-.pomodoro-controls button#pausePomodoro { background-color: #f39c12; }
-.pomodoro-controls button#pausePomodoro:hover { background-color: #e67e22; }
-.pomodoro-controls button#resetPomodoro { background-color: #7f8c8d; }
-.pomodoro-controls button#resetPomodoro:hover { background-color: #6d7d7d; }
+/* Primary action buttons */
+#add-todo-btn, #add-link-btn, #add-habit-btn, #add-goal-btn,
+#add-fund-entry-btn, #export-all-btn, #startPomodoro {
+    background-color: var(--optic);
+    color: #141810;
+    border: none;
+}
+#add-todo-btn:hover, #add-link-btn:hover, #add-habit-btn:hover, #add-goal-btn:hover,
+#add-fund-entry-btn:hover, #export-all-btn:hover, #startPomodoro:hover {
+    background-color: var(--optic-dim);
+    color: #141810;
+}
+
+.dashboard-card button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
 
 .pomodoro-break-active {
-    background-color: #2ecc71;
-    color: white;
+    background-color: rgba(217, 230, 74, 0.10);
+    border-color: var(--optic);
 }
 .pomodoro-break-active .timer-display,
 .pomodoro-break-active h3 {
-    color: white;
-}
-.pomodoro-break-active button {
-    background-color: #27ae60;
-}
-.pomodoro-break-active button:hover {
-    background-color: #219d57;
+    color: var(--optic);
 }
 
-/* Common input and button styles for new sections */
+/* Inputs */
 .dashboard-card input[type="text"],
 .dashboard-card input[type="url"],
 .dashboard-card input[type="number"],
+.dashboard-card input[type="date"],
 .dashboard-card textarea {
-    width: calc(100% - 20px);
-    padding: 10px;
+    width: 100%;
+    padding: 9px 11px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    background-color: var(--card-alt);
+    border: 1px solid var(--line);
+    color: var(--chalk);
+    border-radius: 6px;
     box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+}
+.dashboard-card input:focus,
+.dashboard-card textarea:focus {
+    border-color: var(--optic-dim);
+}
+.dashboard-card input[type="date"] {
+    color-scheme: dark;
 }
 
 .dashboard-card textarea {
@@ -155,99 +246,67 @@ h1 {
     resize: vertical;
 }
 
-.dashboard-card button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin: 5px 0;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-}
-
-.dashboard-card button:hover {
-    background-color: #218838;
-}
-
-/* To-Do List Specific */
-#todo-list {
+/* List items shared style */
+#todo-list, #link-list, #fund-entry-list {
     list-style: none;
     padding: 0;
     text-align: left;
+    margin-bottom: 0;
 }
-#todo-list li {
-    background-color: #ecf0f1;
-    padding: 10px 15px;
+#todo-list li, #link-list li, #fund-entry-list li, .habit-item {
+    background-color: var(--card-alt);
+    border: 1px solid var(--line);
+    padding: 9px 13px;
     margin-bottom: 8px;
-    border-radius: 5px;
+    border-radius: 6px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.1em;
+    font-size: 14px;
+    gap: 8px;
 }
-#todo-list li.completed {
+
+#todo-list li.completed span {
     text-decoration: line-through;
-    color: #7f8c8d;
-    background-color: #dfe6e9;
-}
-#todo-list .todo-actions button {
-    background-color: #e74c3c;
-    margin-left: 10px;
-    padding: 5px 10px;
-    font-size: 0.8em;
-}
-#todo-list .todo-actions button:hover {
-    background-color: #c0392b;
-}
-#todo-list .todo-actions .complete-btn {
-    background-color: #3498db;
-}
-#todo-list .todo-actions .complete-btn:hover {
-    background-color: #2980b9;
+    color: var(--muted);
 }
 
-
-/* Habit Tracker Specific */
-#habit-list-container {
-    text-align: left;
-}
-.habit-item {
-    background-color: #ecf0f1;
-    padding: 10px 15px;
-    margin-bottom: 8px;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.1em;
-}
+#todo-list .todo-actions button,
+#link-list li button,
+#fund-entry-list li button,
 .habit-item button {
-    background-color: #3498db;
-    margin-left: 10px;
-    padding: 5px 10px;
-    font-size: 0.8em;
+    padding: 4px 9px;
+    font-size: 11px;
+    margin: 0 0 0 6px;
 }
-.habit-item button:hover {
-    background-color: #2980b9;
+
+#todo-list .todo-actions .delete-btn,
+#link-list li .delete-link-btn,
+#fund-entry-list li .delete-fund-btn,
+.habit-item .delete-habit-btn {
+    color: var(--danger);
+    border-color: var(--line);
 }
+#todo-list .todo-actions .delete-btn:hover,
+#link-list li .delete-link-btn:hover,
+#fund-entry-list li .delete-fund-btn:hover,
+.habit-item .delete-habit-btn:hover {
+    border-color: var(--danger);
+}
+
 .habit-item.completed-today {
-    background-color: #d4edda;
-    border-color: #28a745;
-    color: #28a745;
+    border-color: var(--optic);
 }
-.habit-item.completed-today .mark-habit-btn {
-    background-color: #28a745;
+.habit-item.completed-today span {
+    color: var(--optic);
 }
 
-
-/* Quick Link Launcher Specific */
+/* Quick links */
 .link-input-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 8px;
+    margin-bottom: 12px;
 }
 .link-input-group input {
     flex: 1 1 calc(50% - 10px);
@@ -256,48 +315,94 @@ h1 {
 }
 .link-input-group button {
     flex: 1 1 100px;
-    margin-top: 0;
-}
-#link-list {
-    list-style: none;
-    padding: 0;
-    text-align: left;
-}
-#link-list li {
-    background-color: #ecf0f1;
-    padding: 10px 15px;
-    margin-bottom: 8px;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.1em;
 }
 #link-list li a {
-    color: #3498db;
+    color: var(--optic-dim);
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 500;
     word-break: break-all;
 }
 #link-list li a:hover {
-    text-decoration: underline;
-}
-#link-list li button {
-    background-color: #e74c3c;
-    margin-left: 10px;
-    padding: 5px 10px;
-    font-size: 0.8em;
-}
-#link-list li button:hover {
-    background-color: #c0392b;
+    color: var(--optic);
 }
 
-/* Goal Progress Visualiser Specific */
-.goal-input-group {
-    margin-bottom: 15px;
+/* Sinking fund */
+.fund-target-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.fund-target-row label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+}
+.fund-target-row input {
+    margin-bottom: 0;
+    max-width: 160px;
+}
+.fund-total {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--chalk);
+    margin: 10px 0 14px;
+}
+.fund-input-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.fund-input-group input {
+    flex: 1 1 130px;
+    margin-bottom: 0;
+}
+.fund-input-group button {
+    flex: 0 1 90px;
+}
+#fund-entry-list li .fund-entry-date {
+    color: var(--muted);
+    font-size: 13px;
+}
+#fund-entry-list li .fund-entry-amount {
+    flex: 1;
+    text-align: right;
+    font-weight: 600;
+}
+
+/* Backup card */
+.backup-status {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+.backup-status.overdue {
+    color: var(--danger);
+}
+.backup-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+}
+.backup-note {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Goal progress */
+.goal-input-group {
+    margin-bottom: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     align-items: center;
 }
 .goal-input-group input {
@@ -307,43 +412,48 @@ h1 {
 }
 .goal-input-group button {
     flex: 1 1 100px;
-    margin-top: 0;
 }
 
 .goal-item {
-    background-color: #ecf0f1;
-    padding: 15px;
-    margin-bottom: 15px;
+    background-color: var(--card-alt);
+    border: 1px solid var(--line);
+    padding: 14px;
+    margin-bottom: 12px;
     border-radius: 8px;
-    border: 1px solid #dde1e5;
     text-align: left;
     position: relative;
 }
 .goal-item h3 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.3em;
-    color: #34495e;
+    margin-bottom: 8px;
+    font-size: 1em;
+    color: var(--chalk);
 }
 .goal-item p {
     margin-bottom: 5px;
-    font-size: 1em;
-    color: #555;
+    font-size: 14px;
+    color: var(--muted);
 }
 
 .progress-bar-container {
     width: 100%;
-    background-color: #e0e0e0;
+    background-color: var(--card-alt);
+    border: 1px solid var(--line);
     border-radius: 15px;
-    height: 30px;
-    margin: 15px 0;
+    height: 28px;
+    margin: 12px 0;
     overflow: hidden;
     position: relative;
+    box-sizing: border-box;
 }
 .progress-bar-fill {
     height: 100%;
     width: 0%;
-    background-color: #28a745;
+    background-color: var(--optic);
     border-radius: 15px;
     transition: width 0.5s ease-in-out;
     position: absolute;
@@ -354,63 +464,67 @@ h1 {
     position: absolute;
     width: 100%;
     text-align: center;
-    line-height: 30px;
-    color: #333;
-    font-weight: bold;
+    line-height: 28px;
+    color: var(--chalk);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.06em;
     z-index: 1;
+    mix-blend-mode: difference;
 }
 .goal-controls {
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-top: 8px;
 }
 .goal-controls button {
-    background-color: #3498db;
-    padding: 8px 15px;
-    font-size: 1.2em;
+    padding: 6px 14px;
+    font-size: 14px;
     margin: 0;
 }
-.goal-controls button:hover {
-    background-color: #2980b9;
-}
 .goal-delete-btn {
-    background-color: #e74c3c;
-    padding: 5px 10px;
-    font-size: 0.8em;
+    color: var(--danger);
+    padding: 4px 9px;
+    font-size: 11px;
     position: absolute;
     top: 10px;
     right: 10px;
+    margin: 0;
 }
 .goal-delete-btn:hover {
-    background-color: #c0392b;
+    border-color: var(--danger);
 }
 
-/* Responsive adjustments */
-@media (max-width: 1200px) { /* Adjust breakpoint for 4 columns */
+/* Responsive */
+@media (max-width: 1200px) {
     .container {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+        grid-template-columns: repeat(2, 1fr);
     }
-    #card-timers, #card-todo, #card-links, #card-notes, #card-habits, #card-goals, #card-training {
-        grid-column: span 1 !important; /* Reset span for smaller screens */
-        grid-row: auto !important; /* Reset row for smaller screens */
+    #card-training { grid-column: 1 / span 2 !important; grid-row: 1 !important; }
+    #card-fund     { grid-column: 1 / span 1 !important; grid-row: 2 !important; }
+    #card-backup   { grid-column: 2 / span 1 !important; grid-row: 2 !important; }
+    #card-timers, #card-todo, #card-links, #card-notes, #card-habits, #card-goals {
+        grid-column: span 1 !important;
+        grid-row: auto !important;
     }
 }
 @media (max-width: 768px) {
     .container {
-        grid-template-columns: 1fr; /* Stack columns on small screens */
-        gap: 15px; /* Slightly less gap */
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    #card-training, #card-fund, #card-backup {
+        grid-column: span 1 !important;
     }
     body {
         padding: 10px;
     }
     .dashboard-card {
-        padding: 20px;
+        padding: 16px;
     }
     h1 {
-        font-size: 1.8em;
-    }
-    .dashboard-card h2 {
-        font-size: 1.4em;
+        font-size: 1.5em;
     }
 }
