@@ -498,33 +498,41 @@ h1 {
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
+/* Tablet: two columns */
+@media (max-width: 1200px) and (min-width: 901px) {
     .container {
         grid-template-columns: repeat(2, 1fr);
     }
-    #card-training { grid-column: 1 / span 2 !important; grid-row: 1 !important; }
-    #card-fund     { grid-column: 1 / span 1 !important; grid-row: 2 !important; }
-    #card-backup   { grid-column: 2 / span 1 !important; grid-row: 2 !important; }
+    #card-training { grid-column: 1 / span 2; grid-row: 1; }
+    #card-fund     { grid-column: 1 / span 1; grid-row: 2; }
+    #card-backup   { grid-column: 2 / span 1; grid-row: 2; }
     #card-timers, #card-todo, #card-links, #card-notes, #card-habits, #card-goals {
-        grid-column: span 1 !important;
-        grid-row: auto !important;
+        grid-column: auto / span 1;
+        grid-row: auto;
     }
 }
-@media (max-width: 768px) {
+
+/* Phone: plain block stacking — ignores all grid placement, cards stack in
+   DOM order (Training Tracker first), so no breakpoint conflicts are possible */
+@media (max-width: 900px) {
     .container {
-        grid-template-columns: 1fr;
-        gap: 15px;
+        display: block;
     }
-    #card-training, #card-fund, #card-backup {
-        grid-column: span 1 !important;
+    .dashboard-card {
+        margin-bottom: 15px;
+        min-width: 0;
+        max-width: 100%;
+        padding: 16px;
+    }
+    .training-tracker-frame {
+        height: 80vh;
+        min-height: 560px;
     }
     body {
         padding: 10px;
-    }
-    .dashboard-card {
-        padding: 16px;
     }
     h1 {
         font-size: 1.5em;
     }
 }
+
