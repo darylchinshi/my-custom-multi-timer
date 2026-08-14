@@ -133,13 +133,46 @@ const PROGRAMME = {
     name: "Tennis",
     exercises: [
       { n: "Tennis 10+ warm-up protocol", d: "Before every match", c: "Dynamic movement first: light jog, lateral shuffles, leg swings, roughly 3-4 minutes. Then progressive ball work building intensity: mini-tennis, groundstrokes, volleys, overheads, serves — around 10 minutes total before full-pace play.", v: yt("tennis 10 plus warm up ITF") },
-      { n: "Match / session", d: "Counts toward the week's high-intensity load. Electrolyte tablets.", c: "Wednesday evening tennis is a high-intensity exposure alongside Tuesday and Friday's Norwegian 4×4. Weekend tennis is Saturday only (cap 2/week); a tennis Saturday replaces that week's long Zone 2 — accepted trade-off. Electrolytes on hand, especially in humidity.", v: yt("tennis footwork drills") },
+      { n: "Match / session", d: "Counts toward the week's high-intensity load. Electrolyte tablets.", c: "Wednesday evening tennis and Saturday tennis are the week's two tennis exposures. Under Protocol V1 Saturday tennis also carries the second high-intensity exposure, alongside Tuesday's single Norwegian 4×4 — the twice-weekly 4×4 prescription was retired on 14 Aug 2026 after twelve months of data showed it was never run at prescribed intensity. Electrolytes on hand, especially in humidity.", v: yt("tennis footwork drills") },
     ],
   },
   longz2: {
     name: "Long Zone 2",
     exercises: [
       { n: "Long Zone 2", d: "75-90 min, heart rate 120-130 (measured)", c: "Sustained, steady effort for the full duration with no surges or intervals. Heart rate should sit in the 120-130 band throughout — if it creeps above that, ease the pace back rather than pushing through.", v: yt("long zone 2 training session") },
+    ],
+  },
+  mobility: {
+    name: "Mobility + Tennis Core",
+    exercises: [
+      { n: "Hip flexor + adductor mobility flow", d: "6-8 min, unloaded", c: "Half-kneeling hip flexor stretch 45 seconds per side, Cossack squat 6 reps per side to end range, 90/90 hip switches 8 reps. Tennis loads the hips hard laterally and Wednesday evening is a match — this opens the ranges the evening session will use rather than adding fatigue to them.", v: yt("hip mobility routine tennis players") },
+      { n: "Thoracic spine rotations", d: "8 reps per side", c: "Open-book rotations lying on your side, knees stacked, top arm sweeping across. Rotation through the mid-back is what protects the lower back during the serve and forehand — if the thoracic spine is stiff, the lumbar spine takes the rotation instead.", v: yt("thoracic spine open book rotation") },
+      { n: "Shoulder controlled articular rotations", d: "3-5 slow reps per side", c: "Full-range shoulder circles under active control, as slow as you can manage. Serving shoulder maintenance — this is the joint that accumulates the most tennis mileage.", v: yt("shoulder CARs controlled articular rotations") },
+      { n: "Tennis Functional Core — see below", d: "See Core Tennis card", c: "Rotational and anti-rotation work, phase-adjusted to your current week. Keep it sub-maximal today — tennis is tonight.", v: yt("rotational core tennis training") },
+      { n: "Zone 2 bike block", d: "30 min, heart rate 120-130 · 06:45-07:15", c: "Steady conversational pace throughout. Wednesday is deliberately the lightest morning of the week because tennis at 8pm is the day's real stimulus and it is the tightest night for sleep.", v: yt("zone 2 cycling explained") },
+    ],
+  },
+  flex: {
+    name: "Full-body · Flex + Asymmetry",
+    exercises: [
+      { n: "Catch-up slot — repeat any missed session", d: "Substitute Monday legs, Tuesday pull, or Thursday push if one was missed", c: "This slot exists as deliberate redundancy. Under a strict 75 Hard attempt, days get missed — Friday is where the week recovers rather than losing a muscle group entirely. If nothing was missed, run the asymmetry work below.", v: yt("full body workout dumbbell kettlebell") },
+      { id: "asym-split-squat", rr: [6, 10], mode: "branch", accom: "Reps maxed at 10 and tagged easy two sessions running: add a 3-second lowering, hold a 2-second pause at the bottom, or progress to a deficit (front foot elevated 5 cm).", regress: "Two sessions at the bottom of range tagged hard: reduce the rear-foot elevation, or go bodyweight and rebuild.", n: "Bulgarian split squat, 15 kg dumbbells", d: "Left 3 sets, right 2 sets · 6-10 reps per side", c: "Rear foot on the bench, front shin roughly vertical, drop straight down rather than forward. This is the primary lower-body lift in the protocol and the most direct attack on the 35% rate-of-force-development asymmetry — left leg always goes first while fresh.", v: yt("bulgarian split squat form") },
+      { id: "asym-carry", rr: [30, 60], mode: "branch", accom: "Duration maxed at 60 seconds and tagged easy two sessions running: use both kettlebells for a heavier single-side load, or add a 5 kg backpack.", regress: "Two sessions tagged hard: drop to 20-30 seconds per side and rebuild.", n: "Suitcase carry, 16 kg kettlebell", d: "Left 3 sets, right 2 sets · 30-60 seconds per side", c: "Walk with one kettlebell at your side, shoulders level, resisting the sideways lean. Trains grip and lateral core together — the two things the Morrow test flagged. Left side carries first and longest.", v: yt("suitcase carry kettlebell form") },
+      { id: "asym-grip", rr: [20, 40], mode: "branch", accom: "Duration maxed and tagged easy two sessions running: add load with a backpack, or move to a single-arm hang for 10-15 seconds per side.", regress: "Two sessions tagged hard: use a band under the feet for assistance.", n: "Dead hang, left-biased", d: "3 sets · 20-40 seconds", c: "Full dead hang from the bar, shoulders active not shrugged. Direct work on the 19.6% grip asymmetry — shift weight slightly toward the left hand on each hang, and re-test grip at week 12 against the under-10% target.", v: yt("dead hang grip strength") },
+      { n: "Eccentric wrist extensor, 3.5 kg", d: "3 sets · 15 reps per side · 3-second lowering", c: "Forearm supported on the bench, palm down, lower the weight over a full 3 seconds and use the other hand to reset. Tennis-elbow prevention — the eccentric portion is the entire point, so never let it drop fast.", v: yt("eccentric wrist extension tennis elbow") },
+      { n: "Zone 2 bike block", d: "30 min, heart rate 120-130 · 06:45-07:15", c: "Steady conversational pace. Friday's bike is Zone 2, not intervals — the week's single 4×4 was Tuesday.", v: yt("zone 2 cycling explained") },
+    ],
+  },
+  walk: {
+    name: "Workout 2 — Outdoor Walk",
+    exercises: [
+      { n: "Zone 1 outdoor walk", d: "45 minutes continuous · 19:45-20:30 · heart rate below 110", c: "Deliberately easy. This must not become a second hard session — the left-side asymmetry and the HRV downgrade rules both argue against it, and the point of the slot is 75 Hard compliance plus glucose disposal after dinner, not training stimulus. Must be continuous and outdoors to count under strict 75 Hard rules; a walk to the train plus a stroll round the block does not. Default to walking with Jac where possible so the time is not extracted from the evening.", v: yt("zone 1 walking pace heart rate") },
+    ],
+  },
+  pickleball: {
+    name: "Pickleball / Ping Pong with son",
+    exercises: [
+      { n: "Outdoor play, 45+ minutes", d: "Counts as Workout 2 under 75 Hard", c: "Confirmed outdoors and typically over 45 minutes, so it satisfies the outdoor-workout requirement without adding a separate obligation to the day. Keep it recreational — Sunday is the light day, not a training day.", v: yt("pickleball basics rules") },
     ],
   },
   rest: { name: "Rest / Accessories only", exercises: [] },
@@ -163,10 +196,10 @@ const CORE_TENNIS = {
 };
 
 const ACCESSORIES = [
+  "Daily Longevity Primer, 5 min — never downgraded: single-leg stand 30s per side left first, eyes open then closed · sit-to-stand floor transitions 3-4 reps minimal hand support · bodyweight hip hinge + single-leg Romanian deadlift reach 5 per side · tandem walk, heel-to-toe and ankle pogo taps ~1 min",
   "Dead hang — every minute on the minute, 5 minutes: hang 20-30 seconds at the top of each minute, left-hand-biased grip",
   "Eccentric wrist extensor, 3.5 kg — 3 sets of 15 per side, 3-second lowering",
-  "Post-meal Zone 2 walk — lunch (10-15 minutes, easy pace)",
-  "Post-meal Zone 2 walk — dinner (10-15 minutes, easy pace)",
+  "Whey shake 06:15 — 1 scoop Optimum Nutrition Gold Standard (24g protein) + 5g creatine + coffee powder. Replaces breakfast.",
 ];
 
 /* ------------------------------------------------------------------ */
@@ -205,26 +238,31 @@ const weekNumber = (today, anchorStr) => {
 /* ------------------------------------------------------------------ */
 
 function sessionsForDay(dow, weekNum, tennisCount) {
-  // 2x Norwegian 4×4 per week (Tue + Fri). Week 8 of each 8-week cycle = deload (intervals session only).
+  // PROTOCOL V1 (14 Aug 2026). One Norwegian 4×4 per week, Tuesday only — twelve
+  // months of Garmin data showed the twice-weekly prescription was never executed
+  // at prescribed intensity (all sessions avg HR 106-138 against a 157-165
+  // requirement). Saturday tennis carries the second high-intensity exposure.
+  // Morning = 30 min bike (06:45-07:15) + 30 min second block (07:15-07:45).
+  // Workout 2 = 45 min outdoor walk 19:45-20:30, every day except Wed (tennis)
+  // and Sun (pickleball). Week 8 of each 8-week cycle = deload.
   const cycleWeek = ((((weekNum - 1) % 8) + 8) % 8) + 1;
   const hiitKey = cycleWeek === 8 ? "deload" : "hiit44";
 
   switch (dow) {
-    case 1: return { main: ["pull"], note: null };
-    case 2: return { main: [hiitKey], note: "First of two Norwegian 4×4 sessions this week (second is Friday)." };
-    case 3: return { main: ["legs", "tennis"], note: "Power/plyometrics, hip hinge, and tennis-functional core this morning — stay sub-maximal, tennis is tonight at 8pm. High-intensity exposures this week: Tuesday's 4×4, tonight's tennis, Friday's 4×4. Fast wind-down after: home ~22:00, lights out 22:30." };
-    case 4: return { main: ["push"], note: null };
-    case 5: return { main: [hiitKey], note: "Second Norwegian 4×4 session this week." };
+    case 1:
+      return { main: ["legs", "walk"], note: "Legs sits on Monday, not Tuesday, to put maximum distance between lower-body lifting and tomorrow's 4×4, which is itself lower-body loading. Freshest morning of the week after Sunday's light day." };
+    case 2:
+      return { main: [hiitKey, "pull", "walk"], note: "The week's only Norwegian 4×4. Verification rule: if Garmin does not show Training Effect 4.0 or above, it was not a 4×4 and should not be logged as one. Pull is paired with it deliberately — upper-body pulling is the least affected by prior cycling, and it sits roughly 72 hours before Saturday tennis where the left-side asymmetry matters most." };
+    case 3:
+      return { main: ["mobility", "tennis"], note: "Mobility only this morning — no lifting. Tennis at 8pm is the one grandfathered late session and Wednesday is the tightest night for sleep. Tennis serves as Workout 2, so no evening walk. Fast wind-down after: home ~22:15, in bed by 23:00." };
+    case 4:
+      return { main: ["push", "walk"], note: null };
+    case 5:
+      return { main: ["flex", "walk"], note: "Flex slot — repeat anything missed earlier in the week, otherwise run the asymmetry work. This is deliberate redundancy against 75 Hard resets: a missed Monday does not cost the week a muscle group." };
     case 6:
-      if (tennisCount >= 2)
-        return { main: ["longz2"], note: "Tennis cap (2/week) reached. Long Zone 2 today." };
-      return {
-        main: ["tennis", "longz2"],
-        note: "Choose one: tennis (2nd of the week, cap 2) OR long Zone 2 75-90 min. A tennis Saturday means no long Zone 2 this week — accepted trade-off, logged 5 Jul 2026.",
-        choice: true,
-      };
+      return { main: ["tennis"], note: "Saturday typically runs 2-4 hours across one or two sessions and clears the two-workout requirement on its own — no separate walk needed. This is the week's second high-intensity exposure alongside Tuesday's 4×4." };
     case 0:
-      return { main: ["rest"], note: "Rest + meal prep day. Sunday reflective review in Notion. No training — accessories below are optional." };
+      return { main: ["mobility", "pickleball"], note: "Light day, not a full rest day — strict 75 Hard has no rest days. Mobility and core this morning, pickleball or ping pong with your son as Workout 2 (outdoors, 45+ minutes). This is a deliberate departure from the previous 'no training' Sunday rule, logged 14 Aug 2026 and up for review on 14 September." };
     default: return { main: ["rest"], note: null };
   }
 }
@@ -794,7 +832,7 @@ function TrainingTracker() {
   };
 
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const hiitLabel = derived.cycleWeek === 8 ? "Deload week" : "Norwegian 4×4 (2x this week)";
+  const hiitLabel = derived.cycleWeek === 8 ? "Deload week" : "Norwegian 4×4 (Tuesday only)";
   const corePhase = coreCyclePhase(derived.weekNum);
   const corePhaseLabel = derived.weekNum > 12
     ? "Core: Phase 3 (hold — re-test due)"
@@ -1017,13 +1055,13 @@ function TrainingTracker() {
             <SectionLabel>Weekly skeleton</SectionLabel>
             <Card>
               {[
-                ["Mon", "Pull + Core A (structural)"],
-                ["Tue", "Norwegian 4×4 (1st of 2)"],
-                ["Wed", "Legs · Power + Tennis Core + Tennis 8pm"],
-                ["Thu", "Push + Core B (structural)"],
-                ["Fri", "Norwegian 4×4 (2nd of 2)"],
-                ["Sat", "Tennis OR Long Zone 2 (75-90 min) — cap 2 tennis/week"],
-                ["Sun", "Rest + meal prep. Notion review. No training."],
+                ["Mon", "Bike Z2 30 min → Legs · Power + Core A · Walk 45 min"],
+                ["Tue", "Norwegian 4×4 (only one this week) → Pull · Walk 45 min"],
+                ["Wed", "Bike Z2 30 min → Mobility + Tennis Core · Tennis 8pm"],
+                ["Thu", "Bike Z2 30 min → Push + Core B · Walk 45 min"],
+                ["Fri", "Bike Z2 30 min → Flex / asymmetry · Walk 45 min"],
+                ["Sat", "Tennis, 2-4 hrs — covers both workouts"],
+                ["Sun", "Mobility + core · Pickleball with son (outdoor, 45+ min)"],
               ].map(([d, s], i) => (
                 <div key={d} style={{ display: "flex", gap: 14, padding: "8px 0", borderTop: i ? `1px solid ${T.line}` : "none" }}>
                   <div style={{ fontFamily: "'Oswald', sans-serif", width: 70, color: T.optic, fontWeight: 600, fontSize: 14, textTransform: "uppercase" }}>{d}</div>
@@ -1255,12 +1293,12 @@ function TrainingTracker() {
                 Protocol per Master Context Briefing §14.6 as updated 5 July 2026 (integrates 28 June research;
                 week 1 of all cycles anchors Monday 6 July 2026). Rep ranges completed across all lifts
                 18 July 2026. Sunday is rest + meal prep.
-                Tennis: Wednesday 8pm and Saturday only, cap 2/week.
+                Tennis: Wednesday 8pm and Saturday. Protocol V1 from 14 Aug 2026: one Norwegian 4×4 per week (Tuesday), morning split 30 min bike + 30 min block, 45 min outdoor walk as Workout 2, Sunday light not rest.
                 Effort tags and rep logging on the tracked lifts drive progression nudges — informational
                 only; load changes are yours, made via Edit on the Plan tab (edited sessions show a • mark;
                 exercise identifiers survive edits so tag history is never lost).
                 Navigate to any date on the Today tab to view, log, or backfill.
-                Raw training data lives here; Sunday reflective review stays in Notion.
+                Raw training data lives here. The Notion Sunday review was discontinued on 14 Aug 2026 — replaced by a five-minute Sunday check of three numbers from Garmin: average lights-out, workout count, walks completed.
                 Data and photos are stored in this browser only — they will not sync
                 between your phone and laptop. Use Export/Import above to move data.
               </div>

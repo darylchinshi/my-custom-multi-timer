@@ -74,16 +74,18 @@ h1 {
     justify-content: center;
 }
 
-/* Grid placement — Training Tracker first, full width */
-#card-training { grid-column: 1 / span 4; grid-row: 1; }
-#card-fund     { grid-column: 1 / span 2; grid-row: 2; }
-#card-backup   { grid-column: 3 / span 2; grid-row: 2; }
+/* Grid placement — 75 Hard and Sleep lead, Training Tracker below them */
+#card-hard     { grid-column: 1 / span 2; grid-row: 1; }
+#card-sleep    { grid-column: 3 / span 2; grid-row: 1; }
+#card-training { grid-column: 1 / span 4; grid-row: 2; }
 #card-timers   { grid-column: 1 / span 1; grid-row: 3; }
 #card-todo     { grid-column: 2 / span 1; grid-row: 3; }
 #card-links    { grid-column: 3 / span 1; grid-row: 3; }
 #card-notes    { grid-column: 4 / span 1; grid-row: 3; }
 #card-habits   { grid-column: 1 / span 2; grid-row: 4; }
-#card-goals    { grid-column: 3 / span 2; grid-row: 4; }
+#card-fund     { grid-column: 3 / span 2; grid-row: 4; }
+#card-goals    { grid-column: 1 / span 2; grid-row: 5; }
+#card-backup   { grid-column: 3 / span 2; grid-row: 5; }
 
 .training-tracker-frame {
     width: 100%;
@@ -503,10 +505,11 @@ h1 {
     .container {
         grid-template-columns: repeat(2, 1fr);
     }
-    #card-training { grid-column: 1 / span 2; grid-row: 1; }
-    #card-fund     { grid-column: 1 / span 1; grid-row: 2; }
-    #card-backup   { grid-column: 2 / span 1; grid-row: 2; }
-    #card-timers, #card-todo, #card-links, #card-notes, #card-habits, #card-goals {
+    #card-hard     { grid-column: 1 / span 1; grid-row: 1; }
+    #card-sleep    { grid-column: 2 / span 1; grid-row: 1; }
+    #card-training { grid-column: 1 / span 2; grid-row: 2; }
+    #card-timers, #card-todo, #card-links, #card-notes,
+    #card-habits, #card-goals, #card-fund, #card-backup {
         grid-column: auto / span 1;
         grid-row: auto;
     }
@@ -516,8 +519,20 @@ h1 {
    DOM order (Training Tracker first), so no breakpoint conflicts are possible */
 @media (max-width: 900px) {
     .container {
-        display: block;
+        display: flex;
+        flex-direction: column;
     }
+    #card-hard     { order: 1; }
+    #card-sleep    { order: 2; }
+    #card-training { order: 3; }
+    #card-timers   { order: 4; }
+    #card-todo     { order: 5; }
+    #card-habits   { order: 6; }
+    #card-fund     { order: 7; }
+    #card-goals    { order: 8; }
+    #card-links    { order: 9; }
+    #card-notes    { order: 10; }
+    #card-backup   { order: 11; }
     .dashboard-card {
         margin-bottom: 15px;
         min-width: 0;
@@ -536,3 +551,219 @@ h1 {
     }
 }
 
+
+/* ------------------------------------------------------------------
+   75 HARD CARD — added 14 August 2026
+------------------------------------------------------------------ */
+
+.hard-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+.hard-head h2 { margin-bottom: 14px; }
+
+.hard-badge {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: rgba(217, 230, 74, 0.12);
+    border: 1px solid var(--optic);
+    color: var(--optic);
+    padding: 3px 9px;
+    border-radius: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.hard-badge.live {
+    background: var(--optic);
+    color: #141810;
+}
+
+.hard-streak-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+#hard-streak-number {
+    font-family: 'Oswald', sans-serif;
+    font-size: 44px;
+    font-weight: 600;
+    color: var(--optic);
+    line-height: 1;
+}
+#hard-streak-label {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.hard-note {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+.hard-note.warn { color: var(--danger); }
+
+.hard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--line);
+}
+.hard-list li {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--card-alt);
+    font-size: 14px;
+    cursor: pointer;
+}
+.hard-list li:last-child { border-bottom: none; }
+
+.hard-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: transparent;
+    line-height: 1;
+}
+.hard-list li.done .hard-box {
+    background: var(--optic);
+    border-color: var(--optic);
+    color: #141810;
+}
+.hard-label { flex: 1; color: var(--chalk); }
+.hard-list li.done .hard-label { color: var(--muted); }
+.hard-meta {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+/* Water: eight taps */
+.water-row {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--card-alt);
+}
+.water-glasses {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+.water-glass {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    flex-shrink: 0;
+}
+.water-glass.filled {
+    background: var(--optic);
+    border-color: var(--optic);
+}
+
+.hard-progress {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 14px;
+}
+.hard-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 10px;
+}
+#hard-reset-btn { color: var(--danger); }
+#hard-reset-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+/* ------------------------------------------------------------------
+   SLEEP CARD — added 14 August 2026
+------------------------------------------------------------------ */
+
+.sleep-last-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 3px;
+    flex-wrap: wrap;
+}
+#sleep-last-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--optic);
+}
+#sleep-last-value.late { color: var(--danger); }
+#sleep-last-label {
+    font-size: 12px;
+    color: var(--muted);
+}
+.sleep-avg {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    line-height: 1.6;
+}
+.sleep-avg.late { color: var(--danger); }
+
+.sleep-input-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.sleep-input-group input {
+    flex: 1;
+    margin-bottom: 0;
+}
+.sleep-input-group button { flex: 0 0 auto; }
+
+#sleep-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#sleep-list li {
+    background-color: var(--card-alt);
+    border: 1px solid var(--line);
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    gap: 8px;
+}
+#sleep-list li .sleep-entry-date { color: var(--muted); }
+#sleep-list li .sleep-entry-time {
+    flex: 1;
+    text-align: right;
+    font-weight: 600;
+}
+#sleep-list li .sleep-entry-time.late { color: var(--danger); }
+#sleep-list li button {
+    padding: 3px 8px;
+    font-size: 11px;
+    margin: 0;
+    color: var(--danger);
+}
